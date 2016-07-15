@@ -1000,9 +1000,14 @@ class Api_Models_Concept implements Countable, ArrayAccess, Iterator
 		if (isset($this['topConceptOf']) && is_array($this['topConceptOf'])) {
 			$isTopConcept = in_array($conceptScheme['uri'], $this['topConceptOf']);
 		}
+                
+                // We don't really support hasTopConcept. It can not be edited. This check here only leads to strange bugs.
+                /*
 		if (isset($conceptScheme['hasTopConcept']) && is_array($conceptScheme['hasTopConcept'])) {
 			$isTopConcept = $isTopConcept || in_array($this['uri'], $conceptScheme['hasTopConcept']);
 		}
+                */
+                
 		return $isTopConcept;
 	}
 
