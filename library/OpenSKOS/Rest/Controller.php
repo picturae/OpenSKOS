@@ -122,11 +122,6 @@ abstract class OpenSKOS_Rest_Controller extends Zend_Rest_Controller
         return $format;
     }
     
-    public function headAction()
-    {
-        // Do nothing
-	}
-    
     protected function getAcceptedFormats()
     {
         $acceptedFormats = [];
