@@ -57,10 +57,10 @@ $logger->pushHandler(new \Monolog\Handler\ErrorLogHandler(
 
 $uri = $OPTS->getOption('uri');
 
-/* @var $conceptManager \OpenSkos2\ConceptManager */
-$conceptManager = $diContainer->make('\OpenSkos2\ConceptManager');
+/* @var $conceptSchemeManager \OpenSkos2\ConceptSchemeManager */
+$conceptSchemeManager = $diContainer->make('\OpenSkos2\ConceptSchemeManager');
 
-$total = getTotal($conceptManager, $uri);
+$total = getTotal($conceptSchemeManager, $uri);
 $rows = 1000;
 
 if ($uri) {
@@ -72,7 +72,7 @@ if ($uri) {
     $fetchConcepts = "
         DESCRIBE ?subject
         WHERE {
-          ?subject ?predicate <http://www.w3.org/2004/02/skos/core#Concept>
+          ?subject ?predicate <http://www.w3.org/2004/02/skos/core#ConceptScheme>
         }
         LIMIT $rows
     ";
@@ -85,7 +85,7 @@ $solrResourceManager->setIsNoCommitMode(true);
 $offset = 0;
 while ($offset < $total) {
 
-    $concepts = $conceptManager->fetchQuery($fetchConcepts . ' OFFSET ' . $offset);
+    $concepts = $conceptSchemeManager->fetchQuery($fetchConcepts . ' OFFSET ' . $offset);
     
     $offset = $offset + $rows;
     
@@ -111,11 +111,11 @@ $logger->info("Done!");
 /**
  * Get total amount of concepts
  * 
- * @param \OpenSkos2\ConceptManager $conceptManager
+ * @param \OpenSkos2\ConceptSchemeManager $conceptSchemeManager
  * @param type $uri
  * @return int
  */
-function getTotal(\OpenSkos2\ConceptManager $conceptManager, $uri = null) {
+function getTotal(\OpenSkos2\ConceptSchemeManager $conceptSchemeManager, $uri = null) {
 
     if ($uri) {
         return 1;
@@ -127,11 +127,11 @@ function getTotal(\OpenSkos2\ConceptManager $conceptManager, $uri = null) {
 
         SELECT (count(?subject) AS ?count)
         WHERE {
-          ?subject ?predicate <http://www.w3.org/2004/02/skos/core#Concept>
+          ?subject ?predicate <http://www.w3.org/2004/02/skos/core#ConceptScheme>
         }
     ";
 
-    $result = $conceptManager->query($countAllConcepts);
+    $result = $conceptSchemeManager->query($countAllConcepts);
     $total = $result->getArrayCopy()[0]->count->getValue();
     return $total;
 }

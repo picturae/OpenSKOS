@@ -20,6 +20,7 @@
 namespace OpenSkos2\Solr;
 
 use OpenSkos2\Namespaces\Dc;
+use OpenSkos2\Namespaces\Rdf;
 use OpenSkos2\Namespaces\DcTerms;
 use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Namespaces\OpenSkos;
@@ -83,6 +84,7 @@ class Document
         DcTerms::MODIFIED => ['d_modified', 'sort_d_modified_earliest'],
         OpenSkos::ACCEPTEDBY => ['s_acceptedBy'],
         DcTerms::DATEACCEPTED => ['d_dateAccepted'],
+        Rdf::TYPE => ['s_rdfType']
     ];
 
     /**
