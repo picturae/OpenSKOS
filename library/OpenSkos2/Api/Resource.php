@@ -182,9 +182,9 @@ class Resource
      * @throws InvalidArgumentException
      * @return ResponseInterface
      */
-    public function getResponse(ServerRequestInterface $request, $uuid, $context)
+    public function getResponse(ServerRequestInterface $request, $id, $context)
     {
-        $resource = $this->get($uuid);
+        $resource = $this->get($id);
 
         $params = $request->getQueryParams();
 

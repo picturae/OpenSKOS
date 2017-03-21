@@ -50,9 +50,41 @@ class Api_ConceptSchemeController extends OpenSKOS_Rest_Controller
         $this->_501('DELETE');
     }
     
+    
+    /**
+     * @apiVersion 1.0.0
+     * @apiDescription Return a specific concept
+     * The following requests are valid
+     *
+     * /api/concept-scheme/get?id=http://example.com/1 (rdf format)
+     *
+     * @api {get} /api/concept/{id}.rdf Get concept scheme detail
+     * @apiName GetConceptScheme
+     * @apiGroup ConceptScheme
+     * @apiParam {String} fl List of fields to return
+     * @apiSuccess (200) {String} XML
+     * @apiSuccessExample {String} Success-Response
+     *   
+     * @TODO
+     *
+     */
     public function getAction()
     {
-        $this->_501('GET');
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $id = new OpenSkos2\Rdf\Uri($this->getRequest()->getParam('id'));
+
+        $apiConcept = $this->getDI()->make('OpenSkos2\Api\ConceptScheme');
+        $context = $this->_helper->contextSwitch()->getCurrentContext();
+
+        // Exception for html use ZF 1 easier with linking in the view
+        if ('html' === $context) {
+            $this->_501('Html format not supported.');
+        }
+
+        $request = $this->getPsrRequest();
+        $response = $apiConcept->getResponse($request, $id, $context);
+        $this->emitResponse($response);
     }
     
     /**
