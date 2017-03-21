@@ -20,6 +20,7 @@
 namespace OpenSkos2\Search;
 
 use OpenSkos2\Rdf\Resource;
+use OpenSkos2\Rdf\ResourceManager;
 use Solarium\Core\Query\Helper as QueryHelper;
 
 class Autocomplete
@@ -35,10 +36,10 @@ class Autocomplete
     protected $usersModel;
 
     /**
-     * @param \OpenSkos2\ConceptManager $manager
+     * @param OpenSkos2\Rdf\ResourceManager $manager
      * @param \OpenSKOS_Db_Table_Users $usersModel
      */
-    public function __construct(\OpenSkos2\ConceptManager $manager, \OpenSKOS_Db_Table_Users $usersModel)
+    public function __construct(ResourceManager $manager, \OpenSKOS_Db_Table_Users $usersModel)
     {
         $this->manager = $manager;
         $this->usersModel = $usersModel;
@@ -164,6 +165,14 @@ class Autocomplete
             $optionsQueries[] = '('
                 . 's_set:('
                 . implode(' OR ', array_map([$helper, 'escapePhrase'], $options['collections']))
+                . '))';
+        }
+        
+        // what types to return
+        if (!empty($options['rdfType'])) {
+            $optionsQueries[] = '('
+                . 's_rdfType:('
+                . implode(' OR ', array_map([$helper, 'escapePhrase'], $options['rdfType']))
                 . '))';
         }
 

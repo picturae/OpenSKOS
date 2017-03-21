@@ -83,6 +83,25 @@ class ResourceManager
     }
 
     /**
+     * Perform a full text query
+     * lucene / solr queries are possible
+     * for the available fields see schema.xml
+     *
+     * @param string $query
+     * @param int $rows
+     * @param int $start
+     * @param int &$numFound output Total number of found records.
+     * @param array $sorts
+     * @return ConceptCollection
+     */
+    public function search($query, $rows = 20, $start = 0, &$numFound = 0, $sorts = null)
+    {
+        return $this->fetchByUris(
+            $this->solrResourceManager->search($query, $rows, $start, $numFound, $sorts)
+        );
+    }
+
+    /**
      * @param \OpenSkos2\Rdf\Resource $resource
      * @throws ResourceAlreadyExistsException
      */

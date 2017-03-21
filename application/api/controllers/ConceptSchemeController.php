@@ -106,7 +106,7 @@ class Api_ConceptSchemeController extends OpenSKOS_Rest_Controller
 
         $context = $this->_helper->contextSwitch()->getCurrentContext();
         $request = $this->getPsrRequest();
-        $response = $conceptScheme->index($request, $context);
+        $response = $conceptScheme->find($request, $context);
         $this->emitResponse($response);
     }
 }

@@ -185,6 +185,9 @@ class Concept extends Resource
             $options['conceptScheme'] = [$params['scheme']];
         }
         
+        // @TODO Make it to come from the manager where it should anyway.
+        $options['rdfType'] = [\OpenSkos2\Concept::TYPE];
+        
         return $options;
     }
 

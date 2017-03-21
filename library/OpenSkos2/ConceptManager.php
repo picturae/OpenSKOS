@@ -253,27 +253,6 @@ class ConceptManager extends ResourceManager
     }
 
     /**
-     * Perform a full text query
-     * lucene / solr queries are possible
-     * for the available fields see schema.xml
-     *
-     * @param string $query
-     * @param int $rows
-     * @param int $start
-     * @param int &$numFound output Total number of found records.
-     * @param array $sorts
-     * @return ConceptCollection
-     */
-    public function search($query, $rows = 20, $start = 0, &$numFound = 0, $sorts = null)
-    {
-        // @TODO There is nowhere in solr check for class:Concept, but all resources are there
-
-        return $this->fetchByUris(
-            $this->solrResourceManager->search($query, $rows, $start, $numFound, $sorts)
-        );
-    }
-
-    /**
      * Gets the current max numeric notation for all concepts. Fast.
      * @param \OpenSkos2\Tenant $tenant
      * @return int|null
