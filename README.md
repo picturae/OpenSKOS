@@ -7,7 +7,7 @@ To test / develop the application you can run
 `docker-compose up --build`
 `docker exec -it openskos-php-fpm ./vendor/bin/phing install.dev`
 
-Go to `http://localhost:9001/manage.html?tab=datasets` create a dataset named `openskos`
+Go to `http://localhost:9001/manage.html?tab=datasets` login with admin / admin and create a dataset named `openskos`
 
 Create a test tenant / user
 
