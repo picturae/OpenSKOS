@@ -108,7 +108,10 @@ class Api_FindConceptsController extends AbstractController
         if (null === ($q = $this->getRequest()->getParam('q'))) {
             $this->getResponse()
                 ->setHeader('X-Error-Msg', 'Missing required parameter `q`');
-            throw new Zend_Controller_Exception('Missing required parameter `q`', 400);
+            throw new Zend_Controller_Exception(
+                'Missing required parameter `q`',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         $this->getHelper('layout')->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);

@@ -136,7 +136,7 @@ class OpenSKOS_Concept_Status
         } else {
             throw new \Exception(
                 'No transition info for status "' . $currentStatus . '".',
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
     }

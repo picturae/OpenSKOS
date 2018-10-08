@@ -116,7 +116,10 @@ abstract class AbstractTripleStoreResource
                 $response = (new DetailRdfResponse($resource, $propertiesList))->getResponse();
                 break;
             default:
-                throw new InvalidArgumentException('Invalid context: ' . $context, 400);
+                throw new InvalidArgumentException(
+                    'Invalid context: ' . $context,
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+                );
         }
         return $response;
     }
@@ -189,7 +192,10 @@ abstract class AbstractTripleStoreResource
                     $response = (new RdfResponse($result))->getResponse();
                     break;
                 default:
-                    throw new InvalidArgumentException('Invalid context: ' . $params['context'], 400);
+                    throw new InvalidArgumentException(
+                        'Invalid context: ' . $params['context'],
+                        \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+                    );
             }
             return $response;
         } catch (\Exception $e) {
@@ -243,11 +249,17 @@ abstract class AbstractTripleStoreResource
         $resource = $this->getResourceFromRequest($request, $tenant);
 
         if ($resource->isBlankNode()) {
-            return $this->getErrorResponse(400, 'Uri (rdf:about) is missing from the xml. Try insert.');
+            return $this->getErrorResponse(
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST,
+                'Uri (rdf:about) is missing from the xml. Try insert.'
+            );
         }
 
         if (!$this->manager->askForUri((string) $resource->getUri())) {
-            return $this->getErrorResponse(404, 'Resource not found, try insert.');
+            return $this->getErrorResponse(
+                \OpenSkos2\Http\StatusCodes::NOT_FOUND,
+                'Resource not found, try insert.'
+            );
         }
 
         try {
@@ -305,7 +317,10 @@ abstract class AbstractTripleStoreResource
             $parsedBody = $request->getParsedBody();
 
             if (empty($params['id'])) {
-                throw new InvalidArgumentException('Missing id parameter', 400);
+                throw new InvalidArgumentException(
+                    'Missing id parameter',
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+                );
             }
 
             $id = $params['id'];
@@ -404,7 +419,7 @@ abstract class AbstractTripleStoreResource
             if (filter_var($propertyUri, FILTER_VALIDATE_URL) == false) {
                 throw new InvalidPredicateException(
                     'The field "' . $propertyUri . '" from fields list is not recognised.',
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
         }
@@ -430,7 +445,10 @@ abstract class AbstractTripleStoreResource
             true
         );
         if (!$validator->validate($resource)) {
-            throw new InvalidArgumentException(implode(' ', $validator->getErrorMessages()), 400);
+            throw new InvalidArgumentException(
+                implode(' ', $validator->getErrorMessages()),
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
     }
 
@@ -456,7 +474,7 @@ abstract class AbstractTripleStoreResource
         if (!$resource->isBlankNode() && $this->manager->askForUri((string) $resource->getUri())) {
             throw new InvalidArgumentException(
                 'The concept with uri ' . $resource->getUri() . ' already exists. Use PUT instead.',
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
 
@@ -562,8 +580,11 @@ abstract class AbstractTripleStoreResource
         $className = Namespaces::mapRdfTypeToClassName($rdfType);
         if (!isset($resource) || !$resource instanceof $className) {
             $actualClassName = get_class($resource);
-            throw new InvalidArgumentException("XML Could not be converted to $className, "
-            . "it is an instance of $actualClassName", 400);
+            throw new InvalidArgumentException(
+                "XML Could not be converted to $className, "
+                . "it is an instance of $actualClassName",
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
 
         if ($this->manager->getResourceType() !== \OpenSkos2\Tenant::TYPE) {
@@ -578,7 +599,7 @@ abstract class AbstractTripleStoreResource
             }
             // overkill check
             if (!$resource->getTenant()) {
-                throw new InvalidArgumentException('No tenant specified', 400);
+                throw new InvalidArgumentException('No tenant specified', \OpenSkos2\Http\StatusCodes::BAD_REQUEST);
             }
             $rdfTenant = $this->manager->fetchByUuid($resource->getTenant(), \OpenSkos2\Tenant::TYPE, 'openskos:code');
             $resource->setProperty(Namespaces\DcTerms::PUBLISHER, new \OpenSkos2\Rdf\Uri($rdfTenant->getUri())); // within the triple store resources are referred via URI's not literals, we keep literals for API backward compatibility and convenience
@@ -599,18 +620,21 @@ abstract class AbstractTripleStoreResource
         $xml = $request->getBody();
 
         if (!$xml) {
-            throw new InvalidArgumentException('No RDF-XML recieved', 400);
+            throw new InvalidArgumentException('No RDF-XML recieved', \OpenSkos2\Http\StatusCodes::BAD_REQUEST);
         }
         $doc = new DOMDocument();
         if (!@$doc->loadXML($xml)) {
-            throw new InvalidArgumentException('Recieved RDF-XML is not valid XML', 400);
+            throw new InvalidArgumentException(
+                'Recieved RDF-XML is not valid XML',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         //do some basic tests
         if ($doc->documentElement->nodeName != 'rdf:RDF') {
             throw new InvalidArgumentException(
                 'Recieved RDF-XML is not valid: '
                 . 'expected <rdf:RDF/> rootnode, got <' . $doc->documentElement->nodeName . '/>',
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
 
@@ -695,7 +719,7 @@ abstract class AbstractTripleStoreResource
                 throw new InvalidArgumentException(
                     'Parameter autoGenerateIdentifiers is set to true, but the '
                     . 'xml already contains uri (rdf:about).',
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
         } else {
@@ -703,7 +727,7 @@ abstract class AbstractTripleStoreResource
             if ($resource->isBlankNode()) {
                 throw new InvalidArgumentException(
                     'Uri (rdf:about) is missing from the xml. You may consider using autoGenerateIdentifiers.',
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
         }
@@ -797,7 +821,10 @@ abstract class AbstractTripleStoreResource
     protected function getUserFromParams($params)
     {
         if (empty($params['key'])) {
-            throw new InvalidArgumentException('No key specified', 400);
+            throw new InvalidArgumentException(
+                'No key specified',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         return $this->getUserByKey($params['key']);
     }

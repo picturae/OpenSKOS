@@ -181,7 +181,10 @@ SELECT_URI;
             throw new \Exception("There more than 1 institution with the code $code", 409);
         }
         if (count($response) < 1) {
-            throw new \Exception("The institution with the code $code is not found", 400);
+            throw new \Exception(
+                "The institution with the code $code is not found",
+                \OpenSkos2\Http\StatusCodes::OK
+            );
         }
         return $response[0];
     }

@@ -31,7 +31,10 @@ class OpenSKOS_View_Helper_Highlight extends Zend_View_Helper_Abstract
 	{
 		if (null === self::$instance || self::$instance->_ended) {
 			if (null === $language) {
-				throw new Zend_View_Helper_Partial_Exception( 'I need to know what language you speak!', 400 );
+                throw new Zend_View_Helper_Partial_Exception(
+                    'I need to know what language you speak!',
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+                );
 			}
 			self::$instance = new OpenSKOS_View_Helper_Highlight();
 			self::$instance->_language = $language;

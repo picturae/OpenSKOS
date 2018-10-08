@@ -75,7 +75,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                         'The set code ' . $set->getCode()->getValue() .
                         " from request parameters does not match the set {$sets[0]} to which the resource refers"
                         . ' (indirectly via schemes and collections if the resource is a concept)',
-                        400
+                        \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                     );
                 }
             }
@@ -116,7 +116,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                     'The set code ' . $set->getCode()->getValue() .
                     " from request parameters does not match the set {$sets[0]} to which the resource refers"
                     . ' (indirectly via schemes and collections if the resource is a concept)',
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
         }
@@ -154,7 +154,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             throw new \Exception(
                 'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
                 $user->tenant,
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
         if (!($user->role === Roles::ADMINISTRATOR ||
@@ -173,7 +173,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             throw new \Exception(
                 'Tenant ' . $tenantCode .
                 ' does not match user given, of tenant ' . $user->tenant,
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
         if (!($user->role === Roles::ADMINISTRATOR ||
@@ -192,7 +192,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             throw new \Exception(
                 'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
                 $user->tenant,
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
         if (!($user->role === Roles::ADMINISTRATOR ||
@@ -213,7 +213,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             throw new \Exception(
                 'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
                 $user->tenant,
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
         if (!($user->role === Roles::EDITOR ||

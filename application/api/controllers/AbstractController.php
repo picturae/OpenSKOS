@@ -106,7 +106,10 @@ abstract class AbstractController extends OpenSKOS_Rest_Controller
     {
         $id = $this->getRequest()->getParam('id');
         if (null === $id) {
-            throw new Zend_Controller_Exception('No id `' . $id . '` provided', 400);
+            throw new Zend_Controller_Exception(
+                'No id `' . $id . '` provided',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         if (strpos($id, 'http://') !== false || strpos($id, 'https://') !== false) {
             return new OpenSkos2\Rdf\Uri($id);

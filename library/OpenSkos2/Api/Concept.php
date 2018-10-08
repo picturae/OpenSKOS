@@ -242,7 +242,10 @@ class Concept extends AbstractTripleStoreResource
                 $response = (new RdfResponse($result, $propertiesList, $excludePropertiesList))->getResponse();
                 break;
             default:
-                throw new InvalidArgumentException('Invalid context: ' . $context, 400);
+                throw new InvalidArgumentException(
+                    'Invalid context: ' . $context,
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+                );
         }
         return $response;
     }
@@ -296,7 +299,10 @@ class Concept extends AbstractTripleStoreResource
                 $response = (new DetailRdfResponse($concept, $propertiesList, $excludePropertiesList))->getResponse();
                 break;
             default:
-                throw new InvalidArgumentException('Invalid context: ' . $context, 400);
+                throw new InvalidArgumentException(
+                    'Invalid context: ' . $context,
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+                );
         }
         return $response;
     }
@@ -386,7 +392,7 @@ class Concept extends AbstractTripleStoreResource
                 throw new InvalidArgumentException(
                     'The concept contains simple labels. '
                     . 'But tenant "' . $tenant->getCode() . '" is configured to work with xl labels.',
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
         } else {
@@ -394,7 +400,7 @@ class Concept extends AbstractTripleStoreResource
                 throw new InvalidArgumentException(
                     'The concept contains xl labels. '
                     . 'But tenant "' . $tenant->getCode() . '" is configured to work with simple labels.',
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
         }
@@ -476,25 +482,34 @@ class Concept extends AbstractTripleStoreResource
 
         $body = $request->getParsedBody();
         if (!isset($body['concept'])) {
-            throw new ApiException('Missing concept', 400);
+            throw new ApiException(
+                'Missing concept',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         if (!isset($body['related'])) {
-            throw new ApiException('Missing related', 400);
+            throw new ApiException(
+                'Missing related',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         if (!isset($body['type'])) {
-            throw new ApiException('Missing type', 400);
+            throw new ApiException(
+                'Missing type',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
 
         try {
             $this->manager->fetchByUri($body['concept'], Skos::CONCEPT);
         } catch (\Exception $ex) {
-            throw new ApiException($ex->getMessage(), 404);
+            throw new ApiException($ex->getMessage(), \OpenSkos2\Http\StatusCodes::NOT_FOUND);
         }
 
         try {
             $this->manager->fetchByUri($body['related'], Skos::CONCEPT);
         } catch (\Exception $ex) {
-            throw new ApiException($ex->getMessage(), 404);
+            throw new ApiException($ex->getMessage(), \OpenSkos2\Http\StatusCodes::NOT_FOUND);
         }
 
         $validURI = $this->manager->isRelationURIValid($body['type']); // throws an exception otherwise
@@ -506,7 +521,10 @@ class Concept extends AbstractTripleStoreResource
                 $this->manager->
                     relationTripleCreatesCycle($body['concept'], $body['related'], $body['type']);
             } catch (\Exception $ex) {
-                throw new ApiException($ex->getMessage(), 400);
+                throw new ApiException(
+                    $ex->getMessage(),
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+                );
             }
         }
 

@@ -34,13 +34,13 @@ class UriGeneration implements \OpenSkos2\Interfaces\UriGeneration
             } catch (Exception $ex) {
                 throw new Zend_Controller_Action_Exception(
                     'Failed to create a PID for the new Object: ' . $ex->getMessage(),
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
             if ($this->manager->askForUri($uri, true)) {
                 throw new UriGenerationException(
                     'The generated uri "' . $uri . '" is already in use.',
-                    400
+                    \OpenSkos2\Http\StatusCodes::BAD_REQUEST
                 );
             }
 
@@ -50,7 +50,7 @@ class UriGeneration implements \OpenSkos2\Interfaces\UriGeneration
         } else {
             throw new UriGenerationException(
                 'Epic is not enabled, change custom parameter',
-                500
+                \OpenSkos2\Http\StatusCodes::INTERNAL_SERVER_ERROR
             );
         }
     }

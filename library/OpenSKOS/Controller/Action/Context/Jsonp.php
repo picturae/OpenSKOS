@@ -80,7 +80,7 @@ class OpenSKOS_Controller_Action_Context_Jsonp
         if (empty($callbackFunction)) {
             throw new Zend_Controller_Action_Exception(
                 'The callback function name for jsonp response must be passed as parameter "' . self::CALLBACK_FUNCTION_PARAM . '".',
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
         
@@ -114,7 +114,7 @@ class OpenSKOS_Controller_Action_Context_Jsonp
         if (preg_match('/[^0-9a-zA-Z\$_]|^(abstract|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|volatile|void|while|with|NaN|Infinity|undefined)$/', $callbackFunction)) {
             throw new Zend_Controller_Action_Exception(
                 'The function name "' . $callbackFunction . '" is not considered a valid safe callback function name. It must be only a function identifier like "myCallback_1234" (and not a reserved word).',
-                400
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
         }
         return $callbackFunction;

@@ -26,7 +26,10 @@ class Api_AutocompleteController extends OpenSKOS_Rest_Controller
     {
         parent::init();
         if ($this->getRequest()->getParam('format', 'json') == 'html') {
-            throw new Exception('Html format is not supported for autocomplete', 400);
+            throw new Exception(
+                'Html format is not supported for autocomplete',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         $this->_helper->contextSwitch()
             ->initContext($this->getRequest()->getParam('format', 'json'));
@@ -56,7 +59,10 @@ class Api_AutocompleteController extends OpenSKOS_Rest_Controller
         if (null === ($q = $request->getParam('q'))) {
             $this->getResponse()
                 ->setHeader('X-Error-Msg', 'Missing required parameter `q`');
-            throw new Zend_Controller_Exception('Missing required parameter `q`', 400);
+            throw new Zend_Controller_Exception(
+                'Missing required parameter `q`',
+                \OpenSkos2\Http\StatusCodes::BAD_REQUEST
+            );
         }
         $result = $this->getConceptManager()->autoComplete(
             $q, 
