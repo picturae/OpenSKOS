@@ -155,7 +155,7 @@ function insert_set($tenant_code,
         \OpenSkos2\Tenant::TYPE, 
         'openskos:code');
     if ($publisher == null) {
-        fwrite(STDERR, "Something went terribly wrong: the tenant with the code "
+        fwrite(STDERR, "The tenant with the code "
             . "$tenant_code  has not been found in the triple store.\n");
         exit(1);
     } else {

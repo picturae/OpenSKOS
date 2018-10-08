@@ -187,7 +187,7 @@ class OpenSKOS_Db_Table_Row_Job extends Zend_Db_Table_Row
 	public function getMime($path = null)
 	{
 		if (!class_exists('finfo')) {
-			throw new Zend_Db_Table_Row_Exception('Finfo required (see http://www.php.net/manual/en/book.fileinfo.php)');
+			throw new Zend_Db_Table_Row_Exception('Finfo required (see http://www.php.net/manual/en/book.fileinfo.php)', 500);
 		}
 		if (null === $path) {
 			$path = $this->getFile();

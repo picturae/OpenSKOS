@@ -97,7 +97,8 @@ class RelationType extends AbstractTripleStoreResource
                     } else {
                         throw new Exception(
                             'Wrong value "' . $params['isTarget'] . '" for parameter isTarget,'
-                            . ' must be "true" or "false"'
+                            . ' must be "true" or "false"',
+                            400
                         );
                     }
                 }
@@ -123,7 +124,7 @@ class RelationType extends AbstractTripleStoreResource
                     $response = (new RdfResponse($result, []))->getResponse();
                     break;
                 default:
-                    throw new \Exception('Invalid context: ' . $format);
+                    throw new \Exception('Invalid context: ' . $format, 400);
             }
             return $response;
         } catch (Exception $e) {
@@ -141,7 +142,8 @@ class RelationType extends AbstractTripleStoreResource
         if ($resourceObject->isBlankNode()) {
             throw new \Exception(
                 'Uri (rdf:about) is missing from the xml. For user relations you must supply it,'
-                . ' autogenerateIdentifiers is set to false compulsory.'
+                . ' autogenerateIdentifiers is set to false compulsory.',
+                400
             );
         }
         $ttl = $resourceObject->getUri();
@@ -149,7 +151,8 @@ class RelationType extends AbstractTripleStoreResource
         if (strpos($ttl, 'http://') !== 0 || !$hakje || ($hakje === strlen($ttl) - 1)) {
             throw new \Exception(
                 'The user-defined relation uri must have the form <namespace>#<name> '
-                . 'where <namespace> starts with http:// and name is not empty.'
+                . 'where <namespace> starts with http:// and name is not empty.',
+                400
             );
         }
         // do not generate idenitifers

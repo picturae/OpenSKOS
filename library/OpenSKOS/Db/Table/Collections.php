@@ -78,7 +78,7 @@ class OpenSKOS_Db_Table_Collections extends Zend_Db_Table
         //fetch the tenant:
         $tenant = OpenSKOS_Db_Table_Tenants::fromIdentity();
         if (null === $tenant) {
-            throw new Zend_Db_Table_Exception('This method needs a valid tenant from the Zend_Auth object');
+            throw new Zend_Db_Table_Exception('This method needs a valid tenant from the Zend_Auth object', 500);
         }
         $select = $this->select()
                 ->where('tenant=?', $tenant->code)

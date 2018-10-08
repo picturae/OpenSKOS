@@ -44,7 +44,8 @@ class PersonManager extends ResourceManager
         }
         if (count($result) > 1) {
             throw new \RuntimeException(
-                'More than 1 users use the name "' . $name . '"'
+                'More than 1 users use the name "' . $name . '"',
+                401
             );
         }
         return $result[0];

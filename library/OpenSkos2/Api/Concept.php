@@ -242,7 +242,7 @@ class Concept extends AbstractTripleStoreResource
                 $response = (new RdfResponse($result, $propertiesList, $excludePropertiesList))->getResponse();
                 break;
             default:
-                throw new InvalidArgumentException('Invalid context: ' . $context);
+                throw new InvalidArgumentException('Invalid context: ' . $context, 400);
         }
         return $response;
     }
@@ -296,7 +296,7 @@ class Concept extends AbstractTripleStoreResource
                 $response = (new DetailRdfResponse($concept, $propertiesList, $excludePropertiesList))->getResponse();
                 break;
             default:
-                throw new InvalidArgumentException('Invalid context: ' . $context);
+                throw new InvalidArgumentException('Invalid context: ' . $context, 400);
         }
         return $response;
     }

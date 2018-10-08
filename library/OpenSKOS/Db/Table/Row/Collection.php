@@ -209,7 +209,7 @@ class OpenSKOS_Db_Table_Row_Collection extends Zend_Db_Table_Row
                             $oai_providers[$uri] = $instance['label'];
                             break;
                         default:
-                            throw new Zend_Exception('Unkown OAI instance type: ' . $instance['type']);
+                            throw new Zend_Exception( 'Unkown OAI instance type: ' . $instance['type'], 400 );
                     }
                 }
             }

@@ -155,10 +155,10 @@ SELECT_URI;
 
         $response = $this->query($query);
         if (count($response) > 1) {
-            throw new \Exception("Something went very wrong: there more than 1 institution with the code $code");
+            throw new \Exception("There is more than 1 institution with the code $code", 409);
         }
         if (count($response) < 1) {
-            throw new \Exception("the institution with the code $code is not found");
+            throw new \Exception("The institution with the code $code is not found", 404);
         }
         return $response[0]->uuid->getValue();
     }
@@ -178,10 +178,10 @@ SELECT_URI;
         $response = $this->fetchQuery($query);
 
         if (count($response) > 1) {
-            throw new \Exception("Something went very wrong: there more than 1 institution with the code $code");
+            throw new \Exception("There more than 1 institution with the code $code", 409);
         }
         if (count($response) < 1) {
-            throw new \Exception("the institution with the code $code is not found");
+            throw new \Exception("The institution with the code $code is not found", 400);
         }
         return $response[0];
     }

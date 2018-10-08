@@ -146,7 +146,7 @@ class OpenSKOS_Db_Table_Row_User extends Zend_Db_Table_Row
     public function setSearchOptions($optionsData)
     {
         if (isset($optionsData['searchProfileId']) && !$this->isAllowedToUseSearchProfile($optionsData['searchProfileId'])) {
-            throw new Exception('The selected search profile is not allowed for that user.');
+            throw new Exception('The selected search profile is not allowed for that user.', 401);
         }
         $this->searchOptions = serialize($optionsData);
         $this->save();

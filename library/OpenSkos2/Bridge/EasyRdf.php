@@ -152,7 +152,8 @@ class EasyRdf
             if ($propertyUri === Rdf::TYPE && $openskosResource->hasProperty(Rdf::TYPE)) {
                 throw new InvalidArgumentException(
                     "Unexpected value found for property {$resource->getUri} is a subresource "
-                    . "and should not have type. "
+                    . "and should not have type. ",
+                    500
                 );
             }
 
@@ -294,7 +295,8 @@ class EasyRdf
                     $easyResource->addResource($propName, trim($value->getUri()));
                 } else {
                     throw new InvalidArgumentException(
-                        "Unexpected value found for property {$propName} " . var_export($value)
+                        "Unexpected value found for property {$propName} " . var_export($value),
+                        500
                     );
                 }
             }

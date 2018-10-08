@@ -79,7 +79,7 @@ class OpenSKOS_Controller_Editor extends Zend_Controller_Action {
     {
         $user = OpenSKOS_Db_Table_Users::fromIdentity();
         if (null === $user) {
-            throw new Zend_Controller_Action_Exception('User not found', 404);
+            throw new Zend_Controller_Action_Exception('User not found', 500);
         }
         return $user;
     }
@@ -279,7 +279,7 @@ class OpenSKOS_Controller_Editor extends Zend_Controller_Action {
     protected function getOpenSkos2Tenant()
     {
         if (!isset ($this->_tenant)) {
-            throwException("Initialize OpenSKOS_Controller_Editor before calling getOpenSkosTenant()");
+            throwException("Initialize OpenSKOS_Controller_Editor before calling getOpenSkosTenant()", 500);
         }
         return $this->_tenant;
     }
@@ -300,7 +300,7 @@ class OpenSKOS_Controller_Editor extends Zend_Controller_Action {
         $openSkos2Tenant = $tenantManager->fetchByUuid($tenantUuid);
 
         if (!$openSkos2Tenant) {
-            throw new Zend_Controller_Action_Exception('Tenant record not readable', 404);
+            throw new Zend_Controller_Action_Exception('Tenant record not readable', 500);
         }
 
         $editorOptions = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('editor');

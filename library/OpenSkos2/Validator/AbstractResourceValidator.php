@@ -59,7 +59,8 @@ abstract class AbstractResourceValidator implements ValidatorInterface
         if ($resourceManager === null) {
             throw new \Exception(
                 "Passed resource manager is null in this validator. "
-                . "Proper content validation is not possible"
+                . "Proper content validation is not possible",
+                500
             );
         }
         $this->resourceManager = $resourceManager;
@@ -70,7 +71,8 @@ abstract class AbstractResourceValidator implements ValidatorInterface
         if ($isForUpdate === null) {
             throw new \Exception(
                 "Cannot validate the resource because isForUpdateFlag is set to null"
-                . " (cannot differ between create- and update- validation mode."
+                . " (cannot differ between create- and update- validation mode.",
+                400
             );
         }
         $this->isForUpdate = $isForUpdate;

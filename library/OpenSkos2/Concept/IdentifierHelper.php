@@ -80,7 +80,8 @@ SAFE_INCREMENT;
                 throw new OpenSkosException(
                     'This tenant is not registered in the maximum notation database. ' .
                     'Did you forget to run ./tools/updateMaxNotation.php ? ' .
-                    'Or maybe you didn\'t even know you had to run it?'
+                    'Or maybe you didn\'t even know you had to run it?',
+                    500
                 );
         }
         $db->commit();
@@ -105,13 +106,15 @@ SAFE_INCREMENT;
     {
         if (!$concept->isBlankNode()) {
             throw new UriGenerationException(
-                'The concept already has an uri. Can not generate new one.'
+                'The concept already has an uri. Can not generate new one.',
+                500
             );
         }
         
         if ($concept->isPropertyEmpty(OpenSkos::SET)) {
             throw new UriGenerationException(
-                'Property openskos:set (collection) is required to generate concept uri.'
+                'Property openskos:set (collection) is required to generate concept uri.',
+                400
             );
         }
         
@@ -133,7 +136,8 @@ SAFE_INCREMENT;
         }
         if ($this->conceptManager->askForUri($uri, true)) {
             throw new UriGenerationException(
-                'The generated uri "' . $uri . '" is already in use.'
+                'The generated uri "' . $uri . '" is already in use.',
+                409
             );
         }
         

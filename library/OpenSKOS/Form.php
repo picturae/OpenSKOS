@@ -41,7 +41,7 @@ class OpenSKOS_Form extends Zend_Form
         foreach ($elementData as $elementName => $elementOptions) {
             if (is_array($elementOptions)) {
                 if (!isset($elementOptions['label'])) {
-                    throw new \Exception('Item "label" is required in element config.');
+                    throw new \Exception('Item "label" is required in element config.', 500 );
                 }
                 $elementLabel = $elementOptions['label'];
             } else {

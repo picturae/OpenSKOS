@@ -187,7 +187,7 @@ class ResourceManager
         
         if (!empty($filterQueries)) {
             if (!is_array($filterQueries)) {
-                throw new OpenSkos2\Exception\InvalidArgumentException('Filter queries must be array.');
+                throw new OpenSkos2\Exception\InvalidArgumentException('Filter queries must be array.', 500);
             }
             
             foreach ($filterQueries as $key => $value) {

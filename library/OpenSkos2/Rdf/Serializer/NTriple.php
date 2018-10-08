@@ -60,7 +60,7 @@ class NTriple
                     'value' => $object->getUri()
             ]);
         } else {
-            throw new Exception\InvalidArgumentException('Invalid object: ' . get_class($object));
+            throw new Exception\InvalidArgumentException('Invalid object: ' . get_class($object), 400);
         }
     }
 

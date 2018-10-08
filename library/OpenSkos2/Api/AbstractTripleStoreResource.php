@@ -116,7 +116,7 @@ abstract class AbstractTripleStoreResource
                 $response = (new DetailRdfResponse($resource, $propertiesList))->getResponse();
                 break;
             default:
-                throw new InvalidArgumentException('Invalid context: ' . $context);
+                throw new InvalidArgumentException('Invalid context: ' . $context, 400);
         }
         return $response;
     }
@@ -189,7 +189,7 @@ abstract class AbstractTripleStoreResource
                     $response = (new RdfResponse($result))->getResponse();
                     break;
                 default:
-                    throw new InvalidArgumentException('Invalid context: ' . $params['context']);
+                    throw new InvalidArgumentException('Invalid context: ' . $params['context'], 400);
             }
             return $response;
         } catch (\Exception $e) {
@@ -403,7 +403,8 @@ abstract class AbstractTripleStoreResource
             }
             if (filter_var($propertyUri, FILTER_VALIDATE_URL) == false) {
                 throw new InvalidPredicateException(
-                    'The field "' . $propertyUri . '" from fields list is not recognised.'
+                    'The field "' . $propertyUri . '" from fields list is not recognised.',
+                    400
                 );
             }
         }

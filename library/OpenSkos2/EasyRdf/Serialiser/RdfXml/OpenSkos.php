@@ -58,7 +58,8 @@ class OpenSkos extends \EasyRdf\Serialiser\RdfXml
 
         if ($format != 'rdfxml_openskos') {
             throw new OpenSkosException(
-                "\\OpenSkos2\\EasyRdf\\Serialiser\\RdfXml\\OpenSkos does not support: {$format}"
+                "\\OpenSkos2\\EasyRdf\\Serialiser\\RdfXml\\OpenSkos does not support: {$format}",
+                400
             );
         }
         // store of namespaces to be appended to the rdf:RDF tag
@@ -173,7 +174,8 @@ class OpenSkos extends \EasyRdf\Serialiser\RdfXml
                 } else {
                     throw new OpenSkosException(
                         "It is not possible to serialse the property " .
-                        "'$property' to RDF/XML."
+                        "'$property' to RDF/XML.",
+                        400
                     );
                 }
             }
@@ -262,7 +264,8 @@ class OpenSkos extends \EasyRdf\Serialiser\RdfXml
             return "{$indent}<{$property}{$atrributes}>{$value}</{$property}>\n";
         } else {
             throw new OpenSkosException(
-                "Unable to serialise object to xml: " . getType($obj)
+                "Unable to serialise object to xml: " . getType($obj),
+                500
             );
         }
     }

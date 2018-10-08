@@ -52,7 +52,7 @@ class Literal implements Object
     public function __construct($value, $language = null, $type = null)
     {
         if (is_array($value)) {
-            throw new InvalidResourceException("Value cannot be an array");
+            throw new InvalidResourceException("Value cannot be an array", 500);
         }
         $this->value = $value;
         $this->language = $language;

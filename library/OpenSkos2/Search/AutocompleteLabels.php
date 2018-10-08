@@ -68,7 +68,7 @@ class AutocompleteLabels
         // In all other cases - start parsing the query
         if ($searchText != '*') {
             if ($parser->isFieldSearch($searchText) || $parser->isSearchTextQuery($searchText)) {
-                throw new \OpenSkos2\Exception\InvalidArgumentException('Not a valid label query');
+                throw new \OpenSkos2\Exception\InvalidArgumentException('Not a valid label query', 400);
             } else {
                 if ($parser->isFullyQuoted($searchText)) {
                     $searchText = $searchText;

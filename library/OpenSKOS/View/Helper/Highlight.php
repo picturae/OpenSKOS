@@ -31,7 +31,7 @@ class OpenSKOS_View_Helper_Highlight extends Zend_View_Helper_Abstract
 	{
 		if (null === self::$instance || self::$instance->_ended) {
 			if (null === $language) {
-				throw new Zend_View_Helper_Partial_Exception('I need to know what language you speak!');
+				throw new Zend_View_Helper_Partial_Exception( 'I need to know what language you speak!', 400 );
 			}
 			self::$instance = new OpenSKOS_View_Helper_Highlight();
 			self::$instance->_language = $language;
@@ -58,7 +58,7 @@ class OpenSKOS_View_Helper_Highlight extends Zend_View_Helper_Abstract
 	public function captureEnd()
 	{
 		if (!$this->_started) {
-			throw new Zend_View_Helper_Partial_Exception('Call captureStart() before captureEnd()');
+			throw new Zend_View_Helper_Partial_Exception( 'Call captureStart() before captureEnd()', 500 );
 		}
 		if (!$this->_ended) {
 			$this->_source = trim(ob_get_contents(), "\n");

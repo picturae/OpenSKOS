@@ -60,7 +60,8 @@ class LabelHelper
             
         if (empty($tenant)) {
             throw new TenantNotFoundException(
-                'Could not determine tenant for concept.'
+                'Could not determine tenant for concept.',
+                400
             );
         }
 
@@ -71,7 +72,8 @@ class LabelHelper
             foreach ($concept->getProperty($xlLabelProperty) as $labelValue) {
                 if (!$labelValue instanceof Uri) {
                     throw new OpenSkosException(
-                        'Not a valid xl label provided.'
+                        'Not a valid xl label provided.',
+                        400
                     );
                 }
 
@@ -88,7 +90,8 @@ class LabelHelper
                 if (!$labelExists && !($labelValue instanceof Label)) {
                     throw new OpenSkosException(
                         'The label ' . $labelValue . ' is not a fully described label resource '
-                        . 'and does not exist in the system.'
+                        . 'and does not exist in the system.',
+                        400
                     );
                 }
 
@@ -168,7 +171,8 @@ class LabelHelper
             foreach ($concept->getProperty($xlLabelProperty) as $label) {
                 if (!$label instanceof Uri) {
                     throw new OpenSkosException(
-                        'Not a valid xl label provided.'
+                        'Not a valid xl label provided.',
+                        400
                     );
                 }
 
@@ -177,7 +181,8 @@ class LabelHelper
                 if (!$labelExists && !($label instanceof Label)) {
                     throw new OpenSkosException(
                         'The label ' . $label . ' is not a fully described label resource '
-                        . 'and does not exist in the system.'
+                        . 'and does not exist in the system.',
+                        400
                     );
                 }
 

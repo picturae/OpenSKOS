@@ -135,7 +135,8 @@ class OpenSKOS_Concept_Status
             return self::$transitionsMap[$currentStatus];
         } else {
             throw new \Exception(
-                'No transition info for status "' . $currentStatus . '".'
+                'No transition info for status "' . $currentStatus . '".',
+                400
             );
         }
     }

@@ -50,7 +50,8 @@ class Csv extends FormatAbstract
     {
         if (empty($this->propertiesToSerialise)) {
             throw new RequiredPropertiesListException(
-                'Properties to serialise are not specified. Can not export to csv.'
+                'Properties to serialise are not specified. Can not export to csv.',
+                400
             );
         }
         return $this->propertiesToSerialise;
@@ -142,13 +143,14 @@ class Csv extends FormatAbstract
     protected function getConceptCaptions(Resource $resource, $property)
     {
         if ($this->conceptManager === null) {
-            throw new Exception('Concept manager is null');
+            throw new Exception('Concept manager is null', 400);
         }
 
         if (!$this->conceptManager instanceof ConceptManager) {
             throw new Exception(
                 'Concept manager expected to be of type ConceptManager but is instead '
-                . get_class($this->conceptManager)
+                . get_class($this->conceptManager),
+                400
             );
         }
 

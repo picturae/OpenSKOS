@@ -56,7 +56,7 @@ class RelationTypeManager extends ResourceManager
             if (in_array($rels[0], $existingRelations)) {
                 $relFilterStr = '( ?rel = <' . $rels[0] . '>';
             } else {
-                throw new \Exception('Relation ' . $rels[0] . " is not implemented.");
+                throw new \Exception('Relation ' . $rels[0] . " is not implemented.", 400);
             }
 
             for ($i = 1; $i < count($rels); $i++) {
@@ -64,7 +64,8 @@ class RelationTypeManager extends ResourceManager
                     $relFilterStr = $relFilterStr . ' || ?rel = <' . $rels[$i] . '>';
                 } else {
                     throw new \Exception(
-                        'Relation ' . $rels[$i] . " is not implemented."
+                        'Relation ' . $rels[$i] . " is not implemented.",
+                        400
                     );
                 }
             }

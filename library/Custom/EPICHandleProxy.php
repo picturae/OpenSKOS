@@ -144,7 +144,9 @@ class EPICHandleProxy
         curl_close($curl);
         if ($info['http_code'] != 200) {
             throw new Exception("unexpected result from handle server,"
-            . "server returned HTTP code :" . $info['http_code']);
+                . "server returned HTTP code :" . $info['http_code'],
+                500 /*Hmm.. Not certain if this should be 500 or 502 */
+            );
         }
         return $output;
     }
@@ -203,8 +205,9 @@ class EPICHandleProxy
         curl_close($ch);
         if ($info['http_code'] != 201) {
             throw new Exception(
-            "unexpected result from handle server, server returned HTTP code :" .
-            $info['http_code']
+                "unexpected result from handle server, server returned HTTP code :" .
+                $info['http_code'],
+                500 /*Hmm.. Not certain if this should be 500 or 502 */
             );
         }
         return $UUID;
@@ -265,8 +268,9 @@ class EPICHandleProxy
             echo("location: " . $location . "\n");
             ob_flush();
             throw new Exception(
-            "unexpected result from handle server, server returned HTTP code :" .
-            $info['http_code']
+                "unexpected result from handle server, server returned HTTP code :" .
+                $info['http_code'],
+                500 /*Hmm.. Not certain if this should be 500 or 502 */
             );
         }
     }
@@ -305,8 +309,10 @@ class EPICHandleProxy
         // Close the cURL resource, and free system resources
         curl_close($curl);
         if ($info['http_code'] != 204) {
-            throw new Exception("unexpected result from handle server, "
-            . "server returned HTTP code :" . $info['http_code']);
+            throw new Exception(
+                "unexpected result from handle server, " . "server returned HTTP code :" . $info['http_code'],
+                500 /*Hmm.. Not certain if this should be 500 or 502 */
+            );
         }
     }
 

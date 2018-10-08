@@ -431,14 +431,13 @@ class Resource extends Uri implements ResourceIdentifier
     {
         $values = $this->getProperty($property);
 
-        /* TODO: Debugging
         if (count($values) > 1) {
             throw new OpenSkosException(
                 'Multiple values found for property "' . $property . '" while a single one was requested.'
-                . ' Values ' . implode(', ', $values)
+                . ' Values ' . implode(', ', $values),
+                400
             );
         }
-        */
 
         if (!empty($values)) {
             return $values[0];
@@ -587,7 +586,7 @@ class Resource extends Uri implements ResourceIdentifier
                 $dcTermsCreator = $dcCreator;
                 $dcCreator = null;
             } else {
-                throw Exception('dc:Creator is not Literal nor Uri. Something is very wrong.');
+                throw Exception('dc:Creator is not Literal nor Uri. Something is very wrong.', 500);
             }
 
             $this->setCreator($dcCreator, $dcTermsCreator); // it does not upcast
@@ -603,7 +602,7 @@ class Resource extends Uri implements ResourceIdentifier
             } elseif ($dcTermsCreator instanceof Uri) {
                 // We are ok with this use case even if the Uri is not present in our system
             } else {
-                throw new OpenSkosException('dcTerms:Creator is not Literal nor Uri. Something is very wrong.');
+                throw new OpenSkosException('dcTerms:Creator is not Literal nor Uri. Something is very wrong.', 500);
             }
 
             //$this->setCreator($dcCreator, $dcTermsCreator);
@@ -623,7 +622,7 @@ class Resource extends Uri implements ResourceIdentifier
             }
 
             if (!empty($dcTermsCreatorName) && $dcTermsCreatorName[0]->getValue() !== $dcCreator->getValue()) {
-                throw new OpenSkosException('dc:Creator and dcTerms:Creator names do not match.');
+                throw new OpenSkosException('dc:Creator and dcTerms:Creator names do not match.', 500);
             }
 
             $this->setCreator($dcCreator, $dcTermsCreator);
@@ -696,7 +695,8 @@ class Resource extends Uri implements ResourceIdentifier
 
         if (!$this->isBlankNode()) {
             throw new UriGenerationException(
-                'The resource already has an uri. Can not generate new one.'
+                'The resource already has an uri. Can not generate new one.',
+                500
             );
         }
 
@@ -706,7 +706,8 @@ class Resource extends Uri implements ResourceIdentifier
 
         if ($manager->askForUri($uri, true)) {
             throw new UriGenerationException(
-                'The generated uri "' . $uri . '" is already in use.'
+                'The generated uri "' . $uri . '" is already in use.',
+                409
             );
         }
 
@@ -742,6 +743,6 @@ class Resource extends Uri implements ResourceIdentifier
         if (strtolower($val) === "false" || $val==="0" || $val==="N") {
             return false;
         }
-        throw new \Exception("Wrong value of a boolean element in the resource {$this->uri}");
+        throw new \Exception("Wrong value of a boolean element in the resource {$this->uri}", 400);
     }
 }

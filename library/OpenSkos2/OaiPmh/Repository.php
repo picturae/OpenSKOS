@@ -254,8 +254,11 @@ class Repository implements InterfaceRepository
                 $rdfSet = $this->rdfSetManager->fetchByUri($rdfSetUri);
                 $allowedOAI = $rdfSet->getAllowOai();
                 if (!$allowedOAI) {
-                    throw new BadArgumentException("This concept belongs to the set "
-                    . " (tenant-collection) {$setURI} where oai harvesting is not allowed");
+                    throw new BadArgumentException(
+                        "This concept belongs to the set "
+                        . " (tenant-collection) {$setURI} where oai harvesting is not allowed",
+                        400
+                    );
                 }
             }
             if ($metadataFormat === self::PREFIX_OAI_RDF_XL) {
@@ -430,7 +433,7 @@ class Repository implements InterfaceRepository
             if ($rdfSet) {
                 $allowed = $rdfSet->getPropertySingleValue(\OpenSkos2\Namespaces\OpenSkos::ALLOW_OAI);
                 if (!(bool) $allowed) {
-                    throw new BadArgumentException('OAi harvesting is not allowed on set  ' . $arrSet[1]);
+                    throw new BadArgumentException('OAi harvesting is not allowed on set  ' . $arrSet[1], 403);
                 }
                 $rdfSetId = $rdfSet->getUri();
             } else {
@@ -474,7 +477,7 @@ class Repository implements InterfaceRepository
         $params = (array) json_decode(base64_decode($token));
 
         if (!empty($token) && is_null(json_decode(base64_decode($token)))) {
-            throw new BadResumptionTokenException("Resumption token present but contains invalid data");
+            throw new BadResumptionTokenException("Resumption token present but contains invalid data", 400);
         }
         if (!empty($params['from'])) {
             $params['from'] = new \DateTime('@' . $params['from']);
@@ -599,12 +602,12 @@ class Repository implements InterfaceRepository
         }
         $customInit = $this->conceptManager->getCustomInitArray();
         if (count($customInit) === 0) {
-            throw new BadArgumentException('Invalid identifier ' . $identifier);
+            throw new BadArgumentException('Invalid identifier ' . $identifier, 400);
         }
 
         $custom = $customInit;
         if (!array_key_exists('uuid_regexp_prefixes', $custom)) {
-            throw new BadArgumentException('Invalid identifier ' . $identifier);
+            throw new BadArgumentException('Invalid identifier ' . $identifier, 400);
         }
 
         //CLAVAS has introduces configurable RegEx prefixes for OAIPHM identifiers
@@ -628,6 +631,6 @@ class Repository implements InterfaceRepository
             $ok = true;
         }
 
-        throw new BadArgumentException('Invalid identifier ' . $identifier);
+        throw new BadArgumentException('Invalid identifier ' . $identifier, 400);
     }
 }

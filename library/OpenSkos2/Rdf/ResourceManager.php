@@ -114,7 +114,8 @@ class ResourceManager
         if ($this->askForUri($resource->getUri())) {
             throw new ResourceAlreadyExistsException(
                 'Failed to insert. Resource with uri "' . $resource->getUri() . '" already exists. '
-                . 'It may be with status:deleted.'
+                . 'It may be with status:deleted.',
+                409
             );
         }
 
@@ -135,7 +136,8 @@ class ResourceManager
             if ($this->askForUri($resource->getUri())) {
                 throw new ResourceAlreadyExistsException(
                     'Failed to insert. Resource with uri "' . $resource->getUri() . '" already exists. '
-                    . 'It may be with status:deleted.'
+                    . 'It may be with status:deleted.',
+                    409
                 );
             }
         }
@@ -288,12 +290,14 @@ class ResourceManager
 
         if (count($data) == 0) {
             throw new ResourceNotFoundException(
-                "The requested resource with $property set to $id of type $type was not found in the triple store. "
+                "The requested resource with $property set to $id of type $type was not found in the triple store. ",
+                404
             );
         }
         if (count($data) > 1) {
             throw new \RuntimeException(
-                "Something went very wrong. The requested resource with $property <  $id  > was found more than once."
+                "The requested resource with $property <  $id  > was found more than once.",
+                409
             );
         }
         return $data[0];
@@ -324,16 +328,21 @@ class ResourceManager
             $result = $this->fetchQuery($query, $type);
             // @TODO Add resourceType check.
         } catch (\Exception $exp) {
-            throw new ResourceNotFoundException("Unable to fetch resource \n" . $exp->getMessage() . " (of $type) \n");
+            throw new ResourceNotFoundException(
+                "Unable to fetch resource \n" . $exp->getMessage() . " (of $type) \n",
+                404
+            );
         }
         if (count($result) == 0) {
             throw new ResourceNotFoundException(
-                'The requested resource <' . $uri . '> was not found.'
+                'The requested resource <' . $uri . '> was not found.',
+                404
             );
         }
         if (count($result) > 1) {
             throw new \RuntimeException(
-                'Something went very wrong. The requested resource <' . $uri . '> was found more than once.'
+                'The requested resource <' . $uri . '> was found more than once.',
+                409
             );
         }
         return $result[0];
@@ -560,7 +569,8 @@ class ResourceManager
         $response = $httpClient->request();
         if (!$response->isSuccessful()) {
             throw new \RuntimeException(
-                'HTTP request to ' . $uri . ' for getting namespaces failed: ' . $response->getBody()
+                'HTTP request to ' . $uri . ' for getting namespaces failed: ' . $response->getBody(),
+                500
             );
         }
         return json_decode($response->getBody(), true)['@context'];
@@ -969,15 +979,21 @@ class ResourceManager
     public function relationTripleCreatesCycle($conceptUri, $relatedConceptUri, $relationUri)
     {
         if ($conceptUri === $relatedConceptUri) {
-            throw new \Exception("The concept $conceptUri can not be related to "
-                . "itself via $relatedConceptUri.");
+            throw new \Exception(
+                "The concept $conceptUri can not be related to "
+                . "itself via $relatedConceptUri.",
+                400
+            );
         }
         $conceptB = $this->fetchByUri($relatedConceptUri, \OpenSkos2\Concept::TYPE);
         foreach ($conceptB->getProperty($relationUri) as $object) {
             if ($object->getUri() == $conceptUri) {
-                throw new \Exception("The concept $conceptUri can not be related to "
-                . "itself via  a transitive relation cycle "
-                . "from $relatedConceptUri via $relatedConceptUri.");
+                throw new \Exception(
+                    "The concept $conceptUri can not be related to "
+                    . "itself via  a transitive relation cycle "
+                    . "from $relatedConceptUri via $relatedConceptUri.",
+                    400
+                );
             }
         }
     }
@@ -994,7 +1010,10 @@ class ResourceManager
 
         foreach ($relatedTerms as $relatedTerm) {
             if ($relatedConceptUri === $relatedTerm->getUri()) {
-                throw new \Exception("Related via $relationUri term $relatedConceptUri is already defined");
+                throw new \Exception(
+                    "Related via $relationUri term $relatedConceptUri is already defined",
+                    409
+                );
             }
         }
         return true;
@@ -1022,14 +1041,16 @@ class ResourceManager
                 if (!in_array($relUri, $registeredRelationUris)) {
                     throw new \Exception(
                         'The relation  ' . $relUri .
-                        '  is not registered in the triple store. '
+                        '  is not registered in the triple store. ',
+                        400
                     );
                 }
             }
         } else {
             throw new \Exception(
                 'The relation type ' . $relUri . '  is neither a skos concept-concept '
-                . 'relation type nor a custom relation type. '
+                . 'relation type nor a custom relation type. ',
+                400
             );
         }
     }
@@ -1079,10 +1100,10 @@ class ResourceManager
 
         $response = $this->query($query);
         if (count($response) > 1) {
-            throw new \Exception("Something went very wrong: there more than 1 institution with the code $code");
+            throw new \Exception("There more than 1 institution with the code $code", 409);
         }
         if (count($response) < 1) {
-            throw new \Exception("the institution with the code $code is not found");
+            throw new \Exception("The institution with the code $code is not found", 404);
         }
         return $response[0]->name->getValue();
     }
@@ -1106,10 +1127,13 @@ SELECT_URI;
 
         $response = $this->query($query);
         if (count($response) > 1) {
-            throw new \Exception("Something went very wrong: there more than 1 institution with the code $code");
+            throw new \Exception("There more than 1 institution with the code $code", 409);
         }
         if (count($response) < 1) {
-            throw new \Exception("the institution with the code $code is not found");
+            throw new \Exception(
+                "the institution with the code $code is not found",
+                404
+            );
         }
         return $response[0]->name->getValue();
     }

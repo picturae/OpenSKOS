@@ -27,7 +27,8 @@ class NamespaceAdmin
         if (!$border) {
             throw new \OpenSkos2\Api\Exception(
                 "The string " . $str . " does not contain # or / and cannot be considered"
-                . " as a property name with its namespace uri. "
+                . " as a property name with its namespace uri. ",
+                400
             );
         }
         $retVal = substr($str, 0, $border + 1);

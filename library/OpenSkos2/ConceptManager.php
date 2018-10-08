@@ -67,7 +67,7 @@ class ConceptManager extends ResourceManagerWithSearch
     {
         $concept = parent::findResourceById($id, $resourceType);
         if ($concept->isDeleted()) {
-            throw new \Exception('Resource with id ' . $id . ' is deleted');
+            throw new \Exception('Resource with id ' . $id . ' is deleted', 410);
         }
         return $concept;
     }
@@ -167,13 +167,14 @@ class ConceptManager extends ResourceManagerWithSearch
     public function addRelation($uri, $relationType, $uris)
     {
         if (!in_array($relationType, Skos::getSkosRelations(), true)) {
-            throw new Exception\InvalidArgumentException('Relation type not supported: ' . $relationType);
+            throw new Exception\InvalidArgumentException('Relation type not supported: ' . $relationType, 400);
         }
 
         // @TODO Add check everywhere we may need it.
         if (in_array($relationType, [Skos::BROADERTRANSITIVE, Skos::NARROWERTRANSITIVE])) {
             throw new Exception\InvalidArgumentException(
-                'Relation type "' . $relationType . '" will be inferred. Not supported explicitly.'
+                'Relation type "' . $relationType . '" will be inferred. Not supported explicitly.',
+                404
             );
         }
 
@@ -487,7 +488,8 @@ class ConceptManager extends ResourceManagerWithSearch
         // @TODO Add check everywhere we may need it.
         if (in_array($relationType, [Skos::BROADERTRANSITIVE, Skos::NARROWERTRANSITIVE])) {
             throw new Exception\InvalidArgumentException(
-                'Relation type "' . $relationType . '" will be inferred. Not supported explicitly.'
+                'Relation type "' . $relationType . '" will be inferred. Not supported explicitly.',
+                400
             );
         }
 

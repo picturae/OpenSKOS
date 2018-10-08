@@ -38,7 +38,7 @@ class SinglePrefLabelXl extends AbstractConceptValidator
     {
         if (!$this->resourceManager instanceof ConceptManager) {
             $class = get_class($this->resourceManager);
-            throw new OpenSkosException('Resource manager expected to be concept manager. Given ' . $class);
+            throw new OpenSkosException('Resource manager expected to be concept manager. Given ' . $class, 500);
         }
         
         $concept->loadFullXlLabels($this->resourceManager->getLabelManager());

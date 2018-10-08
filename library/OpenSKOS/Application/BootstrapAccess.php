@@ -44,7 +44,7 @@ class OpenSKOS_Application_BootstrapAccess
         if ($bootstrap->hasOption($key)) {
 			return $bootstrap->getOption($key);
 		} else {
-			throw new Zend_Exception('Getting configuration option failed. Option "' . $key . '" not found.');
+			throw new Zend_Exception('Getting configuration option failed. Option "' . $key . '" not found.', 500 );
 		}
 	}
 	
@@ -63,7 +63,7 @@ class OpenSKOS_Application_BootstrapAccess
 			if (null !== $application && null !== $application->getBootstrap()) {
 				$bootstrap = $application->getBootstrap();
 			} else {
-				throw new Zend_Exception('Bootstrap not found.');
+				throw new Zend_Exception('Bootstrap not found.', 500 );
 			}
 		}
 		return $bootstrap;

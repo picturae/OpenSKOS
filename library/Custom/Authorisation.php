@@ -33,7 +33,8 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                 throw new \Exception(
                     'The set code ' . $set->getCode()->getValue() .
                     " from request parameters does not match the set {$sets[0]} to which the resource refers"
-                    . ' (indirectly via schemes and collections if the resource is a concept)'
+                    . ' (indirectly via schemes and collections if the resource is a concept)',
+                    404
                 );
             }
         }
@@ -57,7 +58,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                 $this->relationCreateAllowed($user, $tenant, $resource);
                 return;
             default:
-                throw new \Exception('Unknown resource type is passed to the Authorisation checker');
+                throw new \Exception('Unknown resource type is passed to the Authorisation checker', 404);
         }
     }
 
@@ -73,7 +74,8 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                     throw new \Exception(
                         'The set code ' . $set->getCode()->getValue() .
                         " from request parameters does not match the set {$sets[0]} to which the resource refers"
-                        . ' (indirectly via schemes and collections if the resource is a concept)'
+                        . ' (indirectly via schemes and collections if the resource is a concept)',
+                        400
                     );
                 }
             }
@@ -98,7 +100,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                 $this->relationEditAllowed($user, $tenant, $resource);
                 return;
             default:
-                throw new \Exception('Unknown resource type is passed to the Authorisation checker');
+                throw new \Exception('Unknown resource type is passed to the Authorisation checker', 404);
         }
     }
 
@@ -113,7 +115,8 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                 throw new \Exception(
                     'The set code ' . $set->getCode()->getValue() .
                     " from request parameters does not match the set {$sets[0]} to which the resource refers"
-                    . ' (indirectly via schemes and collections if the resource is a concept)'
+                    . ' (indirectly via schemes and collections if the resource is a concept)',
+                    400
                 );
             }
         }
@@ -137,7 +140,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
                 $this->relationDeleteAllowed($user, $tenant, $resource);
                 return;
             default:
-                throw new \Exception('Unknown resource type is passed to the Authorisation checker');
+                throw new \Exception('Unknown resource type is passed to the Authorisation checker', 404 );
         }
     }
 
@@ -150,12 +153,13 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
                 'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
-                $user->tenant
+                $user->tenant,
+                400
             );
         }
         if (!($user->role === Roles::ADMINISTRATOR ||
             $user->role === Roles::ROOT || $user->role === Roles::EDITOR)) {
-            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource');
+            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource', 401);
         }
     }
 
@@ -168,12 +172,13 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
                 'Tenant ' . $tenantCode .
-                ' does not match user given, of tenant ' . $user->tenant
+                ' does not match user given, of tenant ' . $user->tenant,
+                400
             );
         }
         if (!($user->role === Roles::ADMINISTRATOR ||
             $user->role === Roles::ROOT || $user->role === Roles::EDITOR)) {
-            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource');
+            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource', 401);
         }
     }
 
@@ -186,12 +191,13 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
                 'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
-                $user->tenant
+                $user->tenant,
+                400
             );
         }
         if (!($user->role === Roles::ADMINISTRATOR ||
             $user->role === Roles::ROOT || $user->role === Roles::EDITOR)) {
-            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource');
+            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource', 401);
         }
     }
 
@@ -206,14 +212,16 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
                 'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
-                $user->tenant
+                $user->tenant,
+                400
             );
         }
         if (!($user->role === Roles::EDITOR ||
             $user->role === Roles::ADMINISTRATOR ||
             $user->role === Roles::ROOT)) {
             throw new \Exception(
-                'Your role ' . $user->role . ' does not give you permission to create concepts '
+                'Your role ' . $user->role . ' does not give you permission to create concepts ',
+                401
             );
         }
     }
@@ -230,7 +238,9 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         $concept->getTenant();
         if ($concept->getTenant()->getValue() !== $tenantCode) {
             throw new \Exception("The concept has tenant {$concept->getTenat()->getValue()}"
-            . "which does not correspond to the request-s tenant   $tenantCode");
+                . "which does not correspond to the request-s tenant   $tenantCode",
+                401
+            );
         }
 
         if (!($user->role === Roles::ADMINISTRATOR ||
@@ -239,7 +249,8 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             if ($user->uri !== $concept->getCreator()) {
                 throw new \Exception(
                     'Your role ' . $user->role .
-                    ' does not give you permission to edit or delete a concept whoich you do not ow.'
+                    ' does not give you permission to edit or delete a concept whoich you do not ow.',
+                    401
                 );
             }
         }
@@ -285,7 +296,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
     {
         if (!($user->role === Roles::ADMINISTRATOR ||
             $user->role === Roles::ROOT || $user->role === Roles::EDITOR)) {
-            throw new \Exception('User the the role '.$user->role. ' cannot create this resource');
+            throw new \Exception('User the the role '.$user->role. ' cannot create this resource', 401);
         }
     }
 
@@ -293,7 +304,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
     {
         if (!($user->role === Roles::ADMINISTRATOR ||
             $user->role === Roles::ROOT || $user->role === Roles::EDITOR)) {
-            throw new \Exception('User the the role '.$user->role. ' cannot edit this resource');
+            throw new \Exception('User the the role '.$user->role. ' cannot edit this resource', 401);
         }
     }
 
@@ -301,7 +312,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
     {
         if (!($user->role === Roles::ADMINISTRATOR ||
             $user->role === Roles::ROOT || $user->role === Roles::EDITOR)) {
-            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource');
+            throw new \Exception('User the the role '.$user->role. ' cannot delete this resource', 401);
         }
     }
 

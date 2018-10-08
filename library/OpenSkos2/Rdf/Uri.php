@@ -35,7 +35,7 @@ class Uri implements Object, ResourceIdentifier
     {
         // Null values where allowed from the start some functionality depends on it like createing new graphs :(
         if (!self::isUriTempGeneratedCheck($value) && $value !== null && !filter_var($value, FILTER_VALIDATE_URL)) {
-            throw new Exception\InvalidUriException('Invalid URI: ' . $value);
+            throw new Exception\InvalidUriException('Invalid URI: ' . $value, 400);
         }
         $this->uri = $value;
     }

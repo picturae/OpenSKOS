@@ -84,7 +84,7 @@ class OpenSKOS_Db_Table_Users extends Zend_Db_Table
         $result = $model->find($id)->current();
 
         if (null === $result) {
-            throw new Zend_Db_Select_Exception('User with id "' . $id . '" not found in the database.');
+            throw new Zend_Db_Select_Exception('User with id "' . $id . '" not found in the database.', 500);
         }
 
         return $result;
@@ -108,7 +108,7 @@ class OpenSKOS_Db_Table_Users extends Zend_Db_Table
         $tenant = \OpenSkos2\TenantManager::getLoggedInTenant();
 
         if (null === $tenant) {
-            throw new Zend_Db_Table_Exception('This method needs a valid tenant from the Zend_Auth object');
+            throw new Zend_Db_Table_Exception('This method needs a valid tenant from the Zend_Auth object', 500 );
         }
         $select = $this->select()
                 ->where('tenant=?', $tenant->getCode())

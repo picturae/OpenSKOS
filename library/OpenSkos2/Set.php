@@ -277,7 +277,7 @@ class Set extends Resource
                             $oai_providers[$uri] = $instance['label'];
                             break;
                         default:
-                            throw new Zend_Exception('Unkown OAI instance type: ' . $instance['type']);
+                            throw new Zend_Exception('Unkown OAI instance type: ' . $instance['type'], 400);
                     }
                 }
             }

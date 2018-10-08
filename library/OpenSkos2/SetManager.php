@@ -194,7 +194,7 @@ FETCH_ALL_SETS;
 
     public function fetchAllCollections($allowOAI)
     {
-        throw new \Exception("Please use the function `fetchAllSets'");
+        throw new \Exception("Please use the function `fetchAllSets'", 400);
         $query = 'PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>'
             . 'DESCRIBE ?s {'
             . 'select ?s where {?s <'.OpenSkos::ALLOW_OAI.'>  "' . $allowOAI . '"^^xsd:bool . } }';
@@ -290,10 +290,10 @@ FETCH_ALL_SETS;
         . "<$uri> <".Rdf::TYPE . "> <".Set::TYPE."> . }";
         $response = $this->query($query);
         if (count($response)>1) {
-            throw new \Exception("Something went very wrong: there more than 1 set with the uri $uri");
+            throw new \Exception("There more than 1 set with the uri $uri", 409);
         }
         if (count($response)<1) {
-            throw new \Exception("the institution with the uri $uri is not found");
+            throw new \Exception("The institution with the uri $uri is not found", 400);
         }
         $retval = [];
         $retval['code'] = $response[0]->code->getValue();

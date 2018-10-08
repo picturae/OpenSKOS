@@ -41,14 +41,16 @@ class ResourceCollection extends \ArrayObject
     {
         if (!$newval instanceof Resource) {
             throw new \RuntimeException(
-                'You can add only Resource objects in ResourceCollection'
+                'You can add only Resource objects in ResourceCollection',
+                400
             );
         }
 
         if ($this->resourceType !== null && $newval->getType() != $this->resourceType) {
             throw new InvalidResourceTypeException(
                 'Can not insert resource of type <' . $newval->getType() . '>. '
-                . 'The collection requires type <' . $this->resourceType . '>'
+                . 'The collection requires type <' . $this->resourceType . '>',
+                400
             );
         }
 

@@ -39,7 +39,8 @@ class UriGeneration implements \OpenSkos2\Interfaces\UriGeneration
             }
             if ($this->manager->askForUri($uri, true)) {
                 throw new UriGenerationException(
-                    'The generated uri "' . $uri . '" is already in use.'
+                    'The generated uri "' . $uri . '" is already in use.',
+                    400
                 );
             }
 
@@ -48,7 +49,8 @@ class UriGeneration implements \OpenSkos2\Interfaces\UriGeneration
             return $uri;
         } else {
             throw new UriGenerationException(
-                'Epic is not enabled, change custom parameter'
+                'Epic is not enabled, change custom parameter',
+                500
             );
         }
     }

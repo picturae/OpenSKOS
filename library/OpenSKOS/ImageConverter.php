@@ -37,7 +37,7 @@ class OpenSKOS_ImageConverter
 	public static function convertTo($sourceImagePath, $width, $height, $newExtension = '')
 	{
 		if ( ! class_exists('Imagick', false)) {
-			throw new Zend_Exception('Class \'Imagick\' not found.');
+			throw new Zend_Exception('Class \'Imagick\' not found.', 500 );
 		}
 		
 		$image = new Imagick($sourceImagePath);

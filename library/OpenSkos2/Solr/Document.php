@@ -295,7 +295,7 @@ class Document
     private function getLiteral(array $val)
     {
         if (count($val) > 1) {
-            throw new Exception\InvalidValue('Invalid value for notation: ' . var_export($val, true));
+            throw new Exception\InvalidValue('Invalid value for notation: ' . var_export($val, true), 500);
         }
 
         return current($val);
