@@ -26,7 +26,7 @@ use OpenSkos2\Rdf\ResourceManager;
 use OpenSkos2\RelationType;
 use OpenSkos2\Set;
 use OpenSkos2\SkosCollection;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Validator\Concept\CycleBroaderAndNarrower;
 use OpenSkos2\Validator\Concept\CycleInBroader;
 use OpenSkos2\Validator\Concept\CycleInNarrower;
@@ -43,7 +43,7 @@ use OpenSkos2\Validator\Concept\SingleStatus;
 use OpenSkos2\Validator\Concept\TopConceptOf;
 use OpenSkos2\Validator\Concept\UniqueNotation;
 use OpenSkos2\Validator\Concept\UniquePreflabelInScheme;
-use OpenSkos2\Validator\Concept\UniquePreflabelInTenant;
+use OpenSkos2\Validator\Concept\UniquePreflabelInInstitution;
 use OpenSkos2\Validator\Concept\UniqueUuid;
 use OpenSkos2\Validator\ConceptScheme\Creator as SchemaCreator;
 use OpenSkos2\Validator\ConceptScheme\Description as SchemaDescription;
@@ -68,15 +68,15 @@ use OpenSkos2\Validator\SkosCollection\Description as SkosCollDescription;
 use OpenSkos2\Validator\SkosCollection\Member as SkosCollMember;
 use OpenSkos2\Validator\SkosCollection\OpenskosUuid as SkosCollUuid;
 use OpenSkos2\Validator\SkosCollection\Title as SkosCollTitle;
-use OpenSkos2\Validator\Tenant\OpenskosCode;
-use OpenSkos2\Validator\Tenant\OpenskosDisableSearchInOtherTenants;
-use OpenSkos2\Validator\Tenant\OpenskosEnableStatussesSystem;
-use OpenSkos2\Validator\Tenant\OpenskosUuid;
-use OpenSkos2\Validator\Tenant\Type;
-use OpenSkos2\Validator\Tenant\VCardAdress;
-use OpenSkos2\Validator\Tenant\VCardEmail;
-use OpenSkos2\Validator\Tenant\VCardOrg;
-use OpenSkos2\Validator\Tenant\VCardUrl;
+use OpenSkos2\Validator\Institution\OpenskosCode;
+use OpenSkos2\Validator\Institution\OpenskosDisableSearchInOtherTenants;
+use OpenSkos2\Validator\Institution\OpenskosEnableStatussesSystem;
+use OpenSkos2\Validator\Institution\OpenskosUuid;
+use OpenSkos2\Validator\Institution\Type;
+use OpenSkos2\Validator\Institution\VCardAdress;
+use OpenSkos2\Validator\Institution\VCardEmail;
+use OpenSkos2\Validator\Institution\VCardOrg;
+use OpenSkos2\Validator\Institution\VCardUrl;
 use OpenSkos2\Validator\Concept\DisjointXlLabels;
 use OpenSkos2\Validator\Concept\LanguageRequired;
 use OpenSkos2\Validator\Concept\NoEmptyValues;
@@ -130,7 +130,7 @@ class Resource
 
     /**
      * @param ResourceManager          $resourceManager
-     * @param Tenant                   $tenant optional If specified - tenant specific validation can be made.
+     * @param Institution                   $tenant optional If specified - tenant specific validation can be made.
      * @param LoggerInterface $logger
      */
     
@@ -250,7 +250,7 @@ class Resource
         if ($resource instanceof Set) {
             return $this->getSetValidators();
         }
-        if ($resource instanceof Tenant) {
+        if ($resource instanceof Institution) {
             return $this->getTenantValidators();
         }
         if ($resource instanceof RelationType) {
@@ -270,7 +270,7 @@ class Resource
             new SchemaCreator($this->referenceCheckOn),
             new SchemaUuid(),
             new SchemaHasTopConcept($this->referenceCheckOn, $this->conceptReferenceCheckOn),
-            new \OpenSkos2\Validator\ConceptScheme\OpenSkosTenant($this->referenceCheckOn),
+            new \OpenSkos2\Validator\ConceptScheme\OpenSkosInstitution($this->referenceCheckOn),
             new \OpenSkos2\Validator\ConceptScheme\OpenSkosSet()
         ];
         $validators = $this->refineValidators($validators);
@@ -360,7 +360,7 @@ class Resource
             new RelatedToSelf(),
             new TopConceptOf($this->referenceCheckOn),
             new ReferencesForConceptRelations($this->referenceCheckOn, $this->conceptReferenceCheckOn),
-            new \OpenSkos2\Validator\Concept\OpenSkosTenant(),
+            new \OpenSkos2\Validator\Concept\OpenSkosInstitution(),
             new \OpenSkos2\Validator\Concept\OpenSkosSet(),
             new DisjointXlLabels()
         ];
@@ -368,7 +368,7 @@ class Resource
         $uniquePerTenant = isset($editorOptions['labelsUniquePerTenant'])
                             ? ((bool)$editorOptions['labelsUniquePerTenant']) : false;
         if ($uniquePerTenant) {
-            $validators[] = new UniquePreflabelInTenant();
+            $validators[] = new UniquePreflabelInInstitution();
         } else {
             $validators[] = new UniquePreflabelInScheme();
         }

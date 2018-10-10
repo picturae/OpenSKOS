@@ -32,7 +32,7 @@ class Editor_Models_ConceptSchemesCache
     /**
      * @var string 
      */
-    protected $tenantCode;
+    protected $institutionCode;
     
     /**
      * @var ConceptSchemeManager 
@@ -48,33 +48,33 @@ class Editor_Models_ConceptSchemesCache
      * Get tenant for which the cache is done.
      * @return string
      */
-    public function getTenantCode()
+    public function getInstitutionCode()
     {
-        return $this->tenantCode;
+        return $this->institutionCode;
     }
     
     /**
      * Get tenant for which the cache is done.
      * @return string
      */
-    public function requireTenantCode()
+    public function requireInstitutionCode()
     {
-        if (empty($this->tenantCode)) {
-            throw new OpenSkosException('Tenant code is required for editor cache.');
+        if (empty($this->institutionCode)) {
+            throw new OpenSkosException('Institution code is required for editor cache.');
         }
         //Have to strip some characters from the cache
-        $tenantCode = preg_replace('#[^a-zA-Z0-9_]#', '_', $this->tenantCode);
+        $tenantCode = preg_replace('#[^a-zA-Z0-9_]#', '_', $this->institutionCode);
 
         return $tenantCode;
     }
 
     /**
      * Sets tenant for which the cache is.
-     * @param string $tenantCode
+     * @param string $institutionCode
      */
-    public function setTenantCode($tenantCode)
+    public function setInstitutionCode($institutionCode)
     {
-        $this->tenantCode = $tenantCode;
+        $this->institutionCode = $institutionCode;
     }
     
     /**
@@ -102,7 +102,7 @@ class Editor_Models_ConceptSchemesCache
      */
     public function fetchAll()
     {
-        $schemes = $this->cache->load(self::CONCEPT_SCHEMES_CACHE_KEY . $this->requireTenantCode());
+        $schemes = $this->cache->load(self::CONCEPT_SCHEMES_CACHE_KEY . $this->requireInstitutionCode());
         if ($schemes === false) {
             $schemes = $this->sortSchemes(
                 $this->manager->fetch(
@@ -113,7 +113,7 @@ class Editor_Models_ConceptSchemesCache
                 )
             );
             
-            $this->cache->save($schemes, self::CONCEPT_SCHEMES_CACHE_KEY . $this->requireTenantCode());
+            $this->cache->save($schemes, self::CONCEPT_SCHEMES_CACHE_KEY . $this->requireInstitutionCode());
         }
         
         return $schemes;

@@ -24,7 +24,7 @@ use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Namespaces\OpenSkos;
 use OpenSkos2\Validator\AbstractConceptValidator;
 
-class UniquePreflabelInTenant extends AbstractConceptValidator
+class UniquePreflabelInInstitution extends AbstractConceptValidator
 {
 
     /**
@@ -71,7 +71,7 @@ class UniquePreflabelInTenant extends AbstractConceptValidator
               #Find all tenants linked to concepts which have this preflabel
               ?subject <' . Skos::PREFLABEL . '> ' . $escapedLabel . ' .
               ?subject <' . Skos::INSCHEME . '> ?set. 
-              ?set <'.OpenSkos::TENANT.'> ?setTenant.
+              ?set <'.OpenSkos::TENANT.'> ?setInstitution.
               ?subject <' . OpenSkos::STATUS . '> ?status
   
               #Find the tenant for the conceptscheme we\'re analysing
@@ -85,7 +85,7 @@ class UniquePreflabelInTenant extends AbstractConceptValidator
               FILTER(
                   ?subject != ' . $ntriple->serialize($concept) . '  #Don\'t check ourselves
                   && 
-                  ?setTenant = ?conceptTenant
+                  ?setInstitution = ?conceptTenant
                   &&
                   ?status != \''.Concept::STATUS_DELETED.'\' 
                   && 

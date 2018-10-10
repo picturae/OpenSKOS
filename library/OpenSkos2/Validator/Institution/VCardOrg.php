@@ -1,15 +1,15 @@
 <?php
 
-namespace OpenSkos2\Validator\Tenant;
+namespace OpenSkos2\Validator\Institution;
 
-use OpenSkos2\Tenant as Tenant;
+use OpenSkos2\Institution as Tenant;
 use OpenSkos2\Namespaces\VCard;
-use OpenSkos2\Validator\AbstractTenantValidator;
+use OpenSkos2\Validator\AbstractInstitutionValidator;
 
-class VCardOrg extends AbstractTenantValidator
+class VCardOrg extends AbstractInstitutionValidator
 {
 
-    protected function validateTenant(Tenant $resource)
+    protected function validateTenant(Institution $resource)
     {
         $orgCheck = $resource->getProperty(VCard::ORG);
         $this->errorMessages = [];

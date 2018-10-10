@@ -33,8 +33,8 @@ use OpenSkos2\ConceptSchemeCollection;
 use OpenSkos2\Namespaces\Org;
 use OpenSkos2\SkosCollection;
 use OpenSkos2\SkosCollectionCollection;
-use OpenSkos2\Tenant;
-use OpenSkos2\TenantCollection;
+use OpenSkos2\Institution;
+use OpenSkos2\InstitutionCollection;
 use OpenSkos2\RelationType;
 use OpenSkos2\RelationTypeCollection;
 use OpenSkos2\Person;
@@ -48,7 +48,7 @@ class EasyRdf
 {
 
     private static $allowedSubresources = [VCard::ORG, VCard::ADR];
-    private static $skosTypes = [Tenant::TYPE, Set::TYPE, ConceptScheme::TYPE,
+    private static $skosTypes = [Institution::TYPE, Set::TYPE, ConceptScheme::TYPE,
         SkosCollection::TYPE, Concept::TYPE, Person::TYPE, RelationType::TYPE, Org::FORMALORG,
         Label::TYPE
         ];
@@ -219,8 +219,8 @@ class EasyRdf
                     return new SkosCollection($uri);
                 case Set::TYPE:
                     return new Set($uri);
-                case Tenant::TYPE:
-                    return new Tenant($uri);
+                case Institution::TYPE:
+                    return new Institution($uri);
                 case RelationType::TYPE:
                     return new RelationType($uri);
                 case Person::TYPE:
@@ -252,8 +252,8 @@ class EasyRdf
                 return new SkosCollectionCollection();
             case Set::TYPE:
                 return new SetCollection();
-            case Tenant::TYPE:
-                return new TenantCollection();
+            case Institution::TYPE:
+                return new InstitutionCollection();
             case RelationType::TYPE:
                 return new RelationTypeCollection();
             case Label::TYPE:

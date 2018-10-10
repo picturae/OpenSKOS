@@ -30,7 +30,7 @@ use OpenSkos2\Namespaces\Skos;
 $opts = array(
     'env|e=s' => 'The environment to use (defaults to "production")',
     'endpoint=s' => 'Solr endpoint to fetch data from',
-    'tenant=s' => 'Tenant to migrate',
+    'tenant=s' => 'Institution to migrate',
 );
 
 try {
@@ -63,7 +63,7 @@ $concept->addProperty(Skos::NOTATION, $notation);
 $scheme = new \OpenSkos2\Rdf\Uri('http://example.com/1');
 $concept->addProperty(Skos::INSCHEME, $scheme);
 
-$tenant = new OpenSkos2\Tenant('beng');
+$tenant = new OpenSkos2\Institution('beng');
 $validator = new \OpenSkos2\Validator\Resource($resourceManager, $tenant);
 $valid = $validator->validate($concept);
 //var_dump($valid, $validator->getErrorMessages());

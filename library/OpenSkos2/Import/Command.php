@@ -26,7 +26,7 @@ use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Rdf\ResourceManager;
 use OpenSkos2\ConceptManager;
 use OpenSkos2\PersonManager;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Import\Command\CollectionHelper;
 use OpenSkos2\Validator\Resource as ResourceValidator;
 use Psr\Log\LoggerAwareInterface;
@@ -53,7 +53,7 @@ class Command implements LoggerAwareInterface
     private $personManager;
 
     /**
-     * @var Tenant
+     * @var Institution
      */
     protected $tenant;
 
@@ -67,13 +67,13 @@ class Command implements LoggerAwareInterface
      * @param ResourceManager $resourceManager
      * @param ConceptManager $conceptManager
      * @param PersonManager $personManager
-     * @param Tenant $tenant optional If specified - tenant specific validation can be made.
+     * @param Institution $tenant optional If specified - tenant specific validation can be made.
      */
     public function __construct(
         ResourceManager $resourceManager,
         ConceptManager $conceptManager,
         PersonManager $personManager,
-        Tenant $tenant = null
+        Institution $tenant = null
     ) {
     
 

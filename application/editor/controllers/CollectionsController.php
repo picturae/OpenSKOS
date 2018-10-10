@@ -117,7 +117,7 @@ class Editor_CollectionsController extends OpenSKOS_Controller_Editor
         $set = $collections[0];
         $set_uri = $set->getProperty(\OpenSkos2\Namespaces\OpenSkos::CONCEPTBASEURI)[0]->getUri();
         $tenant_code = $set->getProperty(\OpenSkos2\Namespaces\OpenSkos::TENANT)[0]->getValue();
-        //TODO: Tenant
+        //TODO: Institution
 
         $form = $set->getUploadForm();
         $formData = $this->_request->getPost();

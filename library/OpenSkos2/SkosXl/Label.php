@@ -74,7 +74,7 @@ class Label extends Resource
      * Ensure all mandatory properties are set before label is written in DB
      */
     public function ensureMetadata(
-        \OpenSkos2\Tenant $tenant,
+        \OpenSkos2\Institution $tenant,
         \OpenSkos2\Set $set = null,
         \OpenSkos2\Person $person = null,
         \OpenSkos2\PersonManager $personManager = null,

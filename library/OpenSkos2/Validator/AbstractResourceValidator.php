@@ -323,7 +323,7 @@ abstract class AbstractResourceValidator implements ValidatorInterface
             true,
             false,
             false,
-            \OpenSkos2\Tenant::TYPE
+            \OpenSkos2\Institution::TYPE
         );
         $tenantUri = $resource->getPublisherUri();
         $tenantCode = $resource->getTenant();
@@ -335,7 +335,7 @@ abstract class AbstractResourceValidator implements ValidatorInterface
             $tripleStoreTenant = $this->resourceManager->fetchSubjectForObject(
                 OpenSkos::CODE,
                 $tenantCode,
-                \OpenSkos2\Tenant::TYPE
+                \OpenSkos2\Institution::TYPE
             );
 
             if ($tripleStoreTenant[0] !== $tenantUri->getUri()) {
@@ -371,7 +371,7 @@ abstract class AbstractResourceValidator implements ValidatorInterface
                 $tripleStoreSetTenant = $this->resourceManager->fetchSubjectForObject(
                     OpenSkos::CODE,
                     $setTenantCode,
-                    \OpenSkos2\Tenant::TYPE
+                    \OpenSkos2\Institution::TYPE
                 );
 
                 $publisherUri = $tripleStoreSetTenant[0];

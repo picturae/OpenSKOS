@@ -21,7 +21,7 @@
  */
 
 use OpenSkos2\Namespaces\Rdf;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Set;
 use OpenSkos2\Rdf\Uri;
 
@@ -33,8 +33,8 @@ require_once 'utils_functions.php';
 $opts = array(
     'help|?' => 'Print this usage message',
     'env|e=s' => 'The environment to use (defaults to "production")',
-    'code=s' => 'Tenant code (required)',
-    'name=s' => 'Tenant name (required when creating a tenant)',
+    'code=s' => 'Institution code (required)',
+    'name=s' => 'Institution name (required when creating a tenant)',
     'email=s' => 'Admin email (required when creating a tenant)',
     'password=s' => 'Password for the Admin account'
 );
@@ -66,7 +66,7 @@ include 'bootstrap.inc.php';
 /* @var $diContainer DI\Container */
 $diContainer = Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
 $resourceManager = $diContainer->make('\OpenSkos2\Rdf\ResourceManager');
-$tenantManager = $diContainer->make('\OpenSkos2\TenantManager');
+$tenantManager = $diContainer->make('\OpenSkos2\InstitutionManager');
 
 switch ($action) {
     case 'create':
@@ -92,7 +92,7 @@ switch ($action) {
             if (empty($tenantName)) {
                 $tenantName = $tenantCode;
             }
-            $tenant = new Tenant();
+            $tenant = new Institution();
 
             $tenant->arrayToData(
                 array(
@@ -136,7 +136,7 @@ switch ($action) {
         /*
         $tenant = $model->find($OPTS->code)->current();
         if (null === $tenant) {
-            fwrite(STDERR, "Tenant `{$OPTS->code} does not exists\n");
+            fwrite(STDERR, "Institution `{$OPTS->code} does not exists\n");
             exit(2);
         }
         $tenant->delete();

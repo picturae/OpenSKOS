@@ -52,7 +52,7 @@ class OpenSKOS_Db_Table_Users extends Zend_Db_Table
      */
     protected $_rowClass = 'OpenSKOS_Db_Table_Row_User';
     protected $_referenceMap = array(
-        'Tenant' => array(
+        'Institution' => array(
             'columns' => 'tenant',
             'refTableClass' => 'OpenSKOS_Db_Table_Tenants',
             'refColumns' => 'code'
@@ -105,7 +105,7 @@ class OpenSKOS_Db_Table_Users extends Zend_Db_Table
     protected function _uniqueFieldValue($fieldname, $value, $data)
     {
         //fetch the tenant:
-        $tenant = \OpenSkos2\TenantManager::getLoggedInTenant();
+        $tenant = \OpenSkos2\InstitutionManager::getLoggedInTenant();
 
         if (null === $tenant) {
             throw new Zend_Db_Table_Exception('This method needs a valid tenant from the Zend_Auth object', 500 );

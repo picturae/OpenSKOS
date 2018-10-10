@@ -21,7 +21,7 @@
 
 $di = Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
 $list = $this->resource;
-$tenantManager = $di->get('OpenSkos2\TenantManager');
+$tenantManager = $di->get('OpenSkos2\InstitutionManager');
 $allTenants = $tenantManager->getAllTenants();
 $this->headTitle ('Institutions')?>
 

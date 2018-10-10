@@ -25,7 +25,7 @@ $concept = $this->concept;
 /* @var $conceptManager \OpenSkos2\ConceptManager */
 $conceptManager = $di->get('OpenSkos2\ConceptManager');
 /* @var $tenantManager \OpenSkos2\ConceptManager */
-$tenantManager = $di->get('OpenSkos2\TenantManager');
+$tenantManager = $di->get('OpenSkos2\InstitutionManager');
 /* @var $useSkosXlLabels boolean */
 $useXlLabels = $this->useXlLabels;
 $lang = Zend_Controller_Front::getInstance()->getRequest()->getParam('lang');

@@ -6,7 +6,7 @@ use OpenSKOS_Db_Table_Row_User;
 use OpenSkos2\Concept;
 use OpenSkos2\ConceptScheme;
 use OpenSkos2\Set;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\SkosCollection;
 use OpenSkos2\RelationType;
 use OpenSkos2\Roles;
@@ -22,11 +22,11 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         $this->resourceManager = $manager;
     }
 
-    public function resourceCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $set, $resource)
+    public function resourceCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $set, $resource)
     {
         $type = $this->resourceManager->getResourceType();
 
-        if ($type !== Tenant::TYPE && $type !== Set::TYPE) {
+        if ($type !== Institution::TYPE && $type !== Set::TYPE) {
             $setIsValid = $this->checkSet($set, $resource);
             if (!$setIsValid) {
                  $sets = $resource->getProperty(OpenSkos::SET);
@@ -48,7 +48,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             case Set::TYPE:
                 $this->setCreateAllowed($user, $tenant, $resource);
                 return;
-            case Tenant::TYPE:
+            case Institution::TYPE:
                 $this->tenantCreateAllowed($user);
                 return;
             case SkosCollection::TYPE:
@@ -62,11 +62,11 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         }
     }
 
-    public function resourceEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $set, $resource)
+    public function resourceEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $set, $resource)
     {
         $type = $this->resourceManager->getResourceType();
 
-        if ($type !== Tenant::TYPE && $type !== Set::TYPE) {
+        if ($type !== Institution::TYPE && $type !== Set::TYPE) {
             if($set !== null) {
                 $setIsValid = $this->checkSet($set, $resource);
                 if (!$setIsValid) {
@@ -90,7 +90,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             case Set::TYPE:
                 $this->setEditAllowed($user, $tenant, $resource);
                 return;
-            case Tenant::TYPE:
+            case Institution::TYPE:
                 $this->tenantEditAllowed($user);
                 return;
             case SkosCollection::TYPE:
@@ -104,11 +104,11 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         }
     }
 
-    public function resourceDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $set, $resource)
+    public function resourceDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $set, $resource)
     {
         $type = $this->resourceManager->getResourceType();
 
-        if ($type !== Tenant::TYPE && $type !== Set::TYPE) {
+        if ($type !== Institution::TYPE && $type !== Set::TYPE) {
             $setIsValid = $this->checkSet($set, $resource);
             if (!$setIsValid) {
                 $sets = $resource->getProperty(OpenSkos::SET);
@@ -130,7 +130,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
             case Set::TYPE:
                 $this->setDeleteAllowed($user, $tenant, $resource);
                 return;
-            case Tenant::TYPE:
+            case Institution::TYPE:
                 $this->tenantDeleteAllowed($user);
                 return;
             case SkosCollection::TYPE:
@@ -146,13 +146,13 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
 
     private function resourceDeleteAllowedBasic(
         OpenSKOS_Db_Table_Row_User $user,
-        Tenant $tenant,
+        Institution $tenant,
         $resource
     ) {
         $tenantCode = $tenant->getCode()->getValue();
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
-                'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
+                'Institution ' . $tenantCode . ' does not match user given, of tenant ' .
                 $user->tenant,
                 \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
@@ -165,13 +165,13 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
 
     private function resourceCreateAllowedBasic(
         OpenSKOS_Db_Table_Row_User $user,
-        Tenant $tenant,
+        Institution $tenant,
         $resource
     ) {
         $tenantCode = $tenant->getCode()->getValue();
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
-                'Tenant ' . $tenantCode .
+                'Institution ' . $tenantCode .
                 ' does not match user given, of tenant ' . $user->tenant,
                 \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
@@ -184,13 +184,13 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
 
     private function resourceEditAllowedBasic(
         OpenSKOS_Db_Table_Row_User $user,
-        Tenant $tenant,
+        Institution $tenant,
         $resource
     ) {
         $tenantCode = $tenant->getCode()->getValue();
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
-                'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
+                'Institution ' . $tenantCode . ' does not match user given, of tenant ' .
                 $user->tenant,
                 \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
@@ -203,7 +203,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
 
     private function conceptCreateAllowed(
         OpenSKOS_Db_Table_Row_User $user,
-        Tenant $tenant,
+        Institution $tenant,
         $conceptToPost
     ) {
         $tenantCode = $tenant->getCode()->getValue();
@@ -211,7 +211,7 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         // skos-collections or upon certain schemata, can be limited
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
-                'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
+                'Institution ' . $tenantCode . ' does not match user given, of tenant ' .
                 $user->tenant,
                 \OpenSkos2\Http\StatusCodes::BAD_REQUEST
             );
@@ -226,12 +226,12 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         }
     }
 
-    private function conceptEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $concept)
+    private function conceptEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $concept)
     {
         $tenantCode = $tenant->getCode()->getValue();
         if ($user->tenant !== $tenantCode) {
             throw new \Exception(
-                'Tenant ' . $tenantCode . ' does not match user given, of tenant ' .
+                'Institution ' . $tenantCode . ' does not match user given, of tenant ' .
                 $user->tenant
             );
         }
@@ -257,37 +257,37 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         return true;
     }
 
-    private function conceptDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $concept)
+    private function conceptDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $concept)
     {
         $this->conceptEditAllowed($user, $tenant, $concept);
     }
 
-    private function conceptSchemeCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function conceptSchemeCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceCreateAllowedBasic($user, $tenant, $resource);
     }
 
-    private function conceptSchemeEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function conceptSchemeEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceEditAllowedBasic($user, $tenant, $resource);
     }
 
-    private function conceptSchemeDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function conceptSchemeDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceDeleteAllowedBasic($user, $tenant, $resource);
     }
 
-    private function setCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function setCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceCreateAllowedBasic($user, $tenant, $resource);
     }
 
-    private function setEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function setEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceEditAllowedBasic($user, $tenant, $resource);
     }
 
-    private function setDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function setDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         return $this->resourceDeleteAllowedBasic($user, $tenant, $resource);
     }
@@ -316,32 +316,32 @@ class Authorisation implements \OpenSkos2\Interfaces\Authorisation
         }
     }
 
-    private function skosCollectionCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function skosCollectionCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceCreateAllowedBasic($user, $tenant, $resource);
     }
 
-    private function skosCollectionEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function skosCollectionEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceEditAllowedBasic($user, $tenant, $resource);
     }
 
-    private function skosCollectionDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function skosCollectionDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceDeleteAllowedBasic($user, $tenant, $resource);
     }
 
-    private function relationCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function relationCreateAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceCreateAllowedBasic($user, $tenant, $resource);
     }
 
-    private function relationEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function relationEditAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceEditAllowedBasic($user, $tenant, $resource);
     }
 
-    private function relationDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Tenant $tenant, $resource)
+    private function relationDeleteAllowed(OpenSKOS_Db_Table_Row_User $user, \OpenSkos2\Institution $tenant, $resource)
     {
         $this->resourceDeleteAllowedBasic($user, $tenant, $resource);
     }

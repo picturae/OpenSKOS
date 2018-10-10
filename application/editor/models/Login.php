@@ -36,7 +36,7 @@ class Editor_Models_Login extends Zend_Auth
     public function setData($tenant, $username, $password)
     {
         $this->_authAdapter
-            ->setTenant($tenant)
+            ->setInstitution($tenant)
             ->setIdentity($username)
             ->setCredential(md5($password));
     }
@@ -71,7 +71,7 @@ class Editor_Models_Login_AuthAdapter extends Zend_Auth_Adapter_DbTable
     protected $_tenantColumn = null;
 
     /**
-     * $_tenant - Tenant value
+     * $_tenant - Institution value
      *
      * @var string
      */
@@ -83,24 +83,24 @@ class Editor_Models_Login_AuthAdapter extends Zend_Auth_Adapter_DbTable
     }
     
     /**
-     * setTenantColumn() - set the column name to be used as the identity column
+     * setInstitutionColumn() - set the column name to be used as the identity column
      *
      * @param  string $tenantColumn
      * @return Zend_Auth_Adapter_DbTable Provides a fluent interface
      */
-    public function setTenantColumn($tenantColumn)
+    public function setInstitutionColumn($tenantColumn)
     {
         $this->_tenantColumn = $tenantColumn;
         return $this;
     }
 
     /**
-     * setTenant() - set the value to be used as the tenant
+     * setInstitution() - set the value to be used as the tenant
      *
      * @param  string $value
      * @return Zend_Auth_Adapter_DbTable Provides a fluent interface
      */
-    public function setTenant($value)
+    public function setInstitution($value)
     {
         $this->_tenant = $value;
         return $this;

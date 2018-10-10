@@ -43,7 +43,7 @@ class Editor_InstitutionController extends OpenSKOS_Controller_Editor
             $this->_tenant->arrayToData( $form->getValues());
             //->setFromArray(array('tenant' => $this->_tenant->code));
             try {
-                $this->getTenantManager()->replace($this->_tenant);
+                $this->getInstitutionManager()->replace($this->_tenant);
             } catch (Zend_Db_Statement_Exception $e) {
                 $this->getHelper('FlashMessenger')->setNamespace('error')->addMessage($e->getMessage());
                 return $this->_forward('edit');
@@ -54,10 +54,10 @@ class Editor_InstitutionController extends OpenSKOS_Controller_Editor
     }
 
     /**
-     * @return OpenSkos2\TenantManager
+     * @return OpenSkos2\InstitutionManager
      */
-    protected function getTenantManager()
+    protected function getInstitutionManager()
     {
-        return $this->getDI()->get('\OpenSkos2\TenantManager');
+        return $this->getDI()->get('\OpenSkos2\InstitutionManager');
     }
 }

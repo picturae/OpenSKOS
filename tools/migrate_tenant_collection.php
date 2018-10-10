@@ -23,7 +23,7 @@
 require_once dirname(__FILE__) . '/autoload.inc.php';
 
 use OpenSkos2\Namespaces\Rdf;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Set;
 use OpenSkos2\Rdf\Uri;
 
@@ -38,7 +38,7 @@ $opts = [
     'db-database=s' => 'Origin database name',
     'db-username=s' => 'Origin database username',
     'db-password=s' => 'Origin database password',
-    'tenant=s' => 'Tenant code to migrate',
+    'tenant=s' => 'Institution code to migrate',
     'modified|m=s' => 'Fetch only those modified after that date.',
     'tenantname=s' => 'Name of the organisaton.',
     'debug' => "If debug mode is on"
@@ -70,7 +70,7 @@ $diContainer = Zend_Controller_Front::getInstance()->getDispatcher()->getContain
  * @var $resourceManager \OpenSkos2\Rdf\ResourceManager
  */
 $resourceManager = $diContainer->make('\OpenSkos2\Rdf\ResourceManager');
-$tenantManager = $diContainer->make('\OpenSkos2\TenantManager');
+$tenantManager = $diContainer->make('\OpenSkos2\InstitutionManager');
 
 
 $logger = new \Monolog\Logger("Logger");
@@ -84,7 +84,7 @@ $logger->pushHandler(new \Monolog\Handler\ErrorLogHandler(
 
 if ($OPTS->getOption('debug')) {
     $logger->info("Purging triple store: tenants");
-    $tenantURIs = $resourceManager->fetchSubjectForObject(Rdf::TYPE, new Uri(Tenant::TYPE));
+    $tenantURIs = $resourceManager->fetchSubjectForObject(Rdf::TYPE, new Uri(Institution::TYPE));
     foreach ($tenantURIs as $tenantURI) {
         $tenantManager->delete(new Uri($tenantURI));
     }

@@ -21,8 +21,8 @@ use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Concept;
 use OpenSkos2\ConceptCollection;
 use OpenSkos2\Rdf\Literal;
-use OpenSkos2\Tenant;
-use OpenSkos2\Exception\TenantNotFoundException;
+use OpenSkos2\Institution;
+use OpenSkos2\Exception\InstitutionNotFoundException;
 use OpenSkos2\SkosXl\Label;
 use OpenSkos2\Concept\LabelHelper;
 
@@ -37,10 +37,10 @@ class Editor_Forms_Concept_ConceptToForm
      * @param string $prefLabel
      * @return array
      */
-    public static function getNewConceptFormData($language, $prefLabel, \OpenSkos2\Tenant $tenant, LabelHelper $labelHelper)
+    public static function getNewConceptFormData($language, $prefLabel, \OpenSkos2\Institution $tenant, LabelHelper $labelHelper)
     {
         if ($tenant === null) {
-            throw new TenantNotFoundException('Tenant not specified');
+            throw new InstitutionNotFoundException('Institution not specified');
         }
         
         $formData = [

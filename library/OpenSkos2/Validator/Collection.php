@@ -19,7 +19,7 @@
 
 namespace OpenSkos2\Validator;
 
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Set;
 use OpenSkos2\ConceptManager;
 use OpenSkos2\Exception\InvalidResourceException;
@@ -44,7 +44,7 @@ class Collection
     protected $conceptManager;
     
     /**
-     * @var Tenant
+     * @var Institution
      */
     protected $tenant;
     protected $set;
@@ -67,12 +67,12 @@ class Collection
 
     /**
      * @param ResourceManager $resourceManager
-     * @param Tenant $tenant optional If specified - tenant specific validation can be made.
+     * @param Institution $tenant optional If specified - tenant specific validation can be made.
      */
     public function __construct(
         ResourceManager $resourceManager,
         $isForUpdate,
-        Tenant $tenant,
+        Institution $tenant,
         Set $set,
         $referencecheckOn,
         $conceptReferenceCheckOn = false,

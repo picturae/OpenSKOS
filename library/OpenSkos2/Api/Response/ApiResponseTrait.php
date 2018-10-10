@@ -54,12 +54,12 @@ trait ApiResponseTrait
      *
      * @param string $tenantCode
      * @param \OpenSkos2\Rdf\ResourceManager $manager
-     * @return \OpenSkos2\Tenant
+     * @return \OpenSkos2\Institution
      * @throws InvalidArgumentException
      */
     protected function getTenant($tenantCode, \OpenSkos2\Rdf\ResourceManager $manager)
     {
-        $tenant = $manager->fetchByUuid($tenantCode, \OpenSkos2\Tenant::TYPE, 'openskos:code');
+        $tenant = $manager->fetchByUuid($tenantCode, \OpenSkos2\Institution::TYPE, 'openskos:code');
         if (null === $tenant) {
             throw new InvalidArgumentException(
                 "No such tenant $tenantCode",

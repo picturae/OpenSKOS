@@ -26,7 +26,7 @@ use OpenSkos2\Namespaces\Skos;
 $opts = array(
     'env|e=s' => 'The environment to use (defaults to "production")',
     'endpoint=s' => 'Solr endpoint to fetch data from',
-    'tenant=s' => 'Tenant to migrate',
+    'tenant=s' => 'Institution to migrate',
 );
 
 try {

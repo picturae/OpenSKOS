@@ -16,7 +16,7 @@ use OpenSkos2\Api\Response\ResultSet\RdfResponse;
 use OpenSkos2\FieldsMaps;
 use OpenSkos2\Rdf\Uri;
 use OpenSkos2\Set;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Converter\Text;
 use OpenSkos2\Namespaces;
 use OpenSkos2\Namespaces\OpenSkos;
@@ -42,7 +42,7 @@ abstract class AbstractTripleStoreResource
 
     /*
      * 
-     * @var TenantManager|SetManager|ConceptSchemeManager|SkosCollectionManager|ConceptManager|RelationTypeManager|RelationManager
+     * @var InstitutionManager|SetManager|ConceptSchemeManager|SkosCollectionManager|ConceptManager|RelationTypeManager|RelationManager
      */
     protected $manager;
 
@@ -91,7 +91,7 @@ abstract class AbstractTripleStoreResource
             $propertiesList = [];
         }
 
-        if (($context === 'json' || $context === 'jsonp') && $this->manager->getResourceType() === Tenant::TYPE) {
+        if (($context === 'json' || $context === 'jsonp') && $this->manager->getResourceType() === Institution::TYPE) {
             $fieldname = 'sets';
             $extrasGraph = $this->manager->fetchSetsForTenantUri($resource->getUri());
             $extras = \OpenSkos2\Bridge\EasyRdf::graphToResourceCollection($extrasGraph);
@@ -377,7 +377,7 @@ abstract class AbstractTripleStoreResource
         //POST MM terms will have a publisher URI
         $publisherUri = $loadedResource->getPublisherUri();
 
-        $tenant = $this->manager->fetchByUri($publisherUri, \OpenSkos2\Tenant::TYPE);
+        $tenant = $this->manager->fetchByUri($publisherUri, \OpenSkos2\Institution::TYPE);
 
         if ($loadedResource instanceof \OpenSkos2\Concept && $tenant->isEnableSkosXl()) {
             $loadedResource->loadFullXlLabels($this->manager->getLabelManager());
@@ -429,7 +429,7 @@ abstract class AbstractTripleStoreResource
     /**
      * Applies all validators to the concept.
      * @param \OpenSkos2\Resource $resource
-     * @param Tenant|null $tenant
+     * @param Institution|null $tenant
      * @param Set|null $set
      * @param bool $isForUpdate
      * @throws InvalidArgumentException
@@ -552,7 +552,7 @@ abstract class AbstractTripleStoreResource
      * does some validation to see if the xml is valid
      *
      * @param ServerRequestInterface $request
-     * @param Tenant $tenant |  null (if tenant is created)
+     * @param Institution $tenant |  null (if tenant is created)
      * @return \OpenSkos2\*
      * @throws InvalidArgumentException
      */
@@ -587,7 +587,7 @@ abstract class AbstractTripleStoreResource
             );
         }
 
-        if ($this->manager->getResourceType() !== \OpenSkos2\Tenant::TYPE) {
+        if ($this->manager->getResourceType() !== \OpenSkos2\Institution::TYPE) {
             // Is a tenant in the custom openskos xml attributes but not in the rdf add the values to the concept
             $xmlTenant = $doc->documentElement->getAttributeNS(OpenSkos::NAME_SPACE, 'tenant');
             if (!$resource->getTenant() && !empty($xmlTenant)) {
@@ -601,8 +601,15 @@ abstract class AbstractTripleStoreResource
             if (!$resource->getTenant()) {
                 throw new InvalidArgumentException('No tenant specified', \OpenSkos2\Http\StatusCodes::BAD_REQUEST);
             }
-            $rdfTenant = $this->manager->fetchByUuid($resource->getTenant(), \OpenSkos2\Tenant::TYPE, 'openskos:code');
-            $resource->setProperty(Namespaces\DcTerms::PUBLISHER, new \OpenSkos2\Rdf\Uri($rdfTenant->getUri())); // within the triple store resources are referred via URI's not literals, we keep literals for API backward compatibility and convenience
+            $rdfTenant = $this->manager->fetchByUuid(
+                $resource->getTenant(),
+                \OpenSkos2\Institution::TYPE,
+                'openskos:code'
+            );
+
+            // Within the triple store resources are referred via URI's not literals, we keep literals for API
+            //   backward compatibility and convenience
+            $resource->setProperty(Namespaces\DcTerms::PUBLISHER, new \OpenSkos2\Rdf\Uri($rdfTenant->getUri()));
         }
 
         return $resource;
@@ -798,7 +805,7 @@ abstract class AbstractTripleStoreResource
      *   Could be passed either in the URI, or derived from the user's api key in the request body
      * @param ServerRequestInterface $request
      * @param OpenSKOS_Db_Table_Row_User user derived from apiKey
-     * @return \OpenSkos2\Tenant Active tenant
+     * @return \OpenSkos2\Institution Active tenant
      */
     protected function getTenantFromApiCall(ServerRequestInterface $request, $user)
     {

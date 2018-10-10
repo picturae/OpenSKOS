@@ -26,7 +26,7 @@ $scheme = $this->resource;
 
 $conceptSchemeManager = $di->get('OpenSkos2\ConceptSchemeManager');
 $setManager = $di->get('OpenSkos2\SetManager');
-$tenantManager = $di->get('OpenSkos2\TenantManager');
+$tenantManager = $di->get('OpenSkos2\InstitutionManager');
 $uri = $scheme->getUri();
 $uuid = $scheme->getUuid();
 $name = $scheme->getTitle();

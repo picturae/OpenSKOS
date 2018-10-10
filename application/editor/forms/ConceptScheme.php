@@ -50,7 +50,7 @@ class Editor_Forms_ConceptScheme extends OpenSKOS_Form
      *
      * @var OpenSKOS_Db_Table_Row_Tenant
      */
-    protected $_currentTenant;
+    protected $_currentInstitution;
     
     public function init()
     {
@@ -104,7 +104,7 @@ class Editor_Forms_ConceptScheme extends OpenSKOS_Form
         
         // Collections
         $modelCollections = $this->getDI()->get('Editor_Models_SetsCache');
-        $modelCollections->setTenantCode($this->_getCurrentTenant()->getCode()->getValue());
+        $modelCollections->setInstitutionCode($this->_getCurrentInstitution()->getCode()->getValue());
 
         $collectionOptions = $modelCollections->fetchUrisMap();
         
@@ -208,7 +208,7 @@ class Editor_Forms_ConceptScheme extends OpenSKOS_Form
         $this->getElement('dcterms_description')->setValue(array(array('languageCode' => $this->_defaultLanguage, 'value' => array(''))));
         
         $this->addElement(new OpenSKOS_Form_Element_Multitextarea('dcterms_creator', 'Creator'));
-        $this->getElement('dcterms_creator')->setValue(array(array('languageCode' => $this->_defaultLanguage, 'value' => array($this->_getCurrentTenant()->getName()))));
+        $this->getElement('dcterms_creator')->setValue(array(array('languageCode' => $this->_defaultLanguage, 'value' => array($this->_getCurrentInstitution()->getName()))));
         
         $this->addElement('hidden', 'wrapLeftBottom', array(
             'decorators' => array('ViewHelper', array('HtmlTag', array('tag' => 'div', 'closeOnly'  => true)))
@@ -238,38 +238,38 @@ class Editor_Forms_ConceptScheme extends OpenSKOS_Form
      *
      * @return OpenSKOS_Db_Table_Row_Tenant
      */
-    protected function _getCurrentTenant()
+    protected function _getCurrentInstitution()
     {
-        if (! $this->_currentTenant) {
+        if (! $this->_currentInstitution) {
             //$this->_currentTenant = OpenSKOS_Db_Table_Tenants::fromIdentity();
-            $this->readTenant();
+            $this->readInstitution();
 
-            if (null === $this->_currentTenant) {
-                throw new Zend_Exception('Tenant not found. Needed for request to the api.');
+            if (null === $this->_currentInstitution) {
+                throw new Zend_Exception('Institution not found. Needed for request to the api.');
             }
         }
     
-        return $this->_currentTenant;
+        return $this->_currentInstitution;
     }
     /**
-     * Read the Tenant record from RDF Store to the class's internal record.
+     * Read the Institution record from RDF Store to the class's internal record.
      * @throws Zend_Controller_Action_Exception
      */
-    protected function readTenant()
+    protected function readInstitution()
     {
 
         $tenantCode = $this->getCurrentUser()->tenant;
 
-        $tenantManager = $this->getDI()->get('\OpenSkos2\TenantManager');
+        $tenantManager = $this->getDI()->get('\OpenSkos2\InstitutionManager');
 
-        $tenantUuid = $tenantManager->getTenantUuidFromCode($tenantCode);
+        $tenantUuid = $tenantManager->getInstitutionUuidFromCode($tenantCode);
         $openSkos2Tenant = $tenantManager->fetchByUuid($tenantUuid);
 
         if (!$openSkos2Tenant) {
-            throw new Zend_Controller_Action_Exception('Tenant record not readable', 404);
+            throw new Zend_Controller_Action_Exception('Institution record not readable', 404);
         }
 
-        $this->_currentTenant = $openSkos2Tenant;
+        $this->_currentInstitution = $openSkos2Tenant;
         return $this;
 
     }

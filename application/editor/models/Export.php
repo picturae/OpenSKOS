@@ -169,11 +169,11 @@ class Editor_Models_Export
     {
 
         $diContainer =  \Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
-        $tenantManager = $diContainer->get('OpenSkos2\TenantManager');
+        $tenantManager = $diContainer->get('OpenSkos2\InstitutionManager');
 
         $user = OpenSKOS_Db_Table_Users::requireById($this->get('userId'));
 
-        $tenant = \OpenSkos2\TenantManager::getLoggedInTenant();
+        $tenant = \OpenSkos2\InstitutionManager::getLoggedInTenant();
         $tenantUri = $tenant->getUri();
 
         $tenantSets = $tenantManager->fetchSetsForTenantUri($tenantUri);
@@ -344,7 +344,7 @@ class Editor_Models_Export
     {
 
         $diContainer =  \Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
-        $tenantManager = $diContainer->get('OpenSkos2\TenantManager');
+        $tenantManager = $diContainer->get('OpenSkos2\InstitutionManager');
 
         $fieldsToExport = $this->get('fieldsToExport');
         if (empty($fieldsToExport)) {

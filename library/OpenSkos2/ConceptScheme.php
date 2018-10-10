@@ -75,7 +75,7 @@ class ConceptScheme extends Resource
      * @todo Moved from Editor_Models_ConceptScheme for backwards compatibility,
      * refactor later to not depend on the zend application
      * @param srtring $uuid
-     * @param \OpenSkos2\Tenant $tenant optional, Default null.
+     * @param \OpenSkos2\Institution $tenant optional, Default null.
      * If not set the currently logged one will be used.
      * @return string
      */
@@ -84,7 +84,7 @@ class ConceptScheme extends Resource
         $editorOptions = \OpenSKOS_Application_BootstrapAccess::getBootstrap()->getOption('editor');
 
         if (null === $tenant) {
-            $tenant = \OpenSkos2\TenantManager::getLoggedInTenant();
+            $tenant = \OpenSkos2\InstitutionManager::getLoggedInTenant();
         }
 
         $ap = APPLICATION_PATH;

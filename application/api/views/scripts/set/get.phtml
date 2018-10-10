@@ -26,7 +26,7 @@ $di = Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
 $set = $this->resource;
 
 $setManager = $di->get('OpenSkos2\SetManager');
-$tenantManager = $di->get('OpenSkos2\TenantManager');
+$tenantManager = $di->get('OpenSkos2\InstitutionManager');
 $code = $set->getCode();
 $uri = $set->getUri();
 $name = $set->getTitle()->getValue();

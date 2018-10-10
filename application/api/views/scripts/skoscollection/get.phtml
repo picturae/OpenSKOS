@@ -24,7 +24,7 @@ use OpenSkos2\Namespaces\OpenSkos;
 $di = Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
 $skosCollection = $this->resource;
 $skosCollectionManager = $di->get('OpenSkos2\SkosCollectionManager');
-$tenantManager = $di->get('OpenSkos2\TenantManager');
+$tenantManager = $di->get('OpenSkos2\InstitutionManager');
 $setManager = $di->get('OpenSkos2\SetManager');
 $uri = $skosCollection->getUri();
 $name = $skosCollection->getTitle();

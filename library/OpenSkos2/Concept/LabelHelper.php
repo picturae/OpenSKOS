@@ -26,8 +26,8 @@ use OpenSkos2\SkosXl\LabelManager;
 use OpenSkos2\SkosXl\Label;
 use OpenSkos2\SkosXl\LabelCollection;
 use OpenSkos2\Exception\OpenSkosException;
-use OpenSkos2\Exception\TenantNotFoundException;
-use OpenSkos2\Tenant;
+use OpenSkos2\Exception\InstitutionNotFoundException;
+use OpenSkos2\Institution;
 
 class LabelHelper
 {
@@ -54,12 +54,16 @@ class LabelHelper
     public function assertLabels(Concept &$concept, $forceCreationOfXl = false)
     {
         
-        /* @var $tenant \OpenSkos2\Tenant */
+        /* @var $tenant \OpenSkos2\Institution */
         $tenantCode = $concept->getTenant();
-        $tenant = $this->labelManager->fetchByUuid($tenantCode->getValue(), \OpenSkos2\Tenant::TYPE, 'openskos:code');
+        $tenant = $this->labelManager->fetchByUuid(
+            $tenantCode->getValue(),
+            \OpenSkos2\Institution::TYPE,
+            'openskos:code'
+        );
             
         if (empty($tenant)) {
-            throw new TenantNotFoundException(
+            throw new InstitutionNotFoundException(
                 'Could not determine tenant for concept.',
                 400
             );
@@ -114,7 +118,7 @@ class LabelHelper
                         $tenantCode = $concept->getTenant()->getValue();
                         $tenant = $this->labelManager->fetchByUuid(
                             $tenantCode,
-                            \OpenSkos2\Tenant::TYPE,
+                            \OpenSkos2\Institution::TYPE,
                             'openskos:code'
                         );
                         $label->ensureMetadata($tenant);
@@ -193,7 +197,7 @@ class LabelHelper
                 $tenantCode = $concept->getTenant();
                 $tenant = $this->labelManager->fetchByUuid(
                     $tenantCode->getValue(),
-                    \OpenSkos2\Tenant::TYPE,
+                    \OpenSkos2\Institution::TYPE,
                     'openskos:code'
                 );
                 $label->ensureMetadata($tenant);
@@ -217,14 +221,16 @@ class LabelHelper
      * Creates a new label using the parameters and inserts it into the DB
      * @param string $literalForm
      * @param string $language
-     * @param Tenant $tenant
+     * @param Institution $tenant
      * @return Label
      * @throws OpenSkosException
      */
-    public function createNewLabel($literalForm, $language, Tenant $tenant)
+    public function createNewLabel($literalForm, $language, Institution $tenant)
     {
         if (empty($literalForm) || empty($language) || empty($tenant)) {
-            throw new OpenSkosException('LiteralForm Language and Tenant must be specified when creating a new label.');
+            throw new OpenSkosException(
+                'LiteralForm Language and Institution must be specified when creating a new label.'
+            );
         }
 
         $rdfLiteral = new Literal($literalForm);

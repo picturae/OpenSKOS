@@ -28,7 +28,7 @@ class Editor_ConceptSchemeController extends OpenSKOS_Controller_Editor
     public function init()
     {
         parent::init();
-        $this->_checkTenantFolders();
+        $this->_checkInstitutionFolders();
     }
     
     /**
@@ -50,7 +50,7 @@ class Editor_ConceptSchemeController extends OpenSKOS_Controller_Editor
         $this->view->conceptSchemesWithDeleteJobs = $this->_getConceptSchemesWithDeleteJob();
         
         // Collections
-        $cache->setTenantCode($this->_tenant->getName());
+        $cache->setInstitutionCode($this->_tenant->getName());
         $this->view->collectionsMap = $cache->fetchUrisMap();
     }
     
@@ -106,20 +106,20 @@ class Editor_ConceptSchemeController extends OpenSKOS_Controller_Editor
             $conceptScheme = new ConceptScheme();
 
             $user =  OpenSKOS_Db_Table_Users::fromIdentity();
-            $tenantManager = $this->getDI()->get('OpenSkos2\TenantManager');
+            $institutionManager = $this->getDI()->get('OpenSkos2\InstitutionManager');
             $setManager = $this->getDI()->get('OpenSkos2\SetManager');
             $collection = $setManager->fetchByUri($formData['collection']);
             $personManager = $this->getDI()->get('OpenSkos2\PersonManager');
 
 
-            $tenantUuid = $tenantManager->getTenantUuidFromCode($user->tenant);
-            $tenant = $tenantManager->fetchByUuid($tenantUuid);
+            $institutionUuid = $institutionManager->getInstitutionUuidFromCode($user->tenant);
+            $institution = $institutionManager->fetchByUuid($institutionUuid);
 
             Editor_Forms_ConceptScheme_FormToConceptScheme::toConceptScheme(
                 $conceptScheme,
                 $form->getValues(),
                 $user,
-                $tenant,
+                $institution,
                 $collection,
                 $personManager
             );
@@ -324,7 +324,7 @@ class Editor_ConceptSchemeController extends OpenSKOS_Controller_Editor
      * Check if the tenant folders are created and create them.
      *
      */
-    protected function _checkTenantFolders()
+    protected function _checkInstitutionFolders()
     {
         $editorOptions = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('editor');
 

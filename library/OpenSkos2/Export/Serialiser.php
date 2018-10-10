@@ -21,7 +21,7 @@ use OpenSkos2\Rdf\ResourceCollection;
 use OpenSkos2\Export\Serialiser\FormatAbstract;
 use OpenSkos2\Exception\OpenSkosException;
 use OpenSkos2\Search\Autocomplete;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Concept;
 use OpenSkos2\ConceptManager;
 
@@ -35,7 +35,7 @@ class Serialiser
     
     /**
      * The tenant in which context is the export.
-     * @var Tenant
+     * @var Institution
      */
     protected $tenant;
     
@@ -122,11 +122,11 @@ class Serialiser
     }
     
     /**
-     * @param Tenant $tenant
+     * @param Institution $tenant
      * @param ConceptManager $conceptManager
      * @param FormatAbstract $format
      */
-    public function __construct(Tenant $tenant, ConceptManager $conceptManager, FormatAbstract $format)
+    public function __construct(Institution $tenant, ConceptManager $conceptManager, FormatAbstract $format)
     {
         $this->tenant = $tenant;
         $this->conceptManager = $conceptManager;

@@ -19,7 +19,7 @@
 
 namespace OpenSkos2\Exception;
 
-class TenantNotFoundException extends OpenSkosException
+class InstitutionNotFoundException extends OpenSkosException
 {
 
 }

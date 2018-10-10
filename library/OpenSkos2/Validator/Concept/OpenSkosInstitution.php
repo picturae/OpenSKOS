@@ -5,7 +5,7 @@ namespace OpenSkos2\Validator\Concept;
 use OpenSkos2\Concept;
 use OpenSkos2\Validator\AbstractConceptValidator;
 
-class OpenSkosTenant extends AbstractConceptValidator
+class OpenSkosInstitution extends AbstractConceptValidator
 {
 
     protected function validateConcept(Concept $resource)

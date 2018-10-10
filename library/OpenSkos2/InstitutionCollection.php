@@ -20,14 +20,14 @@
 namespace OpenSkos2;
 
 use OpenSkos2\Rdf\ResourceCollection;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 
-class TenantCollection extends ResourceCollection
+class InstitutionCollection extends ResourceCollection
 {
 
     /**
      * What is the basic resource for this collection.
      * @var string NULL means any resource.
      */
-    protected $resourceType = Tenant::TYPE;
+    protected $resourceType = Institution::TYPE;
 }

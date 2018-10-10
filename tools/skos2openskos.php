@@ -65,7 +65,7 @@ if (count($publisher)<1) {
   echo str_replace('Something went very wrong: the set '. $OPTS->setUri. 'does not have a publisher.');
   exit(1); 
 }
-$tenant = $resourceManager->fetchByUri($publisher[0]->getUri(), \OpenSkos2\Tenant::TYPE);
+$tenant = $resourceManager->fetchByUri($publisher[0]->getUri(), \OpenSkos2\Institution::TYPE);
 
 
 $logger = new \Monolog\Logger("Logger");

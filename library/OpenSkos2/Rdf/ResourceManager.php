@@ -1148,16 +1148,16 @@ SELECT_URI;
             . ' UNION { ?uri <' . RdfNamespace::TYPE . '> ?type . '
             . ' ?uri <' . OpenSkosNamespace::CODE . '> ?code . '
             . ' ?uri <' . VCard::ORG . '> ?node . ?node <' . VCard::ORGNAME . '> ?title '
-            . ' FILTER ( ?type = <' . \OpenSkos2\Tenant::TYPE . '>)} } ';
+            . ' FILTER ( ?type = <' . \OpenSkos2\Institution::TYPE . '>)} } ';
         $response = $this->query($query);
         $retVal = [];
         $retVal[\OpenSkos2\SkosCollection::TYPE] = [];
         $retVal[\OpenSkos2\ConceptScheme::TYPE] = [];
         $retVal[\OpenSkos2\Set::TYPE] = [];
-        $retVal[\OpenSkos2\Tenant::TYPE] = [];
+        $retVal[\OpenSkos2\Institution::TYPE] = [];
         foreach ($response as $descr) {
             $spec = [];
-            if ($descr->type->getUri() === \OpenSkos2\Tenant::TYPE) {
+            if ($descr->type->getUri() === \OpenSkos2\Institution::TYPE) {
                 $spec['code'] = $descr->code->getValue();
             } else {
                 $spec['uri'] = $descr->uri->getUri();

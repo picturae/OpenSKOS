@@ -63,7 +63,7 @@ return [
         $user = OpenSKOS_Db_Table_Users::fromIdentity();
         $tenant = $user->tenant;
         if (!empty($tenant)) {
-            $conceptsSchemesCache->setTenantCode($tenant);
+            $conceptsSchemesCache->setInstitutionCode($tenant);
         }
 
         return $conceptsSchemesCache;
@@ -77,7 +77,7 @@ return [
         $user = OpenSKOS_Db_Table_Users::fromIdentity();
         $tenant = $user->tenant;
         if (!empty($tenant)) {
-            $collectionsCache->setTenantCode($tenant);
+            $collectionsCache->setInstitutionCode($tenant);
         }
 
         return $collectionsCache;

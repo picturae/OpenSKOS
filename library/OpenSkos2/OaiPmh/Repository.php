@@ -201,7 +201,7 @@ class Repository implements InterfaceRepository
         $items = [];
         $tenantAdded = [];
         foreach ($rdfSets as $rdfSet) {
-            // Tenant spec
+            // Institution spec
             $tenantCodeLiteral = $rdfSet->getTenant();
             $tenantCode = $tenantCodeLiteral->getValue();
             $tenantName = $this->rdfSetManager->fetchTenantNameByCode($tenantCode);

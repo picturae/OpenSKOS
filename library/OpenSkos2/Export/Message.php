@@ -17,7 +17,7 @@
  */
 namespace OpenSkos2\Export;
 
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 
 class Message
 {
@@ -82,20 +82,20 @@ class Message
     }
     
     /**
-     * @return Tenant
+     * @return Institution
      */
     public function getTenant()
     {
         return $this->tenant;
     }
     /**
-     * @param Tenant $tenant
+     * @param Institution $tenant
      */
-    public function setTenant(Tenant $tenant)
+    public function setTenant(Institution $tenant)
     {
         $this->tenant = $tenant;
     }
-    public function __construct(Tenant $tenant, $format, $propertiesToExport, $maxDepth, $outputFilePath = null)
+    public function __construct(Institution $tenant, $format, $propertiesToExport, $maxDepth, $outputFilePath = null)
     {
         $this->tenant = $tenant;
         $this->format = $format;

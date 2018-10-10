@@ -677,8 +677,8 @@ msgstr ""
 
 #: ../library/OpenSKOS/Db/Table/Row/User.php:45
 #: ../application/editor/views/scripts/users/view.phtml:27
-msgid "Tenant"
-msgstr "Tenant"
+msgid "Institution"
+msgstr "Institution"
 
 #: ../library/OpenSKOS/Db/Table/Row/User.php:49
 msgid "Password (check)"
@@ -1159,8 +1159,8 @@ msgid "Switch to edit mode"
 msgstr "Naar bewerk modus"
 
 #: ../application/editor/views/scripts/concept/view/header.phtml:52
-msgid "Tenant:"
-msgstr "Tenant:"
+msgid "Institution:"
+msgstr "Institution:"
 
 #: ../application/editor/views/scripts/concept/view/left.phtml:41
 msgid "Preferred label"

@@ -76,7 +76,7 @@ class Set extends Resource
 
   /**
      * Ensures the concept has metadata for tenant, set, creator, date submited, modified and other like this.
-     * @param \OpenSkos2\Tenant $tenant
+     * @param \OpenSkos2\Institution $tenant
      * @param \OpenSkos2\Set $set
      * @param \OpenSkos2\Person $person
      * @param \OpenSkos2\PersonManager $personManager
@@ -86,7 +86,7 @@ class Set extends Resource
      * override for a concerete resources when necessary
      */
     public function ensureMetadata(
-        \OpenSkos2\Tenant $tenant,
+        \OpenSkos2\Institution $tenant,
         \OpenSkos2\Set $set = null,
         \OpenSkos2\Person $person = null,
         \OpenSkos2\PersonManager $personManager = null,
@@ -119,7 +119,7 @@ class Set extends Resource
 
     // TODO: discuss the rules for generating Uri's for non-concepts
     protected function assembleUri(
-        \OpenSkos2\Tenant $tenant = null,
+        \OpenSkos2\Institution $tenant = null,
         \OpenSkos2\Set $collection = null,
         $uuid = null,
         $notation = null,

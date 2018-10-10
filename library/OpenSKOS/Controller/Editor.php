@@ -30,7 +30,7 @@ class OpenSKOS_Controller_Editor extends Zend_Controller_Action {
     const RESPONSE_TYPE_HTML = 'html';
 
     /**
-     * @var $_tenant OpenSkos2\Tenant
+     * @var $_tenant OpenSkos2\Institution
      */
     protected $_tenant;
     
@@ -274,7 +274,7 @@ class OpenSKOS_Controller_Editor extends Zend_Controller_Action {
     }
     
     /**
-     * @return OpenSkos2\Tenant
+     * @return OpenSkos2\Institution
      */
     protected function getOpenSkos2Tenant()
     {
@@ -286,7 +286,7 @@ class OpenSKOS_Controller_Editor extends Zend_Controller_Action {
 
 
     /**
-     * Read the Tenant record from RDF Store to the class's internal record.
+     * Read the Institution record from RDF Store to the class's internal record.
      * @throws Zend_Controller_Action_Exception
      */
     protected function readTenant()
@@ -294,13 +294,13 @@ class OpenSKOS_Controller_Editor extends Zend_Controller_Action {
 
         $tenantCode = $this->getCurrentUser()->tenant;
 
-        $tenantManager = $this->getDI()->get('\OpenSkos2\TenantManager');
+        $tenantManager = $this->getDI()->get('\OpenSkos2\InstitutionManager');
 
-        $tenantUuid = $tenantManager->getTenantUuidFromCode($tenantCode);
+        $tenantUuid = $tenantManager->getInstitutionUuidFromCode($tenantCode);
         $openSkos2Tenant = $tenantManager->fetchByUuid($tenantUuid);
 
         if (!$openSkos2Tenant) {
-            throw new Zend_Controller_Action_Exception('Tenant record not readable', 500);
+            throw new Zend_Controller_Action_Exception('Institution record not readable', 500);
         }
 
         $editorOptions = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('editor');

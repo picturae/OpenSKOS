@@ -26,7 +26,7 @@ use OpenSkos2\Namespaces\Skos;
 $opts = array(
     'env|e=s' => 'The environment to use (defaults to "production")',
     'endpoint=s' => 'Solr endpoint to fetch data from',
-    'tenant=s' => 'Tenant to migrate',
+    'tenant=s' => 'Institution to migrate',
 );
 
 try {
@@ -55,7 +55,7 @@ $concept->addProperty(Skos::PREFLABEL, $prefLabel);
 $scheme = new \OpenSkos2\Rdf\Uri('http://example.com/1');
 $concept->addProperty(Skos::INSCHEME, $scheme);
 
-$tenant = new \OpenSkos2\Tenant('rce');
+$tenant = new \OpenSkos2\Institution('rce');
 $validator = new \OpenSkos2\Validator\Concept\UniquePreflabelInScheme();
 $validator->setResourceManager($resourceManager);
 $isValid = $validator->validate($concept);

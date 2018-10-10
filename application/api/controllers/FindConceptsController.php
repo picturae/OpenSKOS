@@ -206,7 +206,7 @@ class Api_FindConceptsController extends AbstractController
             $concept = $apiConcept->getResource($id);
             $tenantCode = $concept->getTenant()->getValue();
             $manager = $this->getConceptManager();
-            $tenant = $manager->fetchByUuid($tenantCode, \OpenSkos2\Tenant::TYPE, 'openskos:code');
+            $tenant = $manager->fetchByUuid($tenantCode, \OpenSkos2\Institution::TYPE, 'openskos:code');
             $useXlLabels = $apiConcept->useXlLabels(
                 $tenant, $request
             );

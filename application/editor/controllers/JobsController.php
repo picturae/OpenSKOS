@@ -28,7 +28,7 @@ class Editor_JobsController extends OpenSKOS_Controller_Editor
         $this->_requireAccess('editor.jobs', 'index');
 
         $di = $this->getDI();
-        $tenantManager = $di->get('OpenSkos2\TenantManager');
+        $tenantManager = $di->get('OpenSkos2\InstitutionManager');
         $tenantUri = $this->_tenant->getUri();
         $setsForTenant = $tenantManager->fetchSetUrisForTenant($this->_tenant->getCode());
 

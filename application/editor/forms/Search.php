@@ -201,7 +201,7 @@ class Editor_Forms_Search extends OpenSKOS_Form
     {
         $profilesModel = new OpenSKOS_Db_Table_SearchProfiles();
 
-        $tenantCode = $this->_getCurrentTenant()->getCode()->getValue();
+        $tenantCode = $this->_getCurrentInstitution()->getCode()->getValue();
 
         $profiles = $profilesModel->fetchAll($profilesModel->select()->where('tenant=?', $tenantCode ));
 
@@ -258,7 +258,7 @@ class Editor_Forms_Search extends OpenSKOS_Form
         if (! $this->_currentTenant) {
             $this->_currentTenant = OpenSKOS_Db_Table_Tenants::fromIdentity();
             if (null === $this->_currentTenant) {
-                throw new Zend_Exception('Tenant not found. Needed for request to the api.');
+                throw new Zend_Exception('Institution not found. Needed for request to the api.');
             }
         }
 
@@ -267,11 +267,11 @@ class Editor_Forms_Search extends OpenSKOS_Form
 
 
     /*
-     * Read the Tenant record from RDF Store to the class's internal record.
+     * Read the Institution record from RDF Store to the class's internal record.
      * @throws Zend_Controller_Action_Exception
      * @return Resource
      */
-    private function _getCurrentTenant()
+    private function _getCurrentInstitution()
     {
 
         if (!$this->_currentTenant){
@@ -279,18 +279,18 @@ class Editor_Forms_Search extends OpenSKOS_Form
             if (null === $user) {
                 throw new Zend_Controller_Action_Exception('User not found', 404);
             }
-            $tenantCode = $user->tenant;
+            $institutionCode = $user->tenant;
 
-            $tenantManager = $this->getDI()->get('\OpenSkos2\TenantManager');
+            $institutionManager = $this->getDI()->get('\OpenSkos2\InstitutionManager');
 
-            $tenantUuid = $tenantManager->getTenantUuidFromCode($tenantCode);
-            $openSkos2Tenant = $tenantManager->fetchByUuid($tenantUuid);
+            $institutionUuid = $institutionManager->getInstitutionUuidFromCode($institutionCode);
+            $openSkos2Institution = $institutionManager->fetchByUuid($institutionUuid);
 
-            if (!$openSkos2Tenant) {
-                throw new Zend_Controller_Action_Exception('Tenant record not readable', 404);
+            if (!$openSkos2Institution) {
+                throw new Zend_Controller_Action_Exception('Institution record not readable', 404);
             }
 
-            $this->_currentTenant = $openSkos2Tenant;
+            $this->_currentTenant = $openSkos2Institution;
         }
         return $this->_currentTenant;
 
@@ -348,7 +348,7 @@ class Editor_Forms_Search extends OpenSKOS_Form
         $options = array_merge($formOptions, $profileOptions);
         
         // Remove any status options if status system is disabled.
-        $tenant = \OpenSkos2\TenantManager::getLoggedInTenant();
+        $tenant = \OpenSkos2\InstitutionManager::getLoggedInTenant();
 
         if (!$tenant->isEnableStatusesSystems()){
             $options['status'] = [];

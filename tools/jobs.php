@@ -22,9 +22,9 @@ require_once 'Zend/Console/Getopt.php';
 $opts = array(
     'help|?' => 'Print this usage message',
     'env|e=s' => 'The environment to use (defaults to "production")',
-    'code|c=s' => 'Tenant code (optional, default is all Tenants)',
+    'code|c=s' => 'Institution code (optional, default is all Tenants)',
     'job|j=i' => 'Job ID (optional, default is all Jobs)',
-    'tenant|x=s' => 'Tenant code',
+    'tenant|x=s' => 'Institution code',
     'task|t=s' => 'Only jobs for the specified task. Options: "import", "export", "harvest", "delete_concept_scheme",'
     . '"all", "noExport". (optional, default is "noExport")'
 );
@@ -77,7 +77,7 @@ Zend_Db_Table::setDefaultAdapter(
 $diContainer = Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
 
 $setManager = $diContainer->get('OpenSkos2\SetManager');
-$tenantManager = $diContainer->get('OpenSkos2\TenantManager');
+$tenantManager = $diContainer->get('OpenSkos2\InstitutionManager');
 
 /**
  * @var $resourceManager \OpenSkos2\Rdf\ResourceManager

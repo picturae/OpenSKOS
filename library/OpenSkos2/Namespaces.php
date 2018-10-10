@@ -110,7 +110,7 @@ class Namespaces
                     return "\OpenSkos2\Set";
                 case Person::TYPE:
                     return "\OpenSkos2\Person";
-                case Tenant::TYPE:
+                case Institution::TYPE:
                     return "\OpenSkos2\Tenant";
                 case SkosCollection::TYPE:
                     return "\OpenSkos2\SkosCollection";

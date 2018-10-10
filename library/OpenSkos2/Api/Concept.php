@@ -29,7 +29,7 @@ use OpenSkos2\Api\Response\Detail\JsonResponse as DetailJsonResponse;
 use OpenSkos2\Api\Response\Detail\JsonpResponse as DetailJsonpResponse;
 use OpenSkos2\Api\Response\Detail\RdfResponse as DetailRdfResponse;
 use OpenSkos2\ConceptManager;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Set;
 use OpenSkos2\PersonManager;
 use OpenSkos2\Namespaces\Skos;
@@ -137,7 +137,7 @@ class Concept extends AbstractTripleStoreResource
         // it used to be a non-obligatory multiple parameter, now is obligatory and the only one
         $tenant = null;
         if (isset($params['tenant'])) {
-            $tenant = $this->manager->fetchByUuid($params['tenant'], \OpenSkos2\Tenant::TYPE, 'openskos:code');
+            $tenant = $this->manager->fetchByUuid($params['tenant'], \OpenSkos2\Institution::TYPE, 'openskos:code');
             $tenantCode = $tenant->getCode();
             $options['tenants'][] = $tenantCode->getValue();
         }
@@ -274,7 +274,7 @@ class Concept extends AbstractTripleStoreResource
         }
 
         $tenantCode = $concept->getTenant()->getValue();
-        $tenant = $this->manager->fetchByUuid($tenantCode, Tenant::TYPE, 'openskos:code');
+        $tenant = $this->manager->fetchByUuid($tenantCode, Institution::TYPE, 'openskos:code');
 
         $excludePropertiesList = $this->getExcludeProperties($tenant, $request);
 
@@ -309,7 +309,7 @@ class Concept extends AbstractTripleStoreResource
 
     /**
      * Get a list of label exclude properties based on tenant configuration and request XL param
-     * @param Tenant $tenant
+     * @param Institution $tenant
      * @param \Zend\Diactoros\ServerRequest $request
      */
     public function getExcludeProperties($tenant, $request)
@@ -348,7 +348,7 @@ class Concept extends AbstractTripleStoreResource
      * @return boolean Returns TRUE only if XL labels are enabled and requested
      * @throws Zend_Controller_Exception when XL labels are requested but are not configured for tenant
      * @param \Zend\Diactoros\ServerRequest $request
-     * @param Tenant $tenant
+     * @param Institution $tenant
      */
     public function useXlLabels($tenant, $request)
     {
@@ -382,10 +382,10 @@ class Concept extends AbstractTripleStoreResource
     /**
      * Check if there are both xl labels and simple labels.
      * @param \OpenSkos2\Concept $concept
-     * @param \OpenSkos2\Tenant $tenant
+     * @param \OpenSkos2\Institution $tenant
      * @throws InvalidArgumentException
      */
-    protected function checkConceptXl(\OpenSkos2\Concept $concept, \OpenSkos2\Tenant $tenant)
+    protected function checkConceptXl(\OpenSkos2\Concept $concept, \OpenSkos2\Institution $tenant)
     {
         if ($tenant->isEnableSkosXl()) {
             if ($concept->hasSimpleLabels()) {

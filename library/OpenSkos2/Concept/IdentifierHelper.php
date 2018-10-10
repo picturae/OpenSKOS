@@ -23,7 +23,7 @@ use OpenSkos2\Exception\OpenSkosException;
 use OpenSkos2\Namespaces\OpenSkos;
 use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Concept;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\ConceptManager;
 use OpenSkos2\Rdf\Literal;
 use Rhumsaa\Uuid\Uuid;
@@ -31,7 +31,7 @@ use Rhumsaa\Uuid\Uuid;
 class IdentifierHelper
 {
     /**
-     * @var Tenant
+     * @var Institution
      */
     protected $tenant;
     
@@ -41,10 +41,10 @@ class IdentifierHelper
     protected $conceptManager;
     
     /**
-     * @param Tenant $tenant
+     * @param Institution $tenant
      * @param ConceptManager $conceptManager
      */
-    public function __construct(Tenant $tenant, ConceptManager $conceptManager)
+    public function __construct(Institution $tenant, ConceptManager $conceptManager)
     {
         $this->tenant = $tenant;
         $this->conceptManager = $conceptManager;

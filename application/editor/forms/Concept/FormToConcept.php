@@ -203,12 +203,12 @@ class Editor_Forms_Concept_FormToConcept
             $collection = $setManager->fetchByUri($collectionUri[0]->getUri());
         }
 
-        $tenantManager = self::getDI()->get('OpenSkos2\TenantManager');
-        $tenantUuid = $tenantManager->getTenantUuidFromCode($user->tenant);
-        $tenant = $tenantManager->fetchByUuid($tenantUuid);
+        $institutionManager = self::getDI()->get('OpenSkos2\InstitutionManager');
+        $institutionUuid = $institutionManager->getInstitutionUuidFromCode($user->tenant);
+        $institution = $institutionManager->fetchByUuid($institutionUuid);
 
         $concept->ensureMetadata(
-            $tenant,
+            $institution,
             $collection,
             $user->getFoafPerson(),
             $personManager,

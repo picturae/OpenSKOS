@@ -30,7 +30,7 @@ use OpenSkos2\Rdf\Literal;
 use OpenSkos2\Rdf\Uri;
 use OpenSkos2\Rdf\Resource;
 use OpenSkos2\Set;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\ConceptScheme;
 use OpenSkos2\SkosCollection;
 use Rhumsaa\Uuid\Uuid;
@@ -152,7 +152,7 @@ function insert_set($tenant_code,
     set_property_with_check($setResource, OpenSkos::UUID, $uuid);
 
     $publisher = $resourceManager->fetchByUuid($tenant_code, 
-        \OpenSkos2\Tenant::TYPE, 
+        \OpenSkos2\Institution::TYPE,
         'openskos:code');
     if ($publisher == null) {
         fwrite(STDERR, "The tenant with the code "
@@ -235,7 +235,7 @@ function insert_conceptscheme_or_skoscollection($setUri, $resourceManager,
     $tenant_code = $set->getTenant();
     $tenantUri = $resourceManager->fetchSubjectForObject(OpenSkos::CODE, 
         $tenant_code, 
-        \OpenSkos2\Tenant::TYPE);
+        \OpenSkos2\Institution::TYPE);
     if (count($tenantUri) > 1) {
         fwrite(STDERR, "The tenant with the code $tenant_code has not been "
             . "found in the triple store.\n");
@@ -273,9 +273,9 @@ function createTenantRdf(
 
     $resources = $resourceManager->fetchSubjectForObject(OpenSkos::CODE,
         new Literal($code),
-        Tenant::TYPE);
+        Institution::TYPE);
 
-    $tenantResource = new Tenant();
+    $tenantResource = new Institution();
     setID($tenantResource, $uri, $uuid, $resourceManager);
 
 
@@ -316,7 +316,7 @@ function setID(&$resource, $uri, $uuid, $resourceManager)
         if ($uuid !== null && $uuid !== "") {
             $insts = $resourceManager->fetchSubjectForObject(OpenSkos::UUID, 
                 new Literal($uuid), 
-                Tenant::TYPE);
+                Institution::TYPE);
             if (count($insts) > 0) {
                 fwrite(STDERR, "A institution with the uuid " . $uuid . 
                     " has been already registered in the triple store. \n");
@@ -502,7 +502,7 @@ class Collections
 
             $tenant = $resourceManager->fetchByUuid(
                 $row->tenant,
-                \OpenSkos2\Tenant::TYPE,
+                \OpenSkos2\Institution::TYPE,
                 'openskos:code'
             );
             $set->setProperty(\OpenSkos2\Namespaces\DcTerms::PUBLISHER,

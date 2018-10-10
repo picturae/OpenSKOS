@@ -65,7 +65,7 @@ class Editor_LabelController extends OpenSKOS_Controller_Editor
         $tenant = $this->getOpenSkos2Tenant();
 
         if ($tenant === null) {
-            throw new OpenSkos2\Exception\TenantNotFoundException('Could not get tenant.');
+            throw new OpenSkos2\Exception\InstitutionNotFoundException('Could not get tenant.');
         }
 
         $form = Editor_Forms_Label::getInstance();

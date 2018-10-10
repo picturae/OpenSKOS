@@ -26,16 +26,16 @@ use OpenSkos2\Namespaces\Rdf;
 use OpenSkos2\Rdf\ResourceManager;
 use OpenSkos2\Namespaces\OpenSkos as OpenSkosNamespace;
 use OpenSkos2\Namespaces\Org as Org;
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 use OpenSkos2\Set;
 
-class TenantManager extends ResourceManager
+class InstitutionManager extends ResourceManager
 {
 
-    protected $resourceType = Tenant::TYPE;
+    protected $resourceType = Institution::TYPE;
 
     /*
-     * @param string $code Tenant Code
+     * @param string $code Institution Code
      * @return array list of uuids of sets(collections) on the tenant
      */
     public function fetchSetUrisForTenant($code)
@@ -142,7 +142,7 @@ SELECT_SETS;
         return $result;
     }
 
-    public function getTenantUuidFromCode($code)
+    public function getInstitutionUuidFromCode($code)
     {
         $query = <<<SELECT_URI
 SELECT ?uuid WHERE { 
@@ -209,18 +209,18 @@ SELECT_URI;
      */
     public static function getLoggedInTenant()
     {
-        $tenant = null;
+        $institution = null;
 
         $diContainer =  \Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
-        $tenantManager = $diContainer->get('OpenSkos2\TenantManager');
+        $institutionManager = $diContainer->get('OpenSkos2\InstitutionManager');
 
 
         $user = \OpenSKOS_Db_Table_Users::requireFromIdentity();
         if ($user) {
-            $tenantUuid = $tenantManager->getTenantUuidFromCode($user->tenant);
-            $tenant = $tenantManager->fetchByUuid($tenantUuid);
+            $institutionUuid = $institutionManager->getInstitutionUuidFromCode($user->tenant);
+            $institution = $institutionManager->fetchByUuid($institutionUuid);
         }
-        return $tenant;
+        return $institution;
     }
 
     public function getAllTenants()

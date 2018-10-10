@@ -19,26 +19,26 @@
 
 namespace OpenSkos2\Validator;
 
-use OpenSkos2\Tenant as Tenant;
+use OpenSkos2\Institution as Tenant;
 use OpenSkos2\Rdf\Resource as RdfResource;
 
-abstract class AbstractTenantValidator extends AbstractResourceValidator
+abstract class AbstractInstitutionValidator extends AbstractResourceValidator
 {
 
     public function __construct($referencecheckOn = true)
     {
-        $this->resourceType = Tenant::TYPE;
+        $this->resourceType = Institution::TYPE;
         $this->referenceCheckOn = $referencecheckOn;
     }
 
     public function validate(RdfResource $resource)
     {
 
-        if ($resource instanceof Tenant) {
+        if ($resource instanceof Institution) {
             return $this->validateTenant($resource);
         }
         return false;
     }
 
-    abstract protected function validateTenant(Tenant $tenant);
+    abstract protected function validateTenant(Institution $tenant);
 }

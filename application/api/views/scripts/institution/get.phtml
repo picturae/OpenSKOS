@@ -23,8 +23,8 @@
 $di = Zend_Controller_Front::getInstance()->getDispatcher()->getContainer();
 $tenant = $this->resource;
 
-/* @var $tenantManager \OpenSkos2\TenantManager */
-$tenantManager = $di->get('OpenSkos2\TenantManager');
+/* @var $tenantManager \OpenSkos2\InstitutionManager */
+$tenantManager = $di->get('OpenSkos2\InstitutionManager');
 $code = $tenant->getCode();
 $name = $tenantManager->fetchTenantNameByCode($code);
 $this->headTitle($name);

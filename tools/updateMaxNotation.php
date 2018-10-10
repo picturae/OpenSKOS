@@ -73,7 +73,7 @@ $solrResourceManager = $diContainer->make('\OpenSkos2\Solr\ResourceManager');
 $resourceManager = $diContainer->make('\OpenSkos2\Rdf\ResourceManager');
 $model = new OpenSKOS_Db_Table_MaxNumericNotation();
 
-$tenantManager = $diContainer->get('OpenSkos2\TenantManager');
+$tenantManager = $diContainer->get('OpenSkos2\InstitutionManager');
 $allTenants = $tenantManager->getAllTenants();
 
 

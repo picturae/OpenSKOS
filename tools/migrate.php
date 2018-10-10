@@ -38,7 +38,7 @@ $opts = [
     'db-database=s' => 'Origin database name',
     'db-username=s' => 'Origin database username',
     'db-password=s' => 'Origin database password',
-    'tenant=s' => 'Tenant (code)',
+    'tenant=s' => 'Institution (code)',
     'start|s=s' => 'Start from that record',
     'dryrun' => 'Only validate the data, do not migrate it.',
     'debug' => 'Show debug info.',
@@ -72,7 +72,7 @@ $diContainer = Zend_Controller_Front::getInstance()->getDispatcher()->getContain
  * @var $resourceManager \OpenSkos2\Rdf\ResourceManager
  */
 $resourceManager = $diContainer->make('\OpenSkos2\Rdf\ResourceManager');
-$tenantManager = $diContainer->make('\OpenSkos2\TenantManager');
+$tenantManager = $diContainer->make('\OpenSkos2\InstitutionManager');
 $labelManager = $diContainer->make('\OpenSkos2\SkosXl\LabelManager'); // Discuss
 
 /**
@@ -121,7 +121,7 @@ if ($OPTS->purge) {
 
 $conceptManager->setIsNoCommitMode(true);
 $tenantCode = $OPTS->tenant;
-$tenantResource = $resourceManager -> fetchByUuid($tenantCode, \OpenSkos2\Tenant::TYPE, 'openskos:code');
+$tenantResource = $resourceManager -> fetchByUuid($tenantCode, \OpenSkos2\Institution::TYPE, 'openskos:code');
 $defaultSet = $OPTS->defaultSet;
 
 $isDryRun = $OPTS->getOption('dryrun');

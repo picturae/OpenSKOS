@@ -19,14 +19,14 @@
 
 namespace OpenSkos2\Api\Response;
 
-use OpenSkos2\Tenant;
+use OpenSkos2\Institution;
 
 class BackwardCompatibility
 {
     public function backwardCompatibilityMap($newStyleBody, $rdfType)
     {
         switch ($rdfType) {
-            case Tenant::TYPE:
+            case Institution::TYPE:
                 return $this->backwardCompatibilityMapTenant($newStyleBody);
             default:
                 return $newStyleBody;

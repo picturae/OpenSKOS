@@ -38,7 +38,7 @@ class Editor_Forms_ConceptScheme_FormToConceptScheme
         ConceptScheme &$conceptScheme,
         $formData,
         OpenSKOS_Db_Table_Row_User $user,
-        \OpenSkos2\Tenant $tenant,
+        \OpenSkos2\Institution $tenant,
         \OpenSkos2\Set $collection,
         \OpenSkos2\PersonManager $pManager
 
@@ -83,7 +83,7 @@ class Editor_Forms_ConceptScheme_FormToConceptScheme
         ConceptScheme &$conceptScheme,
         $formData,
         OpenSKOS_Db_Table_Row_User $user,
-        \OpenSkos2\Tenant $tenant,
+        \OpenSkos2\Institution $tenant,
         \OpenSkos2\Set $set,
         \OpenSkos2\PersonManager $pManager
     ) {

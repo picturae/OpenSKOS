@@ -77,7 +77,7 @@ class Editor_ConceptController extends OpenSKOS_Controller_Editor
             $this->_requireAccess('editor.concepts', 'edit', self::RESPONSE_TYPE_PARTIAL_HTML);
         }
 
-        $this->checkConceptTenantForEdit($concept);
+        $this->checkConceptInstitutionForEdit($concept);
 
         if ($this->getRequest()->isPost()) {
 // If we are here after post - there are errors in the form.
@@ -123,7 +123,7 @@ class Editor_ConceptController extends OpenSKOS_Controller_Editor
             $this->_requireAccess('editor.concepts', 'edit', self::RESPONSE_TYPE_PARTIAL_HTML);
         }
 
-        $this->checkConceptTenantForEdit($concept);
+        $this->checkConceptInstitutionForEdit($concept);
 
         $params = $this->getRequest()->getParams();
         if (!$form->isValid($params)) {
@@ -456,7 +456,7 @@ class Editor_ConceptController extends OpenSKOS_Controller_Editor
      * 
      * @param $concept OpenSkos2\Concept
      */
-    protected function checkConceptTenantForEdit($concept)
+    protected function checkConceptInstitutionForEdit($concept)
     {
         if (null !== $concept) {
             if ($concept->getTenant() != $this->getCurrentUser()->tenant) {

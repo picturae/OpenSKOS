@@ -38,7 +38,7 @@ class OpenSKOS_Db_Table_Row_User extends Zend_Db_Table_Row
             $form = new Zend_Form();
             $form
                     ->addElement('hidden', 'id', array('required' => $this->id ? true : false))
-                    ->addElement('text', 'tenant', array('label' => _('Tenant'), 'readonly' => true, 'disabled' => true))
+                    ->addElement('text', 'tenant', array('label' => _('Institution'), 'readonly' => true, 'disabled' => true))
                     ->addElement('text', 'name', array('label' => _('Name'), 'required' => true))
                     ->addElement('text', 'email', array('label' => _('E-mail'), 'required' => true))
                     ->addElement('password', 'pw1', array('label' => _('Password'), 'maxlength' => 100, 'size' => 15, 'validators' => array(array('StringLength', false, array(4, 30)), array('identical', false, array('token' => 'pw2')))))

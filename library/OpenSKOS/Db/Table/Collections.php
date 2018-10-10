@@ -35,7 +35,7 @@ class OpenSKOS_Db_Table_Collections extends Zend_Db_Table
      */
     protected $_rowsetClass = 'OpenSKOS_Db_Table_Rowset_Collection';
     protected $_referenceMap = array(
-        'Tenant' => array(
+        'Institution' => array(
             'columns' => 'tenant',
             'refTableClass' => 'OpenSKOS_Db_Table_Tenants',
             'refColumns' => 'code'

@@ -367,10 +367,10 @@ class ConceptManager extends ResourceManagerWithSearch
 
     /**
      * Gets the current max numeric notation for all concepts. Fast.
-     * @param \OpenSkos2\Tenant $tenant
+     * @param \OpenSkos2\Institution $tenant
      * @return int|null
      */
-    public function fetchMaxNumericNotationFromIndex(Tenant $tenant)
+    public function fetchMaxNumericNotationFromIndex(Institution $tenant)
     {
         //Oh Help! Olha changed this to use $tenant->getUri.
         // I have no idea why, but I'm sure she had a reason. However, now lots of stuff is broken
@@ -387,10 +387,10 @@ class ConceptManager extends ResourceManagerWithSearch
      * Gets the current max numeric notation.
      * This method is extremely slow...
      * @see self::fetchMaxNumericNotationFromIndex
-     * @param \OpenSkos2\Tenant $tenant
+     * @param \OpenSkos2\Institution $tenant
      * @return int|null
      */
-    public function fetchMaxNumericNotation(Tenant $tenant)
+    public function fetchMaxNumericNotation(Institution $tenant)
     {
         // This method is slow - use fetchMaxNumericNotationFromIndex where possible.
         $maxNotationQuery = (new QueryBuilder())

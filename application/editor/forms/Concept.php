@@ -625,7 +625,7 @@ class Editor_Forms_Concept extends OpenSKOS_Form
             
             if ($tenant === null) {
                 //@TODO: exceptions from inside this class do not show. How to make them bubble up to the frontend
-                throw new Exception\TenantNotFoundException('Tenant is not specified or could not be resolved.');
+                throw new Exception\InstitutionNotFoundException('Institution is not specified or could not be resolved.');
             }
 
             $fIsTrue = function ($val){

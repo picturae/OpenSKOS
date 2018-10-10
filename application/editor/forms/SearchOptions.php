@@ -45,7 +45,7 @@ class Editor_Forms_SearchOptions extends Zend_Form {
      *
      * @var OpenSKOS_Db_Table_Row_Tenant
      */
-    protected $_currentTenant;
+    protected $_currentInstitution;
 
     /**
      * @var Editor_Models_ConceptSchemesCache
@@ -83,7 +83,7 @@ class Editor_Forms_SearchOptions extends Zend_Form {
 
         //if (!$this->_currentTenant->disableSearchInOtherTenants) {
         if (true) {
-            $this->buildTenants();
+            $this->buildInstitutions();
         }
 
         $this->buildButtons()
@@ -112,7 +112,7 @@ class Editor_Forms_SearchOptions extends Zend_Form {
      */
     protected function buildSearchProfiles()
     {
-        $tenantCode = $this->_getCurrentTenant()->getCode()->getValue();
+        $tenantCode = $this->_getCurrentInstitution()->getCode()->getValue();
         $profilesModel = new OpenSKOS_Db_Table_SearchProfiles();
         $profiles = $profilesModel->fetchAll($profilesModel->select()->where('tenant=?', $tenantCode));
         $profilesOptions = array();
@@ -183,7 +183,7 @@ class Editor_Forms_SearchOptions extends Zend_Form {
      */
     protected function buildStatuses()
     {
-        $enableStatuses = (bool)($this->_getCurrentTenant()->getEnableStatusesSystems()->getValue());
+        $enableStatuses = (bool)($this->_getCurrentInstitution()->getEnableStatusesSystems()->getValue());
         if ($enableStatuses) {
             $statuses = array();
             if (isset($this->_searchOptions['statuses'])) {
@@ -256,7 +256,7 @@ class Editor_Forms_SearchOptions extends Zend_Form {
     protected function buildUserInteraction()
     {
         $modelUsers = new OpenSKOS_Db_Table_Users();
-        $tenantCode = $this->_getCurrentTenant()->getCode()->getValue();
+        $tenantCode = $this->_getCurrentInstitution()->getCode()->getValue();
         $users = $modelUsers->fetchAll($modelUsers->select()->where('tenant=?', $tenantCode));
         $roles = OpenSKOS_Db_Table_Users::getUserRoles();
         $rolesOptions = array_combine($roles, $roles);
@@ -333,13 +333,13 @@ class Editor_Forms_SearchOptions extends Zend_Form {
     /**
      * @return Editor_Forms_SearchOptions
      */
-    protected function buildTenants()
+    protected function buildInstitutions()
     {
         /*
         $modelTenants = new OpenSKOS_Db_Table_Tenants();
         */
 
-        $tenantManager = $this->getDI()->get('\OpenSkos2\TenantManager');
+        $tenantManager = $this->getDI()->get('\OpenSkos2\InstitutionManager');
         $tenants = $tenantManager->fetch();
 
 
@@ -352,7 +352,7 @@ class Editor_Forms_SearchOptions extends Zend_Form {
             'label' => _('Tenants'),
             'multiOptions' => $tenantsOptions
         ));
-        $this->getElement('tenants')->setValue(array($this->_getCurrentTenant()->getCode()->getValue()));
+        $this->getElement('tenants')->setValue(array($this->_getCurrentInstitution()->getCode()->getValue()));
         return $this;
     }
 
@@ -362,7 +362,7 @@ class Editor_Forms_SearchOptions extends Zend_Form {
     protected function buildCollections()
     {
         $modelCollections = new OpenSKOS_Db_Table_Collections();
-        //$collections = $modelCollections->fetchAll($modelCollections->select()->where('tenant = ?', $this->_getCurrentTenant()->code));
+        //$collections = $modelCollections->fetchAll($modelCollections->select()->where('tenant = ?', $this->_getCurrentInstitution()->code));
 
 
         // Clears the schemes cache when we start managing them.
@@ -452,20 +452,13 @@ class Editor_Forms_SearchOptions extends Zend_Form {
      *
      * @return OpenSKOS_Db_Table_Row_Tenant
      */
-    protected function _getCurrentTenant()
+    protected function _getCurrentInstitution()
     {
-        if (!$this->_currentTenant) {
-
-            /*
-            $this->_currentTenant = OpenSKOS_Db_Table_Tenants::fromIdentity();
-            if (null === $this->_currentTenant) {
-                throw new Zend_Exception('Tenant not found. Needed for request to the api.');
-            }
-            */
-            $this->readTenant();
+        if (!$this->_currentInstitution) {
+            $this->readInstitution();
         }
 
-        return $this->_currentTenant;
+        return $this->_currentInstitution;
     }
 
 
@@ -480,24 +473,24 @@ class Editor_Forms_SearchOptions extends Zend_Form {
     }
 
     /**
-     * Read the Tenant record from RDF Store to the class's internal record.
+     * Read the Institution record from RDF Store to the class's internal record.
      * @throws Zend_Controller_Action_Exception
      */
-    protected function readTenant()
+    protected function readInstitution()
     {
         $user = OpenSKOS_Db_Table_Users::requireFromIdentity();
-        $tenantCode = $user->tenant;
+        $institutionCode = $user->tenant;
 
-        $tenantManager = $this->getDI()->get('\OpenSkos2\TenantManager');
+        $institutionManager = $this->getDI()->get('\OpenSkos2\InstitutionManager');
 
-        $tenantUuid = $tenantManager->getTenantUuidFromCode($tenantCode);
-        $openSkos2Tenant = $tenantManager->fetchByUuid($tenantUuid);
+        $institutionUuid = $institutionManager->getInstitutionUuidFromCode($institutionCode);
+        $openSkos2Institution = $institutionManager->fetchByUuid($institutionUuid);
 
-        if (!$openSkos2Tenant) {
-            throw new Zend_Controller_Action_Exception('Tenant record not readable', 404);
+        if (!$openSkos2Institution) {
+            throw new Zend_Controller_Action_Exception('Institution record not readable', 404);
         }
 
-        $this->_currentTenant = $openSkos2Tenant;
+        $this->_currentInstitution = $openSkos2Institution;
         return $this;
 
     }
