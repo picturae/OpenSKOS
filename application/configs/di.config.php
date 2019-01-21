@@ -28,14 +28,18 @@ return [
             EasyRdf\RdfNamespace::set($prefix, $namespace);
         }
 
-        // @TODO Why is that OpenSKOS_Application_BootstrapAccess needed?
         $sparqlOptions = OpenSKOS_Application_BootstrapAccess::getOption('sparql');
-
-        EasyRdf\Http::getDefaultHttpClient()->setConfig(['timeout' => 100]);
+        $client = EasyRdf\Http::getDefaultHttpClient();
+        $client->setConfig(['timeout' => 100]);
+        $client->setHeaders(
+            'Authorization', 
+            'Basic ' . base64_encode($sparqlOptions['username'] . ':' . $sparqlOptions['password'])
+        );
 
         return  new \OpenSkos2\EasyRdf\Sparql\Client(
             $sparqlOptions['queryUri'],
-            $sparqlOptions['updateUri']
+            $sparqlOptions['updateUri'],
+            $sparqlOptions['defaultGraph']
         );
     },
 
