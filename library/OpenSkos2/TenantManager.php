@@ -154,7 +154,6 @@ SELECT_URI;
         $query = sprintf($query, Rdf::TYPE, Org::FORMALORG, OpenSkosNamespace::CODE, $code, OpenSkos::UUID);
 
         $response = $this->query($query);
-        var_dump($response); exit;
         if (count($response) > 1) {
             throw new \Exception("Something went very wrong: there more than 1 institution with the code $code");
         }
