@@ -4,38 +4,35 @@ services:
   openskos-webserver:
     image: phpdockerio/nginx:latest
     container_name: openskos-webserver
-    network_mode: bridge
+    networks:
+      - openskos
     environment:
-      - VIRTUAL_HOST=openskos.local
+      VIRTUAL_HOST : openskos.local
     volumes:
       - .:/var/www/openskos
       - ./data/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    links:
-      - openskos-php-fpm
 
   openskos-php-fpm:
     build:
       context: ./
       dockerfile: ./data/docker/php-fpm/Dockerfile
     container_name: openskos-php-fpm
-    network_mode: bridge
+    networks:
+      - openskos
     volumes:
       - .:/var/www/openskos
       - ./data/docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
-    links:
-      - openskos-jena
-      - openskos-solr
-      - openskos-memcached
-      - openskos-mysql
 
   openskos-jena:
     build: ./data/docker/jena-fuseki
     container_name: openskos-jena-fuseki
-    network_mode: bridge
+    networks:
+      - openskos
+    environment:
+      ADMIN_PASSWORD : admin
+      VIRTUAL_HOST   : jena.openskos.local
     ports:
      - "9001:3030"
-    environment:
-        ADMIN_PASSWORD : admin
     volumes:
       - ./data/fuseki/configuration:/fuseki/configuration
       - ./data/fuseki/databases:/fuseki/databases
@@ -43,7 +40,10 @@ services:
   openskos-solr:
     build: ./data/docker/solr
     container_name: openskos-solr
-    network_mode: bridge
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST : solr.openskos.local
     ports:
      - "9002:8983"
     volumes:
@@ -57,7 +57,10 @@ services:
   openskos-mysql:
     build: ./data/docker/mysql
     container_name: openskos-mysql
-    network_mode: bridge
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST : mysql.openskos.local
     ports:
      - "9003:3306"
     environment:
@@ -68,15 +71,24 @@ services:
   openskos-memcached:
     image: 'bitnami/memcached:1'
     container_name: openskos-memcached
-    network_mode: bridge
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST : memcached.openskos.local
     ports:
       - "11211:11211"
 
   openskos-proxy:
     image: 'jwilder/nginx-proxy'
     container_name: openskos-proxy
-    network_mode: bridge
+    networks:
+      - openskos
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     ports:
       - "127.0.0.1:80:80"
+
+networks:
+  openskos:
+    external:
+      name: openskos
