@@ -46,9 +46,9 @@ class Editor_ConceptController extends OpenSKOS_Controller_Editor
         $this->_requireAccess('editor.concepts', 'propose', self::RESPONSE_TYPE_PARTIAL_HTML);
         $this->_helper->_layout->setLayout('editor_central_content');
         $form = Editor_Forms_Concept::getInstance(null, $this->getOpenSkos2Tenant());
-        
+
         $labelHelper = $this->getDI()->get('\OpenSkos2\Concept\LabelHelper');
-        
+
         $form->populate(
             Editor_Forms_Concept_ConceptToForm::getNewConceptFormData(
                 $this->getInitialLanguage(),

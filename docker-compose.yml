@@ -15,7 +15,10 @@ services:
     container_name: openskos-php-fpm
     volumes:
       - .:/var/www/openskos
-      - ./data/docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+      - ./data/docker/php-fpm/php-fpm.conf:/etc/php7/php-fpm.conf
+      - ./data/docker/php-fpm/php-fpm.d:/etc/php7/php-fpm.d
+      - ./data/docker/php-fpm/php-ini-overrides.ini:/etc/php7/conf.d/99-overrides.ini
+
   openskos-jena:
     build: ./data/docker/jena-fuseki
     container_name: openskos-jena-fuseki
@@ -57,10 +60,32 @@ services:
       - default
       - openskos
   openskos-memcached:
-    image: 'bitnami/memcached:1'
+    image: bitnami/memcached:1
     container_name: openskos-memcached
     ports:
       - "11211:11211"
+
+  openskos-proxy:
+    image: jwilder/nginx-proxy
+    container_name: openskos-proxy
+    networks:
+      - openskos
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    ports:
+      - "127.0.0.1:80:80"
+
+  openskos-adminer:
+    image: adminer
+    container_name: openskos-adminer
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST: adminer.openskos.localhost
+      ADMINER_DEFAULT_SERVER: openskos-mysql
+      ADMINER_DEFAULT_USER: root
+      ADMINER_DEFAULT_DATABASE: openskos
+
 networks:
   openskos:
     external:

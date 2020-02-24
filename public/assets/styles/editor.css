@@ -18,7 +18,7 @@
  * @license    http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  */
 @CHARSET "UTF-8";
-body {
+html {
   font: 0.9em "Trebuchet MS", Arial, Helvetica, sans-serif;
   color: #3c1038;
 }
@@ -52,7 +52,6 @@ a[rel="external"] {
 }
 
 body, header, footer {
-  font-size: 12px;
   margin: 0;
   padding: 0;
   color: #000;
@@ -60,6 +59,10 @@ body, header, footer {
 
 a {
   color: #6B1750;
+}
+
+select, textarea, input {
+  font: inherit;
 }
 
 select {
@@ -71,7 +74,6 @@ select {
 textarea,
 input[type=text] {
   margin: 0px;
-  font: 12px "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-top: 1px solid #989898;
   border-left: 1px solid #989898;
   border-bottom: 1px solid #cccccc;
