@@ -384,7 +384,7 @@ class OpenSKOS_Db_Table_Row_User extends Zend_Db_Table_Row
             $uuidParts = explode('/', $this->uri);
             $uuid = array_pop($uuidParts);
         } else {
-            $uuid = \Rhumsaa\Uuid\Uuid::uuid64();
+            $uuid = \Rhumsaa\Uuid\Uuid::uuid4();
             $this->uri = rtrim($this->getBaseApiUri(), '/') . '/users/' . $uuid;
             if ($autoSave) {
                 $this->save();
