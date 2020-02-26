@@ -1,18 +1,24 @@
 version: "3.3"
 services:
+
   openskos-webserver:
     image: phpdockerio/nginx:latest
     container_name: openskos-webserver
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST : openskos.localhost
     volumes:
-        - .:/var/www/openskos
-        - ./data/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    ports:
-     - "9000:80"
+      - .:/var/www/openskos
+      - ./data/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+
   openskos-php-fpm:
     build:
       context: ./
       dockerfile: ./data/docker/php-fpm/Dockerfile
     container_name: openskos-php-fpm
+    networks:
+      - openskos
     volumes:
       - .:/var/www/openskos
       - ./data/docker/php-fpm/php-fpm.conf:/etc/php7/php-fpm.conf
@@ -22,19 +28,24 @@ services:
   openskos-jena:
     build: ./data/docker/jena-fuseki
     container_name: openskos-jena-fuseki
-    ports:
-     - "9001:3030"
     networks:
-      - default
       - openskos
     environment:
-        ADMIN_PASSWORD : admin
+      ADMIN_PASSWORD : admin
+      VIRTUAL_HOST   : jena.openskos.localhost
+    ports:
+     - "9001:3030"
     volumes:
       - ./data/fuseki/configuration:/fuseki/configuration
       - ./data/fuseki/databases:/fuseki/databases
+
   openskos-solr:
     build: ./data/docker/solr
     container_name: openskos-solr
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST : solr.openskos.localhost
     ports:
      - "9002:8983"
     volumes:
@@ -44,24 +55,28 @@ services:
       - solr-precreate
       - openskos
       - /opt/solr/server/solr/openskos
-    networks:
-      - default
-      - openskos
+
   openskos-mysql:
     build: ./data/docker/mysql
     container_name: openskos-mysql
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST : mysql.openskos.localhost
     ports:
      - "9003:3306"
     environment:
         MYSQL_ROOT_PASSWORD : secr3t
     volumes:
         - ./data/openskos-create.sql:/docker-entrypoint-initdb.d/openskos-create.sql
-    networks:
-      - default
-      - openskos
+
   openskos-memcached:
     image: bitnami/memcached:1
     container_name: openskos-memcached
+    networks:
+      - openskos
+    environment:
+      VIRTUAL_HOST : memcached.openskos.localhost
     ports:
       - "11211:11211"
 
