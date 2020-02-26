@@ -7,6 +7,8 @@ services:
     volumes:
       - .:/var/www/openskos
       - ./data/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    environment:
+      - VIRTUAL_HOST=openskos.localhost
     ports:
      - "9000:80"
 
@@ -44,7 +46,7 @@ services:
     volumes:
       - ./data/solr:/opt/solr/server/solr/openskos
     environment:
-      VIRTUAL_HOST: solr.openskos.localhost
+      - VIRTUAL_HOST=solr.openskos.localhost
     entrypoint:
       - docker-entrypoint.sh
       - solr-precreate
