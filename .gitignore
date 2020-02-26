@@ -18,6 +18,7 @@ public/data/export/*
 /application/configs/application_backup.ini
 /application/configs/custom.ini
 /data/solr/data/
+/data/fuseki/databases/
 composer.phar
 data/fuseki/databases/openskos/GOSP.dat
 data/fuseki/databases/openskos/GOSP.idn
