@@ -3,6 +3,8 @@
 <config>
   <luceneMatchVersion>7.1.0</luceneMatchVersion>
 
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
   <!-- set this via the core's properties file -->
   <dataDir>${solr.core.data.dir:}</dataDir>
 
