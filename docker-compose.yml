@@ -11,6 +11,8 @@ services:
     volumes:
       - .:/var/www/openskos
       - ./data/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "9000:9000"
 
   openskos-php-fpm:
     build:
@@ -31,8 +33,8 @@ services:
     networks:
       - openskos
     environment:
-      ADMIN_PASSWORD: admin
-      VIRTUAL_HOST  : jena.openskos.localhost
+      - ADMIN_PASSWORD=admin
+      - VIRTUAL_HOST=jena.openskos.localhost
     ports:
       - "9001:3030"
     volumes:
@@ -55,19 +57,22 @@ services:
       - solr-precreate
       - openskos
       - /opt/solr/server/solr/openskos
+    networks:
+      - default
+      - openskos
 
   openskos-mysql:
     build: ./data/docker/mysql
     container_name: openskos-mysql
-    networks:
-      - openskos
-    environment:
-      VIRTUAL_HOST       : mysql.openskos.localhost
-      MYSQL_ROOT_PASSWORD: secr3t
     ports:
       - "9003:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secr3t
+      - VIRTUAL_HOST=mysql.openskos.localhost
     volumes:
       - ./data/openskos-create.sql:/docker-entrypoint-initdb.d/openskos-create.sql
+    networks:
+      - openskos
 
   openskos-memcached:
     image: bitnami/memcached:1
@@ -95,10 +100,10 @@ services:
     networks:
       - openskos
     environment:
-      VIRTUAL_HOST            : adminer.openskos.localhost
-      ADMINER_DEFAULT_SERVER  : openskos-mysql
-      ADMINER_DEFAULT_USER    : root
-      ADMINER_DEFAULT_DATABASE: openskos
+      - VIRTUAL_HOST=adminer.openskos.localhost
+      - ADMINER_DEFAULT_SERVER=openskos-mysql
+      - ADMINER_DEFAULT_USER=root
+      - ADMINER_DEFAULT_DATABASE=openskos
 
 networks:
   openskos:
