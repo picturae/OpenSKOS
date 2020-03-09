@@ -8,8 +8,6 @@
   <!-- set this via the core's properties file -->
   <dataDir>${solr.core.data.dir:}</dataDir>
 
-  <schemaFactory class="ClassicIndexSchemaFactory"/>
-
   <indexConfig>
     <useCompoundFile>false</useCompoundFile>
     <!--
