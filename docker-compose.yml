@@ -25,6 +25,7 @@ services:
       - openskos
     volumes:
       - .:/var/www/openskos
+      - ./data/docker/php-fpm/php.ini:/etc/php7/php.ini
       - ./data/docker/php-fpm/php-fpm.conf:/etc/php7/php-fpm.conf
       - ./data/docker/php-fpm/php-fpm.d:/etc/php7/php-fpm.d
       - ./data/docker/php-fpm/php-ini-overrides.ini:/etc/php7/conf.d/99-overrides.ini
