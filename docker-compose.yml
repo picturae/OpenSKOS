@@ -97,17 +97,6 @@ services:
     ports:
       - "127.0.0.1:80:80"
 
-  openskos-adminer:
-    image: adminer
-    container_name: openskos-adminer
-    networks:
-      - openskos
-    environment:
-      - VIRTUAL_HOST=adminer.openskos.localhost
-      - ADMINER_DEFAULT_SERVER=openskos-mysql
-      - ADMINER_DEFAULT_USER=root
-      - ADMINER_DEFAULT_DATABASE=openskos
-
 networks:
   openskos:
     external:
