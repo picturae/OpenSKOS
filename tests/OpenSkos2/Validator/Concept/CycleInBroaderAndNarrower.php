@@ -21,16 +21,17 @@ namespace OpenSkos2\Validator\Concept;
 use OpenSkos2\Concept;
 use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Rdf\Uri;
+use PHPUnit\Framework\TestCase;
 
-class CycleBroaderAndNarrowerTest extends \PHPUnit_Framework_TestCase
+class CycleBroaderAndNarrowerTest extends TestCase
 {
 
     public function testValidate()
     {
         $validator = new \OpenSkos2\Validator\Concept\CycleBroaderAndNarrower();
-        
+
         $concept = new Concept('http://example.com#1');
-        
+
         $concept->addProperty(Skos::BROADER, new Uri('http://example.com#broader'));
 
         $this->assertTrue($validator->validate($concept));

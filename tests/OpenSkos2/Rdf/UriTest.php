@@ -20,7 +20,9 @@
 
 namespace OpenSkos2\Rdf;
 
-class UriTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class UriTest extends TestCase
 {
     public function testUri()
     {

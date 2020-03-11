@@ -19,7 +19,9 @@
 
 namespace OpenSkos2;
 
-class TextTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class TextTest extends TestCase
 {
     public function testResources()
     {
@@ -28,7 +30,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $file = new \OpenSkos2\Converter\Text($text);
         $this->assertInstanceOf('\OpenSkos2\Rdf\ResourceCollection', $file->getResources());
     }
-    
+
     public function testConcept()
     {
         $xml = __DIR__ . '/../../data/concept.xml';

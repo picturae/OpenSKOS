@@ -20,7 +20,9 @@
 
 namespace OpenSkos2\Rdf;
 
-class ResourceTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ResourceTest extends TestCase
 {
     public function testAddUniqueProperty()
     {
