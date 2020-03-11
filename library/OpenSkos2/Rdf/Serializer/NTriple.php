@@ -41,10 +41,10 @@ class NTriple
     /**
      * Make sure the data is returned in valid ntriple format
      *
-     * @param \OpenSkos2\Rdf\Serializer\OpenSkos2\Rdf\Object $object
+     * @param \OpenSkos2\Rdf\Serializer\OpenSkos2\Rdf\RdfObject $object
      * @return string
      */
-    public function serialize(\OpenSkos2\Rdf\Object $object)
+    public function serialize(\OpenSkos2\Rdf\RdfObject $object)
     {
         $serializer = new \EasyRdf\Serialiser\Ntriples();
 

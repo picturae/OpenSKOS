@@ -21,7 +21,7 @@ namespace OpenSkos2\Rdf;
 
 use OpenSkos2\Exception\InvalidResourceException;
 
-class Literal implements Object
+class Literal implements RdfObject
 {
 
     const TYPE_DATETIME = "http://www.w3.org/2001/XMLSchema#dateTime";

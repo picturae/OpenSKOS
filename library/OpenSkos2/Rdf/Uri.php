@@ -19,7 +19,7 @@
 
 namespace OpenSkos2\Rdf;
 
-class Uri implements Object, ResourceIdentifier
+class Uri implements RdfObject, ResourceIdentifier
 {
 
     /**

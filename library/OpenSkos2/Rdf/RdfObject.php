@@ -9,27 +9,33 @@
  * with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
- *
- * @category   OpenSKOS
- * @package    OpenSKOS
- * @copyright  Copyright (c) 2015 Picturae (http://www.picturae.com)
- * @author     Picturae
- * @license    http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  */
 
 namespace OpenSkos2\Rdf;
 
-interface Object
+/**
+ * Rdf object interface
+ *
+ * @category  OpenSKOS
+ * @package   OpenSKOS
+ * @author    Picturae <contact@picturae.com>
+ * @copyright 2015 Picturae
+ * @license   http://www.gnu.org/licenses/gpl-3.0.txt GPLv3
+ * @link      http://www.picturae.com
+ */
+interface RdfObject
 {
 
     /**
      * Output the object as string.
+     *
      * @return string
      */
     public function __toString();
-    
+
     /**
      * Is the object empty.
+     *
      * @return bool
      */
     public function isEmpty();
