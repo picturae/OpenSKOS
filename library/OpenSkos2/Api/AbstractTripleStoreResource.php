@@ -41,12 +41,12 @@ abstract class AbstractTripleStoreResource
     protected $personManager;
 
     /*
-     * 
+     *
      * @var TenantManager|SetManager|ConceptSchemeManager|SkosCollectionManager|ConceptManager|RelationTypeManager|RelationManager
      */
     protected $manager;
 
-   
+
     /**
      * Deletion rules
      *
