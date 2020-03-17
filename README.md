@@ -6,7 +6,7 @@
 
 > ___Docker development___
 >
-> Docker images were added to the OpenSkos project in 2017. If you wish to develop using docker, please proceed to 
+> Docker images were added to the OpenSkos project in 2017. If you wish to develop using docker, please proceed to
 section 8
 
 ***
@@ -154,12 +154,12 @@ Installing Fuseki 2 for development purposes:
 
 ## 4.1 Jena Updates
 Several bug fixes were made to the rules/openskos.ttl file in October 2018, on both the OpenSkos 2.2 (Master at time of
- update ) and Meertens Merge (Development at time of update) branches. When upgrading to these versions, please update 
- the configuration files on the Jena server to the versions located in `./data/fuseki/configuration`.   
+ update ) and Meertens Merge (Development at time of update) branches. When upgrading to these versions, please update
+ the configuration files on the Jena server to the versions located in `./data/fuseki/configuration`.
 
 # 5. Apache Solr Setup
 You have to have a java VM installed prior to installing Solr!
-The version of Solr used during development was 7.4.0. Other versions going back to Solr 4 are supported, but it will be 
+The version of Solr used during development was 7.4.0. Other versions going back to Solr 4 are supported, but it will be
 necessary to adapt the Solr configuration files to the syntax for these versions.
 
 http://www.apache.org/dyn/closer.cgi/lucene/solr/
@@ -178,8 +178,8 @@ You can now start Solr (in this example with 1,024 MB memory assigned):
 The Solr configuration file was substantially altered during the Meertens Merge project. If upgrading, you will need
 to take the example `solrconfig.xml` and `schema.xml` from `./data/solr`, and adapt them to your Solr version.
 
-After updating the configuration, you should delete the contents of the Solr database and re-index using the 
-`./tools/jena2Solr.php` script. If you skip this step, OpenSkos will remain functional, but the internal content of the 
+After updating the configuration, you should delete the contents of the Solr database and re-index using the
+`./tools/jena2Solr.php` script. If you skip this step, OpenSkos will remain functional, but the internal content of the
 Solr core will become inconsistent as records are updated.
 
 # 6. Data Ingest
@@ -252,38 +252,38 @@ Full HTML documentation of the API is supplied and is available in HTML at `<bas
 ## 7.1. Migration from OpenSKOS-1 to OpenSKOS-2.2
 _**WARNING:** It is very strongly recommended to back up all data before performing the following steps_
 
-In OpenSkos 2.2 Tenants and Collections in MySQL have been migrated from MySQL to the 
+In OpenSkos 2.2 Tenants and Collections in MySQL have been migrated from MySQL to the
 Jena triple store.
 
-To migrate from OpenSKOS 1.0 or 2.1 to 2.2, first read sections 4.1 and 5.1 about updating the Jena and Solr 
+To migrate from OpenSKOS 1.0 or 2.1 to 2.2, first read sections 4.1 and 5.1 about updating the Jena and Solr
 configurations. Both steps are necessary when upgrading to OpenSkos 2.2
 
 Then perform the following steps:
 
--- `/tools/migrate_tenant_collection.php` (migrates tenants and collections from MySQL 
+-- `/tools/migrate_tenant_collection.php` (migrates tenants and collections from MySQL
 to institutions and sets of Triple store)
 
--- optionally `/tools/labelsToXl.php` (this is a picturae script slightly extended by 
+-- optionally `/tools/labelsToXl.php` (this is a picturae script slightly extended by
 Meertens), if skos xl labels are demanded.
 
 Examples of the corresponding command lines are:
 
 ```
-php migrate_tenant_collection.php --db-hostname=localhost --db-database=geheim 
+php migrate_tenant_collection.php --db-hostname=localhost --db-database=geheim
 --db-password=geheim --db-username=ookgeheim --debug=1
 ```
 
-Adding skos xl labels is also possible since version 2.1. To activate, first edit the tenant to enable SkosXL, and then 
-update Jena with: 
+Adding skos xl labels is also possible since version 2.1. To activate, first edit the tenant to enable SkosXL, and then
+update Jena with:
 
 `labelsToXl.php –add=1`
 
-The SOLR schema.xml file has been updated in version 2.2. Having completed the migration, please 
-empty the core, and then update the schema.xml file. Then fill the Solr database with the script: 
+The SOLR schema.xml file has been updated in version 2.2. Having completed the migration, please
+empty the core, and then update the schema.xml file. Then fill the Solr database with the script:
 
 `php tools/jena2solr.php`
 
-Max notations are now maintained in a separate MySQL table. Use the script `./data/dbchanges/20180724.sql` to update the 
+Max notations are now maintained in a separate MySQL table. Use the script `./data/dbchanges/20180724.sql` to update the
 db schema.
 
 Then execute:
@@ -301,8 +301,8 @@ And extra triple needs to be added to concepts to allow continued functioning of
 Example of a command line:
 
 ```sh
-php skos2openskos.php --setUri=http://htdl/clavas-org/set 
---userUri=http://localhost:89/clavas/public/api/users/4d1140e5-f5ff-45da-b8de-3d8a2c28415f 
+php skos2openskos.php --setUri=http://htdl/clavas-org/set
+--userUri=http://localhost:89/clavas/public/api/users/4d1140e5-f5ff-45da-b8de-3d8a2c28415f
 --file=clavas-organisations.xml
 ```
 
@@ -314,7 +314,7 @@ composer install [--ignore-platform-reqs]
 php vendor/bin/phing config
 
 docker network create openskos
-docker-compose up 
+docker-compose up
 
 # go to localhost:9001 and create a dataset matching in name with application.ini sparql.queryUri if it's missing
 
@@ -329,7 +329,7 @@ docker exec -it openskos-php-fpm php tools/jena2solr.php
 
 ## 8.1 Installing docker
 
-To test / develop the application go to the root folder, and run: 
+To test / develop the application go to the root folder, and run:
 
 ```sh
 docker-compose up
@@ -340,7 +340,7 @@ docker exec -it openskos-php-fpm ./vendor/bin/phing install.dev
 
 ## 8.2 Updating the configuration
 
-Then copy the file `./application/configs/application.ini.dist` to `./application/configs/application.ini`  
+Then copy the file `./application/configs/application.ini.dist` to `./application/configs/application.ini`
 
 Under the section `; Solr configuration:` add the following:
 ```
@@ -358,7 +358,7 @@ sparql.updateUri=http://openskos-jena-fuseki:3030/openskos/update
 
 >**Configuring Jena**
 >
->You can then create an empty graph with the name _openskos_ in the Jena interface at http://localhost:9001. 
+>You can then create an empty graph with the name _openskos_ in the Jena interface at http://localhost:9001.
 The admin username:password combination is `admin` and `admin`.
 Here you can create a **persistent** dataset named `openskos`
 
@@ -383,3 +383,91 @@ docker exec -it openskos-php-fpm php ./tools/tenant.php create -e development --
 ```
 
 Now you can login on http://localhost:9000/editor/login
+
+# 9 Mapping the front-end controller
+
+In a completely SKOS compliant installation, the URI's of concepts should be resolvable. It is not crucial to remain
+compliant on a dev environment, but if you need to test this functionality, you will need to route concepts to the
+Frontend Controller.
+
+## Resolving a concept
+
+To resolve the concept: http://openskos.local/my-conceptscheme/12345
+
+Add the following to the application.ini
+
+```
+resources.router.routes.r1.type = "Zend_Controller_Router_Route_Regex"
+resources.router.routes.r1.route = "my-conceptscheme\/([0-9A-Za-z]+)(\.html)?"
+resources.router.routes.r1.defaults.module = "api"
+resources.router.routes.r1.defaults.controller = "concept"
+resources.router.routes.r1.defaults.action = "get"
+resources.router.routes.r1.defaults.id_prefix = "http://openskos.localhost/my-conceptscheme/"
+resources.router.routes.r1.defaults.format = "html"
+resources.router.routes.r1.map.1 = "id"
+resources.router.routes.r1.reverse = "my-conceptscheme/%s"
+```
+
+This will map all concepts under the given concept scheme and pass the notation into the controller.
+
+## A complete mapping
+Typically, you will also want to support the `.rdf` and `.json` formats, and also support resolving by
+UUID. So in addition to the above block, the following will have to be added no the `application.ini`:
+
+```
+resources.router.routes.r2.type = "Zend_Controller_Router_Route_Regex"
+resources.router.routes.r2.route = "my-conceptscheme\/([0-9A-Za-z]+)\.rdf"
+resources.router.routes.r2.defaults.module = "api"
+resources.router.routes.r2.defaults.controller = "concept"
+resources.router.routes.r2.defaults.action = "get"
+resources.router.routes.r2.defaults.id_prefix = "http://openskos.localhost/my-conceptscheme/"
+resources.router.routes.r2.defaults.format = "rdf"
+resources.router.routes.r2.map.1 = "id"
+resources.router.routes.r2.reverse = "my-conceptscheme/%s"
+
+resources.router.routes.r3.type = "Zend_Controller_Router_Route_Regex"
+resources.router.routes.r3.route = "my-conceptscheme\/([0-9A-Za-z]+)\.json"
+resources.router.routes.r3.defaults.module = "api"
+resources.router.routes.r3.defaults.controller = "concept"
+resources.router.routes.r3.defaults.action = "get"
+resources.router.routes.r3.defaults.id_prefix = "http://openskos.localhost/my-conceptscheme/"
+resources.router.routes.r3.defaults.format = "json"
+resources.router.routes.r3.map.1 = "id"
+resources.router.routes.r3.reverse = "my-conceptscheme/%s"
+
+resources.router.routes.r4.type = "Zend_Controller_Router_Route_Regex"
+resources.router.routes.r4.route = "my-conceptscheme\/([a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12})(\.html)?"
+resources.router.routes.r4.defaults.module = "api"
+resources.router.routes.r4.defaults.controller = "concept"
+resources.router.routes.r4.defaults.action = "get"
+resources.router.routes.r4.defaults.format = "html"
+resources.router.routes.r4.map.1 = "id"
+resources.router.routes.r4.reverse = "my-conceptscheme/%s
+
+resources.router.routes.r5.type = "Zend_Controller_Router_Route_Regex"
+resources.router.routes.r5.route = "my-conceptscheme\/([a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}).rdf"
+resources.router.routes.r5.defaults.module = "api"
+resources.router.routes.r5.defaults.controller = "concept"
+resources.router.routes.r5.defaults.action = "get"
+resources.router.routes.r5.defaults.format = "rdf"
+resources.router.routes.r5.map.1 = "id"
+resources.router.routes.r5.reverse = "my-conceptscheme/%s"
+
+resources.router.routes.r6.type = "Zend_Controller_Router_Route_Regex"
+resources.router.routes.r6.route = "my-conceptscheme\/([a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}).json"
+resources.router.routes.r6.defaults.module = "api"
+resources.router.routes.r6.defaults.controller = "concept"
+resources.router.routes.r6.defaults.action = "get"
+resources.router.routes.r6.defaults.format = "json"
+resources.router.routes.r6.map.1 = "id"
+resources.router.routes.r6.reverse = "my-conceptscheme/%s"
+```
+
+Note that for each section above, the number in the `.r{\d}.` section is incremented.
+
+Unfortunately, further entries are needed for every concept-scheme you want to support.
+
+
+
+
+
