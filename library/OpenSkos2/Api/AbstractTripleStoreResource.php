@@ -128,8 +128,10 @@ abstract class AbstractTripleStoreResource
      */
     private function isUuid($potentialUuid)
     {
-        $res = preg_match('#^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$#i', $potentialUuid);
-        return $res;
+		/* Seemingly Beeld en Geluid do not use RFC compliant UUID's*/
+        //$res = preg_match('#^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$#i', $potentialUuid);
+		$res = preg_match('#^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$#i', $potentialUuid);
+		return $res;
     }
 
     /**
