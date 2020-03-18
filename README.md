@@ -389,13 +389,14 @@ Now you can login on http://localhost:9000/editor/login
 
 # 9 Mapping the front-end controller
 
-In a completely SKOS compliant installation, the URI's of concepts should be resolvable. It is not crucial to remain
-compliant on a dev environment, but if you need to test this functionality, you will need to route concepts to the
-Frontend Controller.
+In a completely SKOS compliant installation, the URI's of concepts should be resolvable. ie.: The URI of a concept
+should point to a real web location which describes the URI.
+Remaining compliant on a dev environment is not so important, of course, but if you need to test this functionality,
+you will need to implement the routing. This involves creating RegEx's to route concept URI's to the Frontend-Controller
 
 ## Resolving a concept
 
-To resolve the concept: http://openskos.local/my-conceptscheme/12345
+For example, to resolve the concept: http://openskos.local/my-conceptscheme/12345
 
 Add the following to the application.ini
 
@@ -411,7 +412,8 @@ resources.router.routes.r1.map.1 = "id"
 resources.router.routes.r1.reverse = "my-conceptscheme/%s"
 ```
 
-This will map all concepts under the given concept scheme and pass the notation into the controller.
+This will examine all incoming requests and, if necessary, reroute the request and pass the notation into the relevant
+controller.
 
 ## A complete mapping
 Typically, you will also want to support the `.rdf` and `.json` formats, and also support resolving by
@@ -466,7 +468,7 @@ resources.router.routes.r6.map.1 = "id"
 resources.router.routes.r6.reverse = "my-conceptscheme/%s"
 ```
 
-Note that for each section above, the number in the `.r{\d}.` section is incremented.
+Note the `.r<NUMBER>` part of each section. Every new block needs its own unique number.
 
 Unfortunately, further entries are needed for every concept-scheme you want to support.
 
