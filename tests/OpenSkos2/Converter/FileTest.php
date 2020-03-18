@@ -19,7 +19,9 @@
 
 namespace OpenSkos2;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FileTest extends TestCase
 {
     public function testResources()
     {
@@ -27,7 +29,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $file = new \OpenSkos2\Converter\File($xml);
         $this->assertInstanceOf('\OpenSkos2\Rdf\ResourceCollection', $file->getResources());
     }
-    
+
     public function testConcept()
     {
         $xml = __DIR__ . '/../../data/concept.xml';

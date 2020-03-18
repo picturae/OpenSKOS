@@ -11,8 +11,9 @@ namespace OpenSkos2\Validator\Concept;
 use OpenSkos2\Concept;
 use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Rdf\Uri;
+use PHPUnit\Framework\TestCase;
 
-class DuplicateBroaderTest extends \PHPUnit_Framework_TestCase
+class DuplicateBroaderTest extends TestCase
 {
 
     public function testValidate()

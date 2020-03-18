@@ -24,7 +24,7 @@ use OpenSkos2\Namespaces\Skos;
 use OpenSkos2\Namespaces\SkosXl;
 use OpenSkos2\Namespaces\OpenSkos;
 use OpenSkos2\Namespaces\Rdf;
-use OpenSkos2\Rdf\Object;
+use OpenSkos2\Rdf\RdfObject;
 use OpenSkos2\Rdf\Uri;
 use OpenSkos2\Rdf\Literal;
 use OpenSkos2\Rdf\Resource;
@@ -312,10 +312,10 @@ class Document
     }
 
     /**
-     * @param Object $value
+     * @param RdfObject $value
      * @return string
      */
-    protected function valueToSolr(Object $value)
+    protected function valueToSolr(RdfObject $value)
     {
         if ($value instanceof Uri) {
             return $value->getUri();

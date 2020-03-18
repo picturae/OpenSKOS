@@ -20,7 +20,10 @@
 
 namespace OpenSkos2\Rdf;
 
-class UriTest extends \PHPUnit_Framework_TestCase
+use OpenSkos2\Rdf\Exception\InvalidUriException;
+use PHPUnit\Framework\TestCase;
+
+class UriTest extends TestCase
 {
     public function testUri()
     {
@@ -31,7 +34,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
 
     public function testInvaldUri()
     {
-        $this->setExpectedException('\OpenSkos2\Rdf\Exception\InvalidUriException');
+        $this->expectException(InvalidUriException::class);
         $value = '12345';
         new Uri($value);
     }

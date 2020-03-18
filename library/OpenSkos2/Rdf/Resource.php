@@ -20,7 +20,7 @@
 namespace OpenSkos2\Rdf;
 
 use DateTime;
-use OpenSkos2\Rdf\Object as RdfObject;
+use OpenSkos2\Rdf\RdfObject;
 use OpenSkos2\Rdf\Literal;
 use OpenSkos2\Rdf\Uri;
 use OpenSkos2\Namespaces;

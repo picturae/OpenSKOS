@@ -229,7 +229,7 @@ class ResourceManager
 
     /**
      * @todo Keep SOLR in sync
-     * @param Object[] $simplePatterns
+     * @param RdfObject[] $simplePatterns
      */
     public function deleteBy($simplePatterns)
     {
@@ -245,9 +245,9 @@ class ResourceManager
     /**
      * Delete all triples where pattern matches
      * @todo Keep SOLR in sync
-     * @param Object|string $subject Put "?subject" to match all.
+     * @param RdfObject|string $subject Put "?subject" to match all.
      * @param string $predicate
-     * @param Object|string $object Put "?object" to match all.
+     * @param RdfObject|string $object Put "?object" to match all.
      */
     public function deleteMatchingTriples($subject, $predicate, $object)
     {
@@ -414,7 +414,7 @@ class ResourceManager
     /**
      * Fetches full resources.
      * There is hardcoded order by uri.
-     * @param Object[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
+     * @param RdfObject[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
      * @param int $offset
      * @param int $limit
      * @param bool $ignoreDeleted Do not fetch resources which have openskos:status deleted.
@@ -478,7 +478,7 @@ class ResourceManager
      * This is the pre-Meertens merge version. Meertens merge introduced a high impact change
      *     that broke some things
      * There is hardcoded order by uri.
-     * @param Object[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
+     * @param RdfObject[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
      * @param int $offset
      * @param int $limit
      * @param bool $ignoreDeleted Do not fetch resources which have openskos:status deleted.
@@ -568,7 +568,7 @@ class ResourceManager
 
     /**
      * Counts distinct resources
-     * @param Object[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
+     * @param RdfObject[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
      * @return int
      */
     public function countResources($simplePatterns = [])
@@ -741,11 +741,11 @@ class ResourceManager
     }
 
     /**
-     * @param Object $object
+     * @param RdfObject $object
      * @return string
      * @throws \EasyRdf\Exception
      */
-    protected function valueToTurtle(Object $object)
+    protected function valueToTurtle(RdfObject $object)
     {
         $serializer = new NTriple();
         return $serializer->serialize($object);
@@ -753,7 +753,7 @@ class ResourceManager
 
     /**
      * Makes query (with full sparql patterns) from our search patterns.
-     * @param Object[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
+     * @param RdfObject[] $simplePatterns Example: [Skos::NOTATION => new Literal('AM002'),]
      * or [0 => ['?subject', Skos::NOTATION, new Literal('AM002'),]
      * @param string $subject
      * @return string
@@ -768,9 +768,9 @@ class ResourceManager
                 } else {
                     // Build a pattern like
                     // $value[0] <$value[1]> $value[2]
-                    $query .= $value[0] instanceof Object ? $this->valueToTurtle($value[0]) : $value[0];
+                    $query .= $value[0] instanceof RdfObject ? $this->valueToTurtle($value[0]) : $value[0];
                     $query .= ' <' . $value[1] . '> ';
-                    $query .= $value[2] instanceof Object ? $this->valueToTurtle($value[2]) : $value[2];
+                    $query .= $value[2] instanceof RdfObject ? $this->valueToTurtle($value[2]) : $value[2];
                     $query .= ' .';
                 }
                 $query .= PHP_EOL;

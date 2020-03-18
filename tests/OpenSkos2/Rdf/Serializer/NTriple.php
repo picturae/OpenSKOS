@@ -19,7 +19,9 @@
 
 namespace OpenSkos2\Validator\Concept;
 
-class DuplicateBroaderTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DuplicateBroaderTest extends TestCase
 {
 
     public function testSerializeLiteral()
@@ -45,7 +47,7 @@ class DuplicateBroaderTest extends \PHPUnit_Framework_TestCase
         $serialized = $triple->serialize($uri);
         $this->assertEquals('<http://example.com/omg>', $serialized);
     }
-    
+
     public function testEscapeURI()
     {
         $uri = new \OpenSkos2\Rdf\Uri('http://example.com/omg"');
@@ -53,7 +55,7 @@ class DuplicateBroaderTest extends \PHPUnit_Framework_TestCase
         $serialized = $triple->serialize($uri);
         $this->assertEquals('<http://example.com/omg\">', $serialized);
     }
-    
+
     public function testSerializeArray()
     {
         $literal = [
