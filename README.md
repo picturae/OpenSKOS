@@ -324,6 +324,9 @@ docker exec -it openskos-php-fpm php vendor/bin/phing solr.create.core
 docker exec -it openskos-php-fpm php tools/tenant.php --code CODE --name NAME --email EMAIL --password PASSWORD create
 docker exec -it openskos-php-fpm php tools/jena2solr.php
 
+# ONLY RUN THE FOLLOWING IF YOUR DOCKER(-DESKTOP on osx) RUNS AS YOUR USER INSTEAD OF ROOT
+sudo chown -R $(id -u):$(id -g) data/solr
+
 # go to localhost:9000 and log in using your just-created credentials
 ```
 
