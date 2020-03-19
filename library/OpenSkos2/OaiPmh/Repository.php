@@ -499,7 +499,7 @@ class Repository implements InterfaceRepository
         $metadataPrefix = null,
         $set = null
     ) {
-    
+
 
         $params = [];
         $params['offset'] = $offset;
@@ -615,12 +615,13 @@ class Repository implements InterfaceRepository
 
         foreach ($concepts as $concept) {
             foreach (Concept::$classes['SkosXlLabels'] as $xlLabelPredicate) {
-                $fullXlLabels = [];
-                foreach ($concept->getProperty($xlLabelPredicate) as $xlLabel) {
-                    if (!$xlLabel instanceof Label) {
+            	$oldValues = $concept->getProperty($xlLabelPredicate);
+				$concept->unsetProperty($xlLabelPredicate);
+				foreach ($oldValues as $xlLabel) {
+					if (!$xlLabel instanceof Label) {
                         foreach ($data as $label) {
                             if ($xlLabel->getUri() === $label->getUri()) {
-                                $concept->setProperties($xlLabelPredicate, [$label]);
+								$concept->addProperties($xlLabelPredicate, [$label]);
                             }
                         }
                     }
