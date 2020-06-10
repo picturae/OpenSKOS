@@ -26,10 +26,10 @@ use OpenSkos2\ConceptCollection;
 class Editor_Models_ConceptPreview
 {
     /**
-     * @var Editor_Models_ConceptSchemesCache 
+     * @var Editor_Models_ConceptSchemesCache
      */
     protected $schemesCache;
-    
+
     /**
      * @param Editor_Models_ConceptSchemesCache $schemesCache
      */
@@ -37,7 +37,7 @@ class Editor_Models_ConceptPreview
     {
         $this->schemesCache = $schemesCache;
     }
-    
+
     /**
      * Converts the concept collection to basic preview data normally used for links.
      * Includes uri, caption, status, skope note, shemes
@@ -54,14 +54,14 @@ class Editor_Models_ConceptPreview
                 OpenSkos::STATUS,
                 Skos::SCOPENOTE
             ]);
-            
+
             $conceptData['schemes'] = $this->schemesCache->fetchConceptSchemesMeta(
                 $concept->getProperty(Skos::INSCHEME)
             );
-            
+
             $linksData[] = $conceptData;
         }
-        
+
         return $linksData;
     }
 
@@ -89,7 +89,7 @@ class Editor_Models_ConceptPreview
                 'uri' => $concept['uri'],
                 'caption' => $concept['prefLabel'][0],
                 Namespaces::shortenProperty(OpenSkos::STATUS) => $concept['status'],
-                Namespaces::shortenProperty(Skos::SCOPENOTE) => $concept['scopeNote'][0],
+                Namespaces::shortenProperty(Skos::SCOPENOTE) => ($concept['scopeNote'][0] ?? ''),
             );
 
             $conceptData['schemes'] = $this->schemesCache->fetchConceptSchemesMeta(

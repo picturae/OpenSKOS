@@ -1,10 +1,10 @@
 <?php
 // Used to translate strings not wrapped in translate functions.
 
-_('candidate');
-_('approved');
-_('redirected');
-_('not_compliant');
-_('rejected');
-_('obsolete');
-_('deleted');
+gettext('candidate');
+gettext('approved');
+gettext('redirected');
+gettext('not_compliant');
+gettext('rejected');
+gettext('obsolete');
+gettext('deleted');

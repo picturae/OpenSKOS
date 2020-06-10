@@ -41,7 +41,8 @@ class Editor_CollectionsController extends OpenSKOS_Controller_Editor
     {
         $this->_requireAccess('editor.collections', 'manage');
 
-        $set = $this->_getSet()[0];
+        $temp = $this->_getSet();
+        $set = $temp[0] ?? false;
 
         if(!$set) { //Inserting a new set?
             $set = new \OpenSkos2\Set();
@@ -182,9 +183,10 @@ class Editor_CollectionsController extends OpenSKOS_Controller_Editor
             $this->getHelper('FlashMessenger')->setNamespace('error')->addMessage(_('No POST data recieved'));
             $this->_helper->redirector('index');
         }
-        $set = $this->_getSet()[0];
+		$temp = $this->_getSet();
+		$set = $temp[0] ?? false;
 
-        if(!$set) { //Inserting a new set?
+		if(!$set) { //Inserting a new set?
             $params = $this->getRequest()->getParams();
             $set = new \OpenSkos2\Set();
             $form = $set->getForm();

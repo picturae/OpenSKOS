@@ -49,9 +49,9 @@ prefix SKOS: <http://www.w3.org/2004/02/skos/core#>
 prefix OPENSKOS: <http://openskos.org/xmlns#>
 
 SELECT ?setUri
-WHERE  { 
-  ?tenanturi  OPENSKOS:code "%s" 
-  .?setUri  dcterms:publisher ?tenanturi 
+WHERE  {
+  ?tenanturi  OPENSKOS:code "%s"
+  .?setUri  dcterms:publisher ?tenanturi
   .?setUri rdf-syntax:type OPENSKOS:set
 }
 SELECT_SETS;
@@ -68,7 +68,7 @@ SELECT_SETS;
     // used only for HTML representation
     public function fetchSetsForTenant($code)
     {
-        $query = 'SELECT ?seturi ?p ?o 
+        $query = 'SELECT ?seturi ?p ?o
         WHERE  { ?tenanturi  <' . OpenSkos::CODE . "> '" . $code . "' ."
             . ' ?seturi  <' . DcTerms::PUBLISHER . '> ?tenanturi .'
             . ' ?seturi  <' . Rdf::TYPE . '> <'.Set::TYPE.'> .'
@@ -105,21 +105,21 @@ SELECT_SETS;
             switch ($triple->p) {
                 case DcTerms::TITLE:
                     $retVal[$seturi]['dcterms_title'] = $triple->o->getValue();
-                    continue;
+                    break;
                 case DcTerms::DESCRIPTION:
                     $retVal[$seturi]['dcterms_description'] = $triple->o->getValue();
-                    continue;
+                    break;
                 case OpenSkos::WEBPAGE:
                     $retVal[$seturi]['openskos_webpage'] = $triple->o->getUri();
-                    continue;
+                    break;
                 case OpenSkos::CODE:
                     $retVal[$seturi]['openskos_code'] = $triple->o->getValue();
-                    continue;
+                    break;
                 case OpenSkos::UUID:
                     $retVal[$seturi]['openskos_uuid'] = $triple->o->getValue();
-                    continue;
+                    break;
                 default:
-                    continue;
+                    break;
             }
         }
         return $retVal;
@@ -147,7 +147,7 @@ SELECT_SETS;
     public function getTenantUuidFromCode($code)
     {
         $query = <<<SELECT_URI
-SELECT ?uuid WHERE { 
+SELECT ?uuid WHERE {
   ?uri  <%s> <%s>.
   ?uri  <%s> "%s".
   ?uri  <%s> ?uuid
@@ -169,7 +169,7 @@ SELECT_URI;
     {
         $query = <<<SELECT_URI
 DESCRIBE ?uri {
-    SELECT ?uri WHERE { 
+    SELECT ?uri WHERE {
       ?uri  <%s> <%s>.
       ?uri  <%s> "%s".
     }
@@ -262,7 +262,7 @@ SELECT_URI;
     public function getAllTenants()
     {
         $query = <<<SELECT_TENANTS
-SELECT ?uri ?code ?uuid WHERE { 
+SELECT ?uri ?code ?uuid WHERE {
   ?uri  <%s> <%s>.
   ?uri  <%s> ?code.
   ?uri  <%s> ?uuid

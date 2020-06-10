@@ -22,18 +22,16 @@
   },
   "homepage": "https://github.com/OpenSKOS/OpenSKOS#readme",
   "devDependencies": {
-    "apidoc": "^0.16"
+    "apidoc": "^0.16.1"
   },
   "apidoc": {
     "title": "OpenSKOS backend",
     "url": "<protocol>://<server>/public",
     "version": "1.0.0",
     "template": {
-        "forceLanguage": "en"
+      "forceLanguage": "en"
     },
     "description": "OpenSKOS provides an API for OpenSKOS institutions, sets and relation types, and SKOS concept schemata, collections and concepts "
   },
-  "dependencies": {
-    "apidoc": "^0.16.1"
-  }
+  "dependencies": {}
 }

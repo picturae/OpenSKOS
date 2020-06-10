@@ -2,7 +2,7 @@ version: "3.3"
 services:
 
   openskos-webserver:
-    image: phpdockerio/nginx:latest
+    image: nginx:latest
     container_name: openskos-webserver
     networks:
       - openskos
@@ -25,10 +25,8 @@ services:
       - openskos
     volumes:
       - .:/var/www/openskos
-      - ./data/docker/php-fpm/php.ini:/etc/php7/php.ini
-      - ./data/docker/php-fpm/php-fpm.conf:/etc/php7/php-fpm.conf
-      - ./data/docker/php-fpm/php-fpm.d:/etc/php7/php-fpm.d
-      - ./data/docker/php-fpm/php-ini-overrides.ini:/etc/php7/conf.d/99-overrides.ini
+      - ./data/docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/cli/conf.d/99-overrides.ini
+      - ./data/docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
 
   openskos-jena:
     build: ./data/docker/jena-fuseki

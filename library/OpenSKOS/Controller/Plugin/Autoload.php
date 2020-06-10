@@ -26,18 +26,19 @@ class OpenSKOS_Controller_Plugin_Autoload extends Zend_Controller_Plugin_Abstrac
 		//make sure we have an Autoloader for all models in all modules:
 		$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('resources');
 		$modules = array_keys($options['frontController']['controllerDirectory']);
-		
+
 		foreach ($modules as $module) {
 			set_include_path(implode(PATH_SEPARATOR, array(
 				APPLICATION_PATH . '/' . $module,
-				get_include_path() 
+				get_include_path()
 			)));
 			$parts = explode('-', $module);
-			array_walk($parts, create_function('&$v', '$v=ucfirst($v);'));
-			
+			//array_walk($parts, create_function('&$v', '$v=ucfirst($v);'));
+			array_walk($parts, function( &$v){ $v=ucfirst($v);});
+
 			$namespacePrefix = implode('', $parts).'_';
 			$loader = new OpenSKOS_Autoloader();
-			
+
 			Zend_Loader_Autoloader::getInstance()
 				->pushAutoloader($loader, $namespacePrefix);
 		}

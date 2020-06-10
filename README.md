@@ -327,7 +327,7 @@ docker exec -it openskos-php-fpm php tools/jena2solr.php
 # ONLY RUN THE FOLLOWING IF YOUR DOCKER(-DESKTOP on osx) RUNS AS YOUR USER INSTEAD OF ROOT
 sudo chown -R $(id -u):$(id -g) data/solr
 
-# go to localhost:9000 and log in using your just-created credentials
+# go to openskos.localhost and log in using your just-created credentials
 ```
 
 ## 8.1 Installing docker
@@ -385,7 +385,7 @@ Create a test tenant / user in the openskos application
 docker exec -it openskos-php-fpm php ./tools/tenant.php create -e development --code=pic --name=Picturae --email=test@example.com --password=test
 ```
 
-Now you can login on http://localhost:9000/editor/login
+Now you can login on http://openskos.localhost/editor/login
 
 # 9 Mapping the front-end controller
 
@@ -396,7 +396,7 @@ you will need to implement the routing. This involves creating RegEx's to route 
 
 ## Resolving a concept
 
-For example, to resolve the concept: http://openskos.local/my-conceptscheme/12345
+For example, to resolve the concept: http://openskos.localhost/my-conceptscheme/12345
 
 Add the following to the application.ini
 
