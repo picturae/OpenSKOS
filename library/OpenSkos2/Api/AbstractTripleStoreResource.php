@@ -60,7 +60,7 @@ abstract class AbstractTripleStoreResource
      * @var array
      */
     protected $customInit;
-    
+
     /**
      * Amount of concepts to return
      *
@@ -245,11 +245,11 @@ abstract class AbstractTripleStoreResource
         $resource = $this->getResourceFromRequest($request, $tenant);
 
         if ($resource->isBlankNode()) {
-            return $this->getErrorResponse(400, 'Uri (rdf:about) is missing from the xml. Try insert.');
+            return $this->getErrorResponse(400, 'Uri (rdf:about) is missing from the xml. Try POST.');
         }
 
         if (!$this->manager->askForUri((string) $resource->getUri())) {
-            return $this->getErrorResponse(404, 'Resource not found, try insert.');
+            return $this->getErrorResponse(404, 'Resource not found, try POST.');
         }
 
         try {
@@ -846,10 +846,10 @@ abstract class AbstractTripleStoreResource
         $index = $this->manager->fetchNameUri();
         return $index;
     }
-    
+
     public function getResourceManager()
     {
-        
+
         return $this->manager;
     }
 }

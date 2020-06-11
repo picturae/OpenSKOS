@@ -376,6 +376,25 @@ resources.db.params.charset=utf8
 resources.db.params.dbname=openskos
 resources.db.isDefaultTableAdapter = true
 ```
+## 8.2.1 Jena server or container won't start
+
+When the Jena container is stopped/started or rebuilt, it has the annoying habit of leaving lock files behind, which
+then prevent it from restarting. These have the name `tdb.lock`. Sometimes the container will start, but the fuseki
+server won't.
+
+You can remove `tdb.lock` from the docker mounted volume: `./data/fuseki/databases/openskos`.
+
+If that doesn't work, then perhaps there's a copy in the system folder too. In that case, you need to do this from
+inside the docker container.
+
+```bash
+docker exec -it openskos-jena-fuseki  /bin/bash
+find /fuseki/ -name tdb.lock
+exit
+docker restart openskos-jena-fuseki
+```
+
+
 
 ## 8.3 Running OpenSkos
 
