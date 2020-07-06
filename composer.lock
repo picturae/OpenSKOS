@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d463191e9726fc65334823a8bdf64007",
+    "content-hash": "81903e61d7e9cfc16843056a4d9837c1",
     "packages": [
         {
             "name": "benestar/asparagus",
@@ -164,20 +164,6 @@
                 "php",
                 "redis",
                 "xcache"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-27T16:24:54+00:00"
         },
@@ -645,16 +631,6 @@
                 "logging",
                 "psr-3"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/Seldaek",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-22T07:31:27+00:00"
         },
         {
@@ -933,11 +909,11 @@
         },
         {
             "name": "picturae/zendframework1",
-            "version": "1.12.26",
+            "version": "1.12.29",
             "source": {
                 "type": "git",
                 "url": "https://code.pictura-dp.nl/git/picturae-zendframework1.git",
-                "reference": "c9cd4949df00818979e6bfb0161bb5b3f0df08fd"
+                "reference": "b121c93665f861cfbd2a26e4495bc6826cfac73e"
             },
             "require": {
                 "php": ">=7.0"
@@ -961,7 +937,7 @@
                 }
             ],
             "description": "Picturae ZendFramework1 legacy repo. Don't use in new projects!",
-            "time": "2020-04-23T08:09:50+00:00"
+            "time": "2020-06-18T11:15:42+00:00"
         },
         {
             "name": "psr/container",
@@ -1452,20 +1428,6 @@
             "keywords": [
                 "constructor",
                 "instantiate"
-            ],
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finstantiator",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-05-29T17:27:14+00:00"
         },
@@ -3137,20 +3099,6 @@
                 "polyfill",
                 "portable"
             ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-05-12T16:14:59+00:00"
         },
         {
@@ -3264,6 +3212,5 @@
         "ext-xsl": "*",
         "ext-zip": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }
