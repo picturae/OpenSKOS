@@ -20,7 +20,7 @@ RUN apt-get update \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 \
     && apt-get update && apt-get install -y --no-install-recommends curl ca-certificates nano zip unzip \
     php7.4-cli php7.4-curl php7.4-json php7.4-mysql php7.4-xdebug php7.4-xsl php7.4-intl \
-    php7.4-memcache php7.4-mbstring php7.4-zip \
+    php7.4-memcache php7.4-mbstring php7.4-zip php-imagick \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && apt-get -y --no-install-recommends install php7.4-fpm \
     && apt-get -y --no-install-recommends install procps git \

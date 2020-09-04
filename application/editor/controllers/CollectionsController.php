@@ -116,7 +116,7 @@ class Editor_CollectionsController extends OpenSKOS_Controller_Editor
 
         $collections = $this->_getSet();
         $set = $collections[0];
-        $set_uri = $set->getProperty(\OpenSkos2\Namespaces\OpenSkos::CONCEPTBASEURI)[0]->getUri();
+        $set_uri = $set->getProperty(\OpenSkos2\Namespaces\OpenSkos::CONCEPTBASEURI)[0]->getValue();
         $tenant_code = $set->getProperty(\OpenSkos2\Namespaces\OpenSkos::TENANT)[0]->getValue();
         //TODO: Tenant
 

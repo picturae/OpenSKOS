@@ -43,15 +43,13 @@ class TenantManager extends ResourceManager
     public function fetchSetUrisForTenant($code)
     {
         $query = <<<SELECT_SETS
-prefix dcterms: <http://purl.org/dc/terms/>
 prefix rdf-syntax: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix SKOS: <http://www.w3.org/2004/02/skos/core#>
 prefix OPENSKOS: <http://openskos.org/xmlns#>
 
-SELECT ?setUri
+SELECT *
 WHERE  {
-  ?tenanturi  OPENSKOS:code "%s"
-  .?setUri  dcterms:publisher ?tenanturi
+  ?setUri  OPENSKOS:tenant "%s"
   .?setUri rdf-syntax:type OPENSKOS:set
 }
 SELECT_SETS;
