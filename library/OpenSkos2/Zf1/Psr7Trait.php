@@ -51,7 +51,8 @@ trait Psr7Trait
      */
     public function emitResponse(\Psr\Http\Message\ResponseInterface $response)
     {
-        (new \Zend\Diactoros\Response\SapiEmitter())->emit($response);
+    	$emmiter_obj = new \Zend\Diactoros\Response\SapiEmitter();
+        $emmiter_obj->emit($response);
         exit; // find better way to prevent output from zf1
     }
 

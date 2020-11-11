@@ -42,23 +42,23 @@ use Psr\Http\Message\ServerRequestInterface as PsrServerRequestInterface;
 use Zend\Diactoros\Stream;
 use Zend\Diactoros\Response;
 
-// Meerens: 
-// -- all concrete resource api classes extends AbstractTripleStoreResource . 
-// This abtsract class contains generic methods for get, create, update and delete for any 
-// kind of resource. 
-// -- Here in the Concept class only concept-secific "autocomplete" and "findConcepts" are implemented, 
+// Meerens:
+// -- all concrete resource api classes extends AbstractTripleStoreResource .
+// This abtsract class contains generic methods for get, create, update and delete for any
+// kind of resource.
+// -- Here in the Concept class only concept-secific "autocomplete" and "findConcepts" are implemented,
 // the other methods can be found in the parent class.
 // -- ApiResponseTrait is not used any more.
 // -- Maximal time limit is changed at the begin of "fincConceptMethod" (by the constant set in the config),
 // and set back before the method return.
-// -- Maximal rows are set via the config's constant as well, 
+// -- Maximal rows are set via the config's constant as well,
 // not via $this->limit as it has been implemented by picturae
 // -- 'collection' is replaced by 'set'
-// -- added 'label' to options in findConcepts otherwise $options['label'] 
+// -- added 'label' to options in findConcepts otherwise $options['label']
 // in autocomplete->search is useless (also see my e-mail 2/02 question
 // about "where translation prefLabel to t_prefLabel or a_prefLabel happens")
-// 
-//-- added new parameter 'wholeword' to handle switch between whole word 
+//
+//-- added new parameter 'wholeword' to handle switch between whole word
 // search (prefix t_) and the part-of-word search (prefix a_)
 // // -- added 'properties' to options otherwise $options['properties'] in autocomplete->search is useless
 
@@ -204,8 +204,7 @@ class Concept extends AbstractTripleStoreResource
             }
         }
 
-
-        $concepts = $this->searchAutocomplete->search($options, $total);
+		$concepts = $this->searchAutocomplete->search($options, $total);
 
         set_time_limit($this->customInit["normal_time_limit"]);
 
@@ -218,7 +217,7 @@ class Concept extends AbstractTripleStoreResource
         }
 
 
-        $excludePropertiesList = $this->getExcludeProperties($tenant, $request);
+		$excludePropertiesList = $this->getExcludeProperties($tenant, $request);
 
         if ($this->useXlLabels($tenant, $request) === true) {
             foreach ($concepts as $concept) {
@@ -226,20 +225,23 @@ class Concept extends AbstractTripleStoreResource
             }
         }
 
-        switch ($context) {
+		switch ($context) {
             case 'json':
-                $response = (new JsonResponse($result, $propertiesList, $excludePropertiesList))->getResponse();
+            	$res_obj = new JsonResponse($result, $propertiesList, $excludePropertiesList);
+                $response = $res_obj->getResponse();
                 break;
             case 'jsonp':
-                $response = (new JsonpResponse(
-                    $result,
-                    $params['callback'],
-                    $propertiesList,
-                    $excludePropertiesList
-                ))->getResponse();
+            	$res_obj = new JsonpResponse(
+					$result,
+					$params['callback'],
+					$propertiesList,
+					$excludePropertiesList
+				);
+                $response = $res_obj->getResponse();
                 break;
             case 'rdf':
-                $response = (new RdfResponse($result, $propertiesList, $excludePropertiesList))->getResponse();
+            	$res_obj = new RdfResponse($result, $propertiesList, $excludePropertiesList);
+                $response = $res_obj->getResponse();
                 break;
             default:
                 throw new InvalidArgumentException('Invalid context: ' . $context);
@@ -498,7 +500,7 @@ class Concept extends AbstractTripleStoreResource
         }
 
         $validURI = $this->manager->isRelationURIValid($body['type']); // throws an exception otherwise
-        
+
         if (!$toBeDeleted) {
             try {
                 $this->manager->
