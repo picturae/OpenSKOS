@@ -28,11 +28,18 @@ class Editor_JobsController extends OpenSKOS_Controller_Editor
         $this->_requireAccess('editor.jobs', 'index');
 
         $di = $this->getDI();
-        $tenantManager = $di->get('OpenSkos2\TenantManager');
-        $tenantUri = $this->_tenant->getUri();
-        $setsForTenant = $tenantManager->fetchSetUrisForTenant($this->_tenant->getCode());
 
-        $select = Zend_Db_Table::getDefaultAdapter()->select()
+		// Clears the schemes cache when we start managing them.
+		$cache = $this->getDI()->get('Editor_Models_SetsCache');
+		$cachedSets = $this->view->collections= $cache->fetchAll();
+
+		$setsForTenant = [];
+		foreach ($cachedSets as $set){
+			$setsForTenant[] = $set->getUri();
+		}
+
+
+		$select = Zend_Db_Table::getDefaultAdapter()->select()
             ->from('job')
             ->join('user', 'user.id=job.user', array('user' => 'name'))
             ->where('set_uri IN (?)', $setsForTenant)
@@ -137,7 +144,7 @@ class Editor_JobsController extends OpenSKOS_Controller_Editor
             $this->getHelper('FlashMessenger')->setNamespace('error')->addMessage(_('Job not found'));
             $this->_helper->redirector('index');
         }
-        
+
         //
         $set = $this->_getSet($job);
 
