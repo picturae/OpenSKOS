@@ -53,7 +53,7 @@ class ConceptManager extends ResourceManagerWithSearch
     {
         return $this->labelManager;
     }
-    
+
      /**
      * @return LabelManager
      */
@@ -87,7 +87,7 @@ class ConceptManager extends ResourceManagerWithSearch
     public function insert(Resource $resource)
     {
         parent::insert($resource);
-        
+
         $labelHelper = new Concept\LabelHelper($this->labelManager);
         $labelHelper->insertLabels($resource);
     }
@@ -279,9 +279,23 @@ class ConceptManager extends ResourceManagerWithSearch
      */
     public function deleteRelationsWhereObject(Concept $concept)
     {
-        foreach (Skos::getSkosRelations() as $relationType) {
-            $this->deleteMatchingTriples('?subject', $relationType, $concept);
-        }
+    	$query_relations = <<<QUERY_RELATIONS
+SELECT DISTINCT ?predicate
+WHERE{
+?subject ?predicate ?object
+}
+VALUES (?object) {(<%s>)}
+QUERY_RELATIONS;
+
+    	$query_relations = sprintf($query_relations, $concept->getUri());
+
+		$response = $this->query($query_relations);
+		foreach ($response as $relation){
+			$relation_type = $relation->predicate->getUri();
+			if(in_array($relation_type, Skos::getSkosRelations())) {
+				$this->deleteMatchingTriples('?subject', $relation_type, $concept);
+			}
+		}
     }
 
     /**
@@ -362,8 +376,8 @@ class ConceptManager extends ResourceManagerWithSearch
      * @param array $sorts
      * @return ConceptCollection
      */
-    
-   
+
+
     public function search(
         $query,
         $rows = 20,
@@ -529,7 +543,7 @@ class ConceptManager extends ResourceManagerWithSearch
 
         $this->client->insert($graph);
     }
-    
+
 
     public function fetchNameUri()
     {
@@ -539,8 +553,8 @@ class ConceptManager extends ResourceManagerWithSearch
         $result = $this->makeNameUriMap($response);
         return $result;
     }
-    
-    
+
+
     public function fetchNameSearchID()
     {
         $query = "SELECT ?name ?searchid WHERE { ?uri  <" . Skos::PREFLABEL . "> ?name . "

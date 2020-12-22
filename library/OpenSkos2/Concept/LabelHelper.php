@@ -53,11 +53,11 @@ class LabelHelper
      */
     public function assertLabels(Concept &$concept, $forceCreationOfXl = false)
     {
-        
+
         /* @var $tenant \OpenSkos2\Tenant */
         $tenantCode = $concept->getTenant();
         $tenant = $this->labelManager->fetchByUuid($tenantCode->getValue(), \OpenSkos2\Tenant::TYPE, 'openskos:code');
-            
+
         if (empty($tenant)) {
             throw new TenantNotFoundException(
                 'Could not determine tenant for concept.'
@@ -65,7 +65,7 @@ class LabelHelper
         }
 
         $useXlLabels = $tenant->isEnableSkosXl();
-        
+
         foreach (Concept::$labelsMap as $xlLabelProperty => $simpleLabelProperty) {
             $fullXlLabels = [];
             foreach ($concept->getProperty($xlLabelProperty) as $labelValue) {
@@ -121,10 +121,73 @@ class LabelHelper
                     }
                 }
             }
-
             $concept->setProperties($simpleLabelProperty, $xlLabelsLiterals);
         }
     }
+
+	/**
+	 * Determine if we really do have two copies of the same lable
+	 *
+	 * @param Label $label1
+	 * @param Label $label2
+	 * @return bool
+	 */
+	public static function doLabelsMatch(Label $label1, Label $label2)
+	{
+		$matching = true;
+		if($matching && $label1->getUri() !== $label2->getUri()){
+			$matching = false;
+		}
+
+		$lit1 = $label1->getProperty(SkosXL::LITERALFORM);
+		$lit2 = $label2->getProperty(SkosXL::LITERALFORM);
+
+		if($matching && count($lit1) === 1 && count($lit2) === 1){
+			//Don't feel like working out the logic for multiple lables,
+			// considering this is for a customer who doesn't use them
+			if( $lit1[0]->getLanguage() !== $lit2[0]->getLanguage() ||
+				$lit1[0]->getValue() !== $lit2[0]->getValue()){
+				$matching = false;
+			}
+		}
+		else{
+			$matching = false;
+		}
+		return $matching;
+	}
+
+	/**
+	 * Determine if we really need to delete/add a concept
+	 *
+	 * @param $insertAndDelete
+	 * @return mixed
+	 */
+	public static function getLabelsUnitOfWork($insertAndDelete)
+	{
+		$list_dels = [];
+		$list_ins = [];
+
+		foreach ($insertAndDelete['delete'] as $del_key => $del_val) {
+			foreach ($insertAndDelete['insert'] as $ins_key => $ins_val) {
+				if(self::doLabelsMatch($del_val, $ins_val)){
+					$list_ins[] = $ins_key;
+					$list_dels[] = $del_key;
+				}
+			}
+		}
+		foreach ($list_dels as $key) {
+			if(isset($insertAndDelete['delete'][$key])) {
+				//php.net says unsetting an unset variable shouldn't throw an error! But it did!
+				unset($insertAndDelete['delete'][$key]);
+			}
+		}
+		foreach ($list_ins as $key) {
+			if(isset($insertAndDelete['insert'][$key])) {
+				unset($insertAndDelete['insert'][$key]);
+			}
+		}
+		return $insertAndDelete;
+	}
 
     /**
      * Insert any xl labels for the concept which do not exist yet.
@@ -136,14 +199,16 @@ class LabelHelper
      */
     public function insertLabels(Concept $concept)
     {
-        $inserAndDelete = $this->getLabelsForInsertAndDelete($concept);
+        $insertAndDelete = $this->getLabelsForInsertAndDelete($concept);
+
+		$insertAndDelete = self::getLabelsUnitOfWork($insertAndDelete);
 
         $this->labelManager->setIsNoCommitMode(true);
-        foreach ($inserAndDelete['delete'] as $deleteLabel) {
+        foreach ($insertAndDelete['delete'] as $deleteLabel) {
             $this->labelManager->delete($deleteLabel);
         }
 
-        $this->labelManager->insertCollection($inserAndDelete['insert']);
+        $this->labelManager->insertCollection($insertAndDelete['insert']);
 
         /*
          * Solr doesn't like multiple commits. Postpone the commit
@@ -173,8 +238,32 @@ class LabelHelper
                 }
 
                 $labelExists = $this->labelManager->askForUri($label->getUri());
+				$jenaData = $this->labelManager->fetchByUri($label->getUri());
 
-                if (!$labelExists && !($label instanceof Label)) {
+				//Which literals do we have to delete?
+				$literalsJena = $jenaData->getProperty(SkosXl::LITERALFORM);
+				$literalsWrite = $label->getProperty(SkosXl::LITERALFORM);
+				foreach($literalsJena as $jena){
+					$must_delete = true;
+					foreach($literalsWrite as $write) {
+						if( $jena->getLanguage() === $write->getLanguage() &&
+							$jena->getValue() === $write->getValue()){
+							$must_delete = false;
+						}
+					}
+					if($must_delete){
+						$this->labelManager->deleteMatchingTriples(
+							sprintf("<%s>", $label->getUri()),
+							SkosXl::LITERALFORM,
+							$jena->getLanguage() ?
+								sprintf('"%s"@%s', $jena->getValue(), $jena->getLanguage()) :
+								sprintf('"%s"', $jena->getValue())
+
+						);
+					}
+				}
+
+				if (!$labelExists && !($label instanceof Label)) {
                     throw new OpenSkosException(
                         'The label ' . $label . ' is not a fully described label resource '
                         . 'and does not exist in the system.'
@@ -192,7 +281,7 @@ class LabelHelper
                     'openskos:code'
                 );
                 $label->ensureMetadata($tenant);
-                
+
                 // Fetch, insert or replace label
                 if ($labelExists) {
                     $deleteLabels->append($label);

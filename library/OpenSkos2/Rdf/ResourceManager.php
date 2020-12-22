@@ -253,9 +253,21 @@ class ResourceManager
     {
 // @TODO Refactor. Not for resource manager.
         $query = 'DELETE WHERE {' . PHP_EOL;
-        $query .= $subject == '?subject' ? '?subject' : $this->valueToTurtle($subject);
+        if(gettype($subject) === 'string'){
+			$query .= $subject == '?subject' ? '?subject' : $subject;
+		}
+        else {
+			$query .= $subject == '?subject' ? '?subject' : $this->valueToTurtle($subject);
+		}
+
         $query .= ' <' . $predicate . '> ';
-        $query .= $object == '?object' ? '?object' : $this->valueToTurtle($object);
+
+		if(gettype($object) === 'string'){
+			$query .= $object == '?object' ? '?object' : $object;
+		}
+		else {
+			$query .= $object == '?object' ? '?object' : $this->valueToTurtle($object);
+		}
         $query .= PHP_EOL . '}';
         $this->client->update($query);
     }
@@ -1006,7 +1018,7 @@ class ResourceManager
         $registeredRelationUris = null,
         $allRelationUris = null
     ) {
-    
+
 
         if ($customRelUris == null) {
             $customRelUris = array_values($this->getCustomRelationTypes());
@@ -1089,7 +1101,7 @@ class ResourceManager
     public function fetchTenantNameByCode($code)
     {
         $query = <<<SELECT_URI
-SELECT ?name WHERE { 
+SELECT ?name WHERE {
   ?uri  <%s> <%s>.
   ?uri  <%s> "%s".
   ?uri  <%s> ?name
