@@ -103,7 +103,7 @@ FETCH_ALL_SETS;
     {
         $query = 'PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>'
             . 'DESCRIBE ?s {'
-            . 'select ?s where {?s <'.OpenSkos::ALLOW_OAI.'>  "' . $allowOAI . '"^^xsd:boolean . } }';
+            . 'select ?s where {?s <'.OpenSkos::ALLOW_OAI.'>  "' . $allowOAI . '" . } }';
         $sets = $this->fetchQuery($query);
         return $sets;
     }
@@ -258,9 +258,9 @@ FETCH_ALL_SETS;
     }
      */
 
-   
-    
-   
+
+
+
     public function fetchNameSearchID() // title -> code for sets
     {
         $query = 'SELECT ?name ?searchid WHERE { ?uri  <' . DcTerms::TITLE . '> ?name . '
@@ -270,8 +270,8 @@ FETCH_ALL_SETS;
         $result = $this->makeNameSearchIDMap($response);
         return $result;
     }
-    
-    
+
+
     public function listConceptsForSet($uri)
     {
         $query = "SELECT ?name ?searchid WHERE {"
@@ -282,7 +282,7 @@ FETCH_ALL_SETS;
         $result = $this->makeNameSearchIDMap($response);
         return $result;
     }
-    
+
     public function fetchSetTitleAndCodeByUri($uri)
     {
         $query = "SELECT ?title ?code WHERE { <$uri>  <".DcTerms::TITLE."> ?title . "
